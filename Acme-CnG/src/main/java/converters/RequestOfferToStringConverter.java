@@ -6,14 +6,12 @@ import javax.transaction.Transactional;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import domain.Offer;
-
 @Component
 @Transactional
-public class OfferToStringConverter implements Converter<Offer, String> {
+public class RequestOfferToStringConverter implements Converter<RequestOffer, String> {
 
 	@Override
-	public String convert(final Offer source) {
+	public String convert(final RequestOffer source) {
 		String res;
 
 		if (source == null)
