@@ -23,17 +23,17 @@ public class CommentableEntity extends DomainEntity {
 
 	//Relationships ---------------------------------------------------
 
-	private Collection<Comment>	comments;
+	private Collection<Comment>	commentsReceived;
 
 
 	@Valid
 	@OneToMany(mappedBy = "commentableEntity")
-	public Collection<Comment> getComments() {
-		return this.comments;
+	public Collection<Comment> getCommentsReceived() {
+		return this.commentsReceived;
 	}
 
-	public void setComments(final Collection<Comment> comments) {
-		this.comments = comments;
+	public void setCommentsReceived(final Collection<Comment> commentsReceived) {
+		this.commentsReceived = commentsReceived;
 	}
 
 }

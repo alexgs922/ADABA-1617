@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
@@ -79,6 +80,7 @@ public class Message extends DomainEntity {
 
 
 	@Valid
+	@NotNull
 	@ManyToOne(optional = false)
 	public Actor getSender() {
 		return this.sender;
@@ -89,6 +91,7 @@ public class Message extends DomainEntity {
 	}
 
 	@Valid
+	@NotNull
 	@ManyToOne(optional = false)
 	public Actor getRecipient() {
 		return this.recipient;

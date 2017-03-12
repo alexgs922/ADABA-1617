@@ -22,7 +22,7 @@ public class Customer extends Actor {
 
 	//Relationships -----------------------------------------------------------------
 
-	private Collection<Request>	request;
+	private Collection<Request>	requests;
 	private Collection<Offer>	offers;
 
 
@@ -38,12 +38,12 @@ public class Customer extends Actor {
 
 	@Valid
 	@OneToMany()
-	public Collection<Request> getRequest() {
-		return this.request;
+	public Collection<Request> getRequests() {
+		return this.requests;
 	}
 
-	public void setRequest(final Collection<Request> request) {
-		this.request = request;
+	public void setRequests(final Collection<Request> requests) {
+		this.requests = requests;
 	}
 
 }

@@ -70,7 +70,7 @@ public abstract class Actor extends CommentableEntity {
 
 	private Collection<Message>	sendedMessages;
 	private Collection<Message>	recivedMessages;
-	private Collection<Comment>	comments;
+	private Collection<Comment>	commentsSent;
 	private UserAccount			userAccount;
 
 
@@ -85,16 +85,14 @@ public abstract class Actor extends CommentableEntity {
 		this.userAccount = userAccount;
 	}
 
-	@Override
 	@Valid
 	@OneToMany(mappedBy = "actor")
-	public Collection<Comment> getComments() {
-		return this.comments;
+	public Collection<Comment> getCommentsSent() {
+		return this.commentsSent;
 	}
 
-	@Override
-	public void setComments(final Collection<Comment> comments) {
-		this.comments = comments;
+	public void setCommentsSent(final Collection<Comment> commentsSent) {
+		this.commentsSent = commentsSent;
 	}
 
 	@Valid
