@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import domain.RequestOffer;
+
 @Component
 @Transactional
 public class RequestOfferToStringConverter implements Converter<RequestOffer, String> {

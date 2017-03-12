@@ -8,6 +8,9 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import repositories.RequestOfferRepository;
+import domain.RequestOffer;
+
 @Component
 @Transactional
 public class StringToRequestOfferConverter implements Converter<String, RequestOffer> {

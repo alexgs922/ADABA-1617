@@ -8,6 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import repositories.BannerRepository;
 import domain.Banner;
 
 @Component
@@ -28,7 +29,7 @@ public class StringToBannerConverter implements Converter<String, Banner> {
 				result = null;
 			else {
 				id = Integer.valueOf(text);
-				result = bannerRepository.findOne(id);
+				result = this.bannerRepository.findOne(id);
 			}
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);
