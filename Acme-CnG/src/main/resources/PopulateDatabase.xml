@@ -112,17 +112,12 @@
 				<ref bean="comment1" />
 			</list>
 		</property>
-		<property name="requests">
-			<list>
-
-			</list>
-		</property>
-		<property name="offers">
+		<property name="requestsOffers">
 			<list>
 				<ref bean="offer1" />
 			</list>
 		</property>
-
+		
 
 	</bean>
 
@@ -152,17 +147,12 @@
 
 			</list>
 		</property>
-		<property name="requests">
+		<property name="requestsOffers">
 			<list>
 				<ref bean="request1" />
 			</list>
 		</property>
-		<property name="offers">
-			<list>
-
-			</list>
-		</property>
-
+		
 
 	</bean>
 
@@ -228,13 +218,14 @@
 
 	<!-- OFFERS -->
 
-	<bean id="offer1" class="domain.Offer">
+	<bean id="offer1" class="domain.RequestOffer">
 		<property name="title" value="Offer1" />
 		<property name="description" value="Offer1 description" />
 		<property name="moment" value="12/01/2017 10:14" />
 		<property name="originPlace" ref="place1" />
 		<property name="destinationPlace" ref="place2" />
 		<property name="type" value="PENDING" />
+		<property name="requestOrOffer" value="OFFER" />
 
 
 	</bean>
@@ -243,13 +234,14 @@
 
 	<!-- REQUESTS -->
 	
-	<bean id="request1" class="domain.Request">
+	<bean id="request1" class="domain.RequestOffer">
 		<property name="title" value="Request1" />
 		<property name="description" value="Request1 description" />
 		<property name="moment" value="12/01/2017 10:14" />
 		<property name="originPlace" ref="place3" />
 		<property name="destinationPlace" ref="place4" />
 		<property name="type" value="PENDING" />
+		<property name="requestOrOffer" value="REQUEST" />
 
 
 	</bean>

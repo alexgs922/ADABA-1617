@@ -17,24 +17,33 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Request extends CommentableEntity {
+public class RequestOffer extends CommentableEntity {
 
 	//Constructor --------------------------------------------------------
 
-	public Request() {
+	public RequestOffer() {
 		super();
 	}
 
 
 	//Attributes ---------------------------------------------------------
 
-	private String	title;
-	private String	description;
-	private Date	moment;
-	private Place	originPlace;
-	private Place	destinationPlace;
-	private Type	type;
+	private String			title;
+	private String			description;
+	private Date			moment;
+	private Place			originPlace;
+	private Place			destinationPlace;
+	private Type			type;
+	private RequestOrOffer	requestOrOffer;
 
+
+	public RequestOrOffer isRequestOrOffer() {
+		return this.requestOrOffer;
+	}
+
+	public void setRequestOrOffer(final RequestOrOffer requestOrOffer) {
+		this.requestOrOffer = requestOrOffer;
+	}
 
 	@NotBlank
 	public String getTitle() {
