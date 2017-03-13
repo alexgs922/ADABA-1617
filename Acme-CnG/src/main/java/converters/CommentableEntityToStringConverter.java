@@ -10,17 +10,16 @@ import domain.CommentableEntity;
 
 @Component
 @Transactional
-public class CommentableEntityTostringConverter implements Converter<CommentableEntity, String> {
+public class CommentableEntityToStringConverter implements Converter<CommentableEntity, String> {
 
 	@Override
-	public String convert(CommentableEntity source) {
+	public String convert(final CommentableEntity source) {
 		String res;
 
-		if (source == null) {
+		if (source == null)
 			res = null;
-		} else {
+		else
 			res = String.valueOf(source.getId());
-		}
 
 		return res;
 	}

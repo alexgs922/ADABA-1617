@@ -22,7 +22,7 @@
 		<bean class="converters.AuthorityToStringConverter" />
 		<bean class="converters.StringToAuthorityConverter" />
 
-		<bean class="converters.BannerEntityToStringConverter" />
+		<bean class="converters.BannerToStringConverter" />
 		<bean class="converters.StringToBannerConverter" />
 
 		<bean class="converters.CommentableEntityToStringConverter" />
@@ -37,12 +37,8 @@
 		<bean class="converters.MessageToStringConverter" />
 		<bean class="converters.StringToMessageConverter" />
 
-		<bean class="converters.OfferToStringConverter" />
-		<bean class="converters.StringToOfferConverter" />
-
-
-		<bean class="converters.RequestToStringConverter" />
-		<bean class="converters.StringToRequestConverter" />
+		<bean class="converters.RequestOfferToStringConverter" />
+		<bean class="converters.StringToRequestOfferConverter" />
 
 		<bean class="converters.UserAccountToStringConverter" />
 		<bean class="converters.StringToUserAccountConverter" />
