@@ -17,6 +17,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Customer;
+import form.RegistrationForm;
 
 @Service
 @Transactional
@@ -59,8 +60,7 @@ public class CustomerService {
 		userAccount = new UserAccount();
 
 		/* NOTA */
-		result.setName(customerForm.getName());
-		result.setSurname(customerForm.getSurname());
+		result.setFullName(customerForm.getFullName());
 		/* Hay que juntar el nombre y los apellidos para que sea fullName, lo dejo asi porque en los formularios suele ser por separado. */
 		result.setPhone(customerForm.getPhone());
 		result.setEmail(customerForm.getEmail());

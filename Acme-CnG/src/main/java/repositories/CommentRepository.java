@@ -12,7 +12,7 @@ import domain.Comment;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-	@Query("select c from Comment c where c.recipient.id=?1")
-	Collection<Comment> findCommentsByActorId(int actorId);
+//	@Query("select c from Comment c where c.recipient.id=?1")
+//	Collection<Comment> findCommentsByActorId(int actorId);
 
 }

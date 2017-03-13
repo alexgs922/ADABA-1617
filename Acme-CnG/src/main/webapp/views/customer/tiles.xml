@@ -26,4 +26,20 @@
 		<put-attribute name="body" value="/views/customer/action-2.jsp" />
 	</definition>
 	
+	<definition name="customer/register" extends="master.page">
+		<put-attribute name="title" value="Register a Customer" />
+		<put-attribute name="body" value="/views/customer/register.jsp" />
+	</definition>
+	
+	<definition name="customer/dataProtection" extends="master.page">
+		<put-attribute name="title" value="Terms of Use" />
+		<put-attribute name="body" value="/views/customer/dataProtection.jsp" />
+	</definition>
+	
+	<definition name="comment/create" extends="master.page">
+		<put-attribute name="title" value="Create a Comment" />
+		<put-attribute name="body" value="/views/customer/comment.jsp" />
+	</definition>
+	
+	
 </tiles-definitions>

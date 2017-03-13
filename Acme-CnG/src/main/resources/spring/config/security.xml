@@ -51,7 +51,14 @@
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
 	
+		
+		<security:intercept-url pattern="/customer/register.do"	access="isAnonymous()" />
+		<security:intercept-url pattern="/customer/dataProtection.do" access="isAnonymous()" />
+
+		
+		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
+
 
 		<security:form-login 
 			login-page="/security/login.do"
