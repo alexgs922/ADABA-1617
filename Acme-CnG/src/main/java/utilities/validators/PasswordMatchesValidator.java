@@ -4,7 +4,7 @@ package utilities.validators;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import form.RegistrationForm;
+import forms.RegistrationForm;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, RegistrationForm> {
 

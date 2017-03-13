@@ -1,5 +1,5 @@
 
-package form;
+package forms;
 
 import javax.persistence.Column;
 import javax.validation.constraints.AssertTrue;

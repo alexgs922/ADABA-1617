@@ -28,7 +28,7 @@ import services.CustomerService;
 import domain.Customer;
 
 
-import form.RegistrationForm;
+import forms.RegistrationForm;
 
 @Controller
 @RequestMapping("/customer")

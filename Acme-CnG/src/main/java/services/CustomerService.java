@@ -17,7 +17,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Customer;
-import form.RegistrationForm;
+import forms.RegistrationForm;
 
 @Service
 @Transactional
