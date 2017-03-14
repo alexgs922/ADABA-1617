@@ -1,3 +1,4 @@
+
 package controllers;
 
 import javax.validation.Valid;
@@ -28,41 +29,40 @@ public class CommentController extends AbstractController {
 
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView createComment(@RequestParam int commentableEntityId) {
+	public ModelAndView createComment(@RequestParam final int commentableEntityId) {
 		ModelAndView result;
 		Comment comment;
-		comment = commentService.create(commentableEntityId);
+		comment = this.commentService.create(commentableEntityId);
 
-		result = createEditModelAndView(comment);
+		result = this.createEditModelAndView(comment);
 		return result;
 
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Comment comment, BindingResult binding) {
+	public ModelAndView save(@Valid final Comment comment, final BindingResult binding) {
 		ModelAndView result;
-		if (binding.hasErrors()) {
-			result = createEditModelAndView(comment);
-		} else {
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(comment);
+		else
 			try {
-				commentService.save(comment);
+				this.commentService.save(comment);
 				result = new ModelAndView("redirect:../");
-			} catch (Throwable oops) {
-				result = createEditModelAndView(comment, "comment.commit.error");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(comment, "comment.commit.error");
 			}
-		}
 		return result;
 	}
 
 	// Ancillary methods ---------------------------------------------------------
-	protected ModelAndView createEditModelAndView(Comment comment) {
+	protected ModelAndView createEditModelAndView(final Comment comment) {
 		ModelAndView result;
-		result = createEditModelAndView(comment, null);
+		result = this.createEditModelAndView(comment, null);
 		return result;
 
 	}
 
-	protected ModelAndView createEditModelAndView(Comment comment, String message) {
+	protected ModelAndView createEditModelAndView(final Comment comment, final String message) {
 		ModelAndView result;
 		result = new ModelAndView("comment/create");
 		result.addObject("comment", comment);

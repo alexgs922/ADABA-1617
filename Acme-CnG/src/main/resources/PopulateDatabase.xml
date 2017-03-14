@@ -224,8 +224,8 @@
 		<property name="moment" value="12/01/2017 10:14" />
 		<property name="originPlace" ref="place1" />
 		<property name="destinationPlace" ref="place2" />
-		<property name="type" value="PENDING" />
 		<property name="requestOrOffer" value="OFFER" />
+		<property name="banned" value= "false" />
 
 
 	</bean>
@@ -240,8 +240,8 @@
 		<property name="moment" value="12/01/2017 10:14" />
 		<property name="originPlace" ref="place3" />
 		<property name="destinationPlace" ref="place4" />
-		<property name="type" value="PENDING" />
 		<property name="requestOrOffer" value="REQUEST" />
+		<property name="banned" value= "false" />
 
 
 	</bean>

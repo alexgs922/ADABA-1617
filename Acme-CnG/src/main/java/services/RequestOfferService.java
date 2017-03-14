@@ -58,4 +58,22 @@ public class RequestOfferService {
 		this.requestOfferRepository.delete(ro);
 	}
 
+	//Other business methods ---------------------------------------------------
+
+	public Collection<RequestOffer> findAllRequest() {
+		Collection<RequestOffer> requests;
+
+		requests = this.requestOfferRepository.findAllRequest();
+
+		return requests;
+	}
+
+	public Collection<RequestOffer> findAllOffers() {
+		Collection<RequestOffer> offers;
+
+		offers = this.requestOfferRepository.findAllOffers();
+
+		return offers;
+	}
+
 }

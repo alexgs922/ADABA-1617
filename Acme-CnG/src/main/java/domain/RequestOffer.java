@@ -33,8 +33,8 @@ public class RequestOffer extends CommentableEntity {
 	private Date			moment;
 	private Place			originPlace;
 	private Place			destinationPlace;
-	private Status			type;
 	private RequestOrOffer	requestOrOffer;
+	private boolean			banned;
 
 
 	public RequestOrOffer isRequestOrOffer() {
@@ -96,12 +96,16 @@ public class RequestOffer extends CommentableEntity {
 		this.destinationPlace = destinationPlace;
 	}
 
-	public Status getType() {
-		return this.type;
+	public boolean isBanned() {
+		return this.banned;
 	}
 
-	public void setType(final Status type) {
-		this.type = type;
+	public void setBanned(final boolean banned) {
+		this.banned = banned;
+	}
+
+	public RequestOrOffer getRequestOrOffer() {
+		return this.requestOrOffer;
 	}
 
 	//Relationships ------------------------------------------------------------------------------------------------------------------
