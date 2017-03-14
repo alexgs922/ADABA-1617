@@ -33,7 +33,7 @@ public class RequestOffer extends CommentableEntity {
 	private Date			moment;
 	private Place			originPlace;
 	private Place			destinationPlace;
-	private Type			type;
+	private Status			type;
 	private RequestOrOffer	requestOrOffer;
 
 
@@ -96,11 +96,11 @@ public class RequestOffer extends CommentableEntity {
 		this.destinationPlace = destinationPlace;
 	}
 
-	public Type getType() {
+	public Status getType() {
 		return this.type;
 	}
 
-	public void setType(final Type type) {
+	public void setType(final Status type) {
 		this.type = type;
 	}
 

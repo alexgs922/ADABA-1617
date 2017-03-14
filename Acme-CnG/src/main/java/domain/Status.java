@@ -1,6 +1,6 @@
 
 package domain;
 
-public enum Type {
+public enum Status {
 	ACCEPTED, PENDING, DENIED;
 }
