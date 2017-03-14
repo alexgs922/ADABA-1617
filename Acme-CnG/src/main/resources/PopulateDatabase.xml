@@ -180,7 +180,7 @@
 
 	<!-- MESSAGES -->
 
-	<bean id="message1" class="domain.Message">
+	<bean id="message1" class="domain.PrivateMessage">
 		<property name="title" value="message1" />
 		<property name="moment" value="12/12/2016 16:00" />
 		<property name="text" value="Message1 text" />

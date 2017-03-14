@@ -7,19 +7,19 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.MessageRepository;
-import domain.Message;
+import repositories.PrivateMessageRepository;
+import domain.PrivateMessage;
 
 @Component
 @Transactional
-public class StringToMessageConverter implements Converter<String, Message> {
+public class StringToMessageConverter implements Converter<String, PrivateMessage> {
 
 	@Autowired
-	MessageRepository messageRepository;
+	PrivateMessageRepository messageRepository;
 
 	@Override
-	public Message convert(String text) {
-		Message result;
+	public PrivateMessage convert(String text) {
+		PrivateMessage result;
 		int id;
 
 		try {
