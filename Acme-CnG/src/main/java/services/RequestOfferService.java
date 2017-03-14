@@ -9,7 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.RequestOfferRepository;
+import domain.Application;
+import domain.Customer;
 import domain.RequestOffer;
+import domain.Status;
 
 @Service
 @Transactional
@@ -20,8 +23,14 @@ public class RequestOfferService {
 	@Autowired
 	private RequestOfferRepository	requestOfferRepository;
 
-
 	// Supporting services ----------------------------------------------------
+
+	@Autowired
+	private ApplicationService		applicationService;
+
+	@Autowired
+	private CustomerService			customerService;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -76,4 +85,25 @@ public class RequestOfferService {
 		return offers;
 	}
 
+	public void applyRequestOffer(final RequestOffer requestOffer) {
+		Assert.notNull(requestOffer);
+
+		RequestOffer reqOff;
+		Application application;
+		Customer customer;
+
+		reqOff = this.requestOfferRepository.findOne(requestOffer.getId());
+		application = this.applicationService.create();
+		customer = this.customerService.findByPrincipal();
+
+		application.setStatus(Status.PENDING);
+		application.setCustomer(customer);
+		application.setRequestOffer(reqOff);
+
+		customer.getApplications().add(application);
+
+		this.customerService.save(customer);
+		this.applicationService.save(application);
+
+	}
 }

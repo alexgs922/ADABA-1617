@@ -37,7 +37,7 @@ public class Customer extends Actor {
 	}
 
 	@Valid
-	@OneToMany()
+	@OneToMany(mappedBy = "customer")
 	public Collection<RequestOffer> getRequestsOffers() {
 		return this.requestsOffers;
 	}

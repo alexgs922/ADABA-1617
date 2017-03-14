@@ -226,6 +226,7 @@
 		<property name="destinationPlace" ref="place2" />
 		<property name="requestOrOffer" value="OFFER" />
 		<property name="banned" value= "false" />
+		<property name="customer" ref = "customer1" />
 
 
 	</bean>
@@ -242,6 +243,7 @@
 		<property name="destinationPlace" ref="place4" />
 		<property name="requestOrOffer" value="REQUEST" />
 		<property name="banned" value= "false" />
+		<property name="customer" ref = "customer2" />
 
 
 	</bean>

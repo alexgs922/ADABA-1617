@@ -44,6 +44,15 @@
 		</display:column>
 	</security:authorize>
 	
+	<security:authorize access = "hasRole('ADMIN')">
+		<display:column>
+			<a href="administrator/requestOffer/banRequestOffer.do?requestOfferId=${row.id}">
+					<spring:message code="requestOffer.ban"/>
+			</a>
+		
+		</display:column>
+	</security:authorize>
+	
 
 
 </display:table>

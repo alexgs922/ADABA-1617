@@ -9,8 +9,10 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -108,6 +110,20 @@ public class RequestOffer extends CommentableEntity {
 		return this.requestOrOffer;
 	}
 
+
 	//Relationships ------------------------------------------------------------------------------------------------------------------
+
+	private Customer	customer;
+
+
+	@Valid
+	@ManyToOne(optional = false)
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
+	public void setCustomer(final Customer customer) {
+		this.customer = customer;
+	}
 
 }
