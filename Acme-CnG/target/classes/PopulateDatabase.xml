@@ -161,7 +161,7 @@
 	<!-- BANNERS -->
 
 	<bean id="banner" class="domain.Banner">
-		<property name="banner"
+		<property name="url"
 			value="https://c1.staticflickr.com/7/6192/6051907767_c4fbf6b5b9_b.jpg" />
 	</bean>
 
