@@ -6,6 +6,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 
 @Embeddable
 @Access(AccessType.PROPERTY)
@@ -34,6 +35,7 @@ public class Place {
 		this.address = adress;
 	}
 
+	@Range(min = -180, max = 180)
 	public Double getLength() {
 		return this.length;
 	}
@@ -42,6 +44,7 @@ public class Place {
 		this.length = length;
 	}
 
+	@Range(min = -90, max = 90)
 	public Double getLatitude() {
 		return this.latitude;
 	}

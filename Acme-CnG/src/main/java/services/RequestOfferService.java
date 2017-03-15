@@ -173,4 +173,13 @@ public class RequestOfferService {
 		return offs;
 	}
 
+	public Collection<RequestOffer> findAllBannedRequestsOffersFromPrincipal(final Customer cus) {
+		Assert.notNull(cus);
+
+		Collection<RequestOffer> banned;
+
+		banned = this.requestOfferRepository.findAllBannedRequestsOffersFromPrincipal(cus.getId());
+
+		return banned;
+	}
 }

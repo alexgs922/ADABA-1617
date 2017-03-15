@@ -15,7 +15,16 @@ public class FutureDateValidator implements ConstraintValidator<FutureDate, Requ
 	}
 	@Override
 	public boolean isValid(final RequestOfferForm form, final ConstraintValidatorContext context) {
-		final Date actual = new Date();
-		return form.getMoment().after(actual);
+		boolean res;
+
+		if (form.getMoment() == null)
+			res = true;
+		else {
+			final Date actual = new Date();
+			res = form.getMoment().after(actual);
+
+		}
+
+		return res;
 	}
 }

@@ -41,20 +41,22 @@ public class CustomerRequestOfferController extends AbstractController {
 		ModelAndView result;
 		Collection<RequestOffer> requests;
 		Collection<RequestOffer> offers;
+		Collection<RequestOffer> banned;
 		Customer principal;
 
 		principal = this.customerService.findByPrincipal();
 
 		requests = this.requestOfferService.findAllRequestFromPrincipal(principal);
 		offers = this.requestOfferService.findAllOffersFromPrincipal(principal);
+		banned = this.requestOfferService.findAllBannedRequestsOffersFromPrincipal(principal);
 
 		result = new ModelAndView("requestOffer/listRequestsAndOffers");
 		result.addObject("requests", requests);
 		result.addObject("offers", offers);
+		result.addObject("banned", banned);
 
 		return result;
 	}
-
 	// Register ------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
