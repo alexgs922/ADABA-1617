@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,12 @@ import org.springframework.util.Assert;
 
 import repositories.RequestOfferRepository;
 import domain.Application;
+import domain.Comment;
 import domain.Customer;
+import domain.Place;
 import domain.RequestOffer;
 import domain.Status;
+import forms.RequestOfferForm;
 
 @Service
 @Transactional
@@ -40,7 +44,15 @@ public class RequestOfferService {
 
 	//Simple CRUD methods ---------------------------------
 
-	//TODO falta hacer el create
+	public RequestOffer create() {
+
+		RequestOffer res;
+
+		res = new RequestOffer();
+
+		return res;
+
+	}
 
 	public Collection<RequestOffer> findAll() {
 		Collection<RequestOffer> res;
@@ -106,4 +118,59 @@ public class RequestOfferService {
 		this.applicationService.save(application);
 
 	}
+
+	public RequestOffer reconstruct(final RequestOfferForm requestOfferForm) {
+		final RequestOffer requestOffer;
+		Collection<Comment> commentsReceived;
+		final Customer principal = this.customerService.findByPrincipal();
+		Place originPlace;
+		Place destinationPlace;
+
+		requestOffer = this.create();
+		commentsReceived = new ArrayList<Comment>();
+		originPlace = new Place();
+		destinationPlace = new Place();
+
+		originPlace.setAddress(requestOfferForm.getOriginaddress());
+		originPlace.setLatitude(requestOfferForm.getOriginlatitude());
+		originPlace.setLength(requestOfferForm.getOriginlength());
+
+		destinationPlace.setAddress(requestOfferForm.getDestinationaddress());
+		destinationPlace.setLatitude(requestOfferForm.getDestinationlatitude());
+		destinationPlace.setLength(requestOfferForm.getDestinationlength());
+
+		requestOffer.setBanned(false);
+		requestOffer.setCommentsReceived(commentsReceived);
+		requestOffer.setCustomer(principal);
+		requestOffer.setDescription(requestOfferForm.getDescription());
+		requestOffer.setMoment(requestOfferForm.getMoment());
+		requestOffer.setRequestOrOffer(requestOfferForm.getRequestOrOffer());
+		requestOffer.setTitle(requestOfferForm.getTitle());
+		requestOffer.setOriginPlace(originPlace);
+		requestOffer.setDestinationPlace(destinationPlace);
+
+		return requestOffer;
+
+	}
+
+	public Collection<RequestOffer> findAllRequestFromPrincipal(final Customer cus) {
+		Assert.notNull(cus);
+
+		Collection<RequestOffer> reqs;
+
+		reqs = this.requestOfferRepository.findAllRequestFromPrincipal(cus.getId());
+
+		return reqs;
+	}
+
+	public Collection<RequestOffer> findAllOffersFromPrincipal(final Customer cus) {
+		Assert.notNull(cus);
+
+		Collection<RequestOffer> offs;
+
+		offs = this.requestOfferRepository.findAllOffersFromPrincipal(cus.getId());
+
+		return offs;
+	}
+
 }

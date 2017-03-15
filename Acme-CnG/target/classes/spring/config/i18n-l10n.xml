@@ -28,6 +28,8 @@
 		<value>/views/profile/messages</value>
 		<value>/views/requestOffer/messages</value>
 		<value>/views/privateMessage/messages</value>
+		<value>/views/requestOffer/messages</value>
+		
 		
 	</util:list>
 

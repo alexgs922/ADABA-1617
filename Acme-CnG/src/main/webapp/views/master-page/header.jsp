@@ -47,7 +47,9 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="requestOffer/listRequests.do"><spring:message code="master.page.customer.listRequests" /></a></li>
-					<li><a href="requestOffer/listOffers.do"><spring:message code="master.page.customer.listOffers" /></a></li>					
+					<li><a href="requestOffer/listOffers.do"><spring:message code="master.page.customer.listOffers" /></a></li>	
+					<li><a href="requestOffer/customer/create.do"><spring:message code="master.page.customer.create" /></a></li>
+					<li><a href="requestOffer/customer/myRequestsandOffers.do"><spring:message code="master.page.mine" /></a></li>					
 				</ul>
 			</li>
 			

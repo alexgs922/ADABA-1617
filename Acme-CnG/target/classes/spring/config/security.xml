@@ -44,13 +44,13 @@
 
 		<security:intercept-url pattern="/requestOffer/listRequests.do" access="hasAnyRole('CUSTOMER','ADMIN')" /> 
 		<security:intercept-url pattern="/requestOffer/listOffers.do" access="hasAnyRole('CUSTOMER','ADMIN')" /> 
+		<security:intercept-url pattern="/requestOffer/customer/**" access="hasAnyRole('CUSTOMER')" /> 
+		
 		<security:intercept-url pattern="/comment/create.do" access="hasRole('CUSTOMER')" />
 
-		<security:intercept-url pattern="/message/listReceivedMessages.do" access="isAuthenticated()" /> 
-        <security:intercept-url pattern="/message/listSentMessages.do" access="isAuthenticated()" /> 
-        <security:intercept-url pattern="/message/create.do" access="isAuthenticated()" /> 
-        <security:intercept-url pattern="/message/response/create.do" access="isAuthenticated()" /> 
-		
+		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
 	
 		
 		<security:intercept-url pattern="/customer/register.do"	access="isAnonymous()" />

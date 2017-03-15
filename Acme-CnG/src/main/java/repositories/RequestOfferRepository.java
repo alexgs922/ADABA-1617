@@ -18,4 +18,10 @@ public interface RequestOfferRepository extends JpaRepository<RequestOffer, Inte
 	@Query("select ro from RequestOffer ro where ro.requestOrOffer = 1")
 	Collection<RequestOffer> findAllOffers();
 
+	@Query("select ro from RequestOffer ro where ro.requestOrOffer = 0 and ro.customer.id=?1")
+	Collection<RequestOffer> findAllRequestFromPrincipal(int principalid);
+
+	@Query("select ro from RequestOffer ro where ro.requestOrOffer = 1 and ro.customer.id=?1")
+	Collection<RequestOffer> findAllOffersFromPrincipal(int principalid);
+
 }
