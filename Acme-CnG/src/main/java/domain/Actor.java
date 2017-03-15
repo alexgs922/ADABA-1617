@@ -68,8 +68,8 @@ public abstract class Actor extends CommentableEntity {
 
 	//Relationships --------------------------------------------------------------------------------------
 
-	private Collection<Message>	sendedMessages;
-	private Collection<Message>	recivedMessages;
+	private Collection<PrivateMessage>	sendedMessages;
+	private Collection<PrivateMessage>	recivedMessages;
 	private Collection<Comment>	commentsSent;
 	private UserAccount			userAccount;
 
@@ -97,21 +97,21 @@ public abstract class Actor extends CommentableEntity {
 
 	@Valid
 	@OneToMany(mappedBy = "sender")
-	public Collection<Message> getSendedMessages() {
+	public Collection<PrivateMessage> getSendedMessages() {
 		return this.sendedMessages;
 	}
 
-	public void setSendedMessages(final Collection<Message> sendedMessages) {
+	public void setSendedMessages(final Collection<PrivateMessage> sendedMessages) {
 		this.sendedMessages = sendedMessages;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "recipient")
-	public Collection<Message> getRecivedMessages() {
+	public Collection<PrivateMessage> getRecivedMessages() {
 		return this.recivedMessages;
 	}
 
-	public void setRecivedMessages(final Collection<Message> recivedMessages) {
+	public void setRecivedMessages(final Collection<PrivateMessage> recivedMessages) {
 		this.recivedMessages = recivedMessages;
 	}
 

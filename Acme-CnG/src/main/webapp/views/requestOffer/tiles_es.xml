@@ -26,4 +26,14 @@
 		<put-attribute name="body" value="/views/requestOffer/list.jsp" />
 	</definition>
 	
+	<definition name="requestOffer/edit" extends="master.page">	
+		<put-attribute name="title" value="Edición de peticion u oferta" />
+		<put-attribute name="body" value="/views/requestOffer/edit.jsp" />
+	</definition>
+	
+	<definition name="requestOffer/listRequestsAndOffers" extends="master.page">	
+		<put-attribute name="title" value="Mis peticiones y ofertas" />
+		<put-attribute name="body" value="/views/requestOffer/mine.jsp" />
+	</definition>
+	
 </tiles-definitions>

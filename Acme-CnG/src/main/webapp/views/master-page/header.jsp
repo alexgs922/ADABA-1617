@@ -29,6 +29,17 @@
 					<li><a href="requestOffer/listOffers.do"><spring:message code="master.page.customer.listOffers" /></a></li>					
 				</ul>
 			</li>
+			
+			<li><a class="fNiv"><spring:message	code="master.page.message" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="message/create.do"><spring:message code="master.page.message.create" /></a></li>	
+					<li><a href="message/listSentMessages.do"><spring:message code="master.page.message.sent" /></a></li>
+					<li><a href="message/listReceivedMessages.do"><spring:message code="master.page.message.received" /></a></li>				
+				</ul>
+			</li>
+			
+			
 		</security:authorize>
 		
 		<security:authorize access="hasRole('CUSTOMER')">
@@ -36,7 +47,18 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="requestOffer/listRequests.do"><spring:message code="master.page.customer.listRequests" /></a></li>
-					<li><a href="requestOffer/listOffers.do"><spring:message code="master.page.customer.listOffers" /></a></li>					
+					<li><a href="requestOffer/listOffers.do"><spring:message code="master.page.customer.listOffers" /></a></li>	
+					<li><a href="requestOffer/customer/create.do"><spring:message code="master.page.customer.create" /></a></li>
+					<li><a href="requestOffer/customer/myRequestsandOffers.do"><spring:message code="master.page.mine" /></a></li>					
+				</ul>
+			</li>
+			
+			<li><a class="fNiv"><spring:message	code="master.page.message" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="message/create.do"><spring:message code="master.page.message.create" /></a></li>	
+					<li><a href="message/listSentMessages.do"><spring:message code="master.page.message.sent" /></a></li>
+					<li><a href="message/listReceivedMessages.do"><spring:message code="master.page.message.received" /></a></li>				
 				</ul>
 			</li>
 		</security:authorize>
@@ -54,10 +76,7 @@
 			        (<security:authentication property="principal.username" />)
 				</a>
 				<ul>
-					<li class="arrow"></li>
-					<li><a href="profile/action-1.do"><spring:message code="master.page.profile.action.1" /></a></li>
-					<li><a href="profile/action-2.do"><spring:message code="master.page.profile.action.2" /></a></li>
-					<li><a href="profile/action-3.do"><spring:message code="master.page.profile.action.3" /></a></li>					
+					<li class="arrow"></li>				
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>

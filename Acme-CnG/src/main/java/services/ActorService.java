@@ -72,6 +72,17 @@ public class ActorService {
 		this.actorRepository.delete(actor);
 	}
 
+	public Actor findOneToSent(final int actorId) {
+
+		Actor result;
+
+		result = this.actorRepository.findOne(actorId);
+		Assert.notNull(result);
+
+		return result;
+
+	}
+
 	// Other business methods -------------------------------------------------
 
 	public Actor findByPrincipal() {

@@ -33,7 +33,7 @@ public class RequestOfferController extends AbstractController {
 
 		result = new ModelAndView("requestOffer/listRequests");
 		result.addObject("requestOffers", requests);
-		result.addObject("requestURI", "requestOffer/listRequests");
+		result.addObject("requestURI", "requestOffer/listRequests.do");
 
 		return result;
 	}
@@ -47,7 +47,7 @@ public class RequestOfferController extends AbstractController {
 
 		result = new ModelAndView("requestOffer/listOffers");
 		result.addObject("requestOffers", offers);
-		result.addObject("requestURI", "requestOffer/listOffers");
+		result.addObject("requestURI", "requestOffer/listOffers.do");
 
 		return result;
 	}
