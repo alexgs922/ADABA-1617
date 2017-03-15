@@ -63,25 +63,11 @@ public class PrivateMessageService {
 		PrivateMessage result;
 		final Actor t = this.actorService.findByPrincipal();
 
-		if (message.getId() == 0) {
-			result = message;
-			result.setRecipient(message.getRecipient());
-			result.setSender(t);
-			result.setMoment(new Date(System.currentTimeMillis() - 1000));
-			this.validator.validate(result, binding);
-
-		} else {
-
-			result = this.privateMessageRepository.findOne(message.getId());
-			result.setAttachments(message.getAttachments());
-			result.setMoment(new Date(System.currentTimeMillis() - 1000));
-			result.setRecipient(message.getRecipient());
-			result.setText(message.getText());
-			result.setTitle(message.getTitle());
-			result.setSender(t);
-			this.validator.validate(result, binding);
-
-		}
+		result = message;
+		result.setRecipient(message.getRecipient());
+		result.setSender(t);
+		result.setMoment(new Date(System.currentTimeMillis() - 1000));
+		this.validator.validate(result, binding);
 
 		return result;
 

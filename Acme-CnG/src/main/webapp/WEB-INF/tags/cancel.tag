@@ -33,10 +33,9 @@
 
 <%-- Notes --%>
 
-<%-- 
 
-	If you wish to use this custom tag, you need add the following 
-	script in your master page: 
+
+
 
 	<script type="text/javascript">
 		function relativeRedir(loc) {	
@@ -50,4 +49,4 @@
 		}
 	</script>
 
---%>
+
