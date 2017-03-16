@@ -211,6 +211,24 @@ public class RequestOfferService {
 		return offs;
 	}
 
+	public Collection<RequestOffer> findAllRequestNotBanned() {
+
+		Collection<RequestOffer> reqs;
+
+		reqs = this.requestOfferRepository.findAllRequestNotBanned();
+
+		return reqs;
+	}
+
+	public Collection<RequestOffer> findAllOffersNotBanned() {
+
+		Collection<RequestOffer> offs;
+
+		offs = this.requestOfferRepository.findAllOffersNotBanned();
+
+		return offs;
+	}
+
 	public Collection<RequestOffer> findAllBannedRequestsOffersFromPrincipal(final Customer cus) {
 		Assert.notNull(cus);
 

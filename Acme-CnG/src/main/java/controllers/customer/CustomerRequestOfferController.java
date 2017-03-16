@@ -45,7 +45,7 @@ public class CustomerRequestOfferController extends AbstractController {
 		Customer customer;
 		Collection<Application> applications;
 
-		requests = this.requestOfferService.findAllRequest();
+		requests = this.requestOfferService.findAllRequestNotBanned();
 		customer = this.customerService.findByPrincipal();
 		applications = customer.getApplications();
 
@@ -64,7 +64,7 @@ public class CustomerRequestOfferController extends AbstractController {
 		Customer customer;
 		Collection<Application> applications;
 
-		offers = this.requestOfferService.findAllOffers();
+		offers = this.requestOfferService.findAllOffersNotBanned();
 		customer = this.customerService.findByPrincipal();
 		applications = customer.getApplications();
 
