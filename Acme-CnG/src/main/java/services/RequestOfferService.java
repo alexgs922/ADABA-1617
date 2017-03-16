@@ -109,16 +109,31 @@ public class RequestOfferService {
 		customer = this.customerService.findByPrincipal();
 
 		Assert.isTrue(reqOff.getCustomer().getId() != customer.getId());          //Can't apply his own requestOffers
+		Assert.isTrue(!(this.appliedRequestOffer(customer, requestOffer)));
 
 		application.setStatus(Status.PENDING);
-		application.setCustomer(customer);
 		application.setRequestOffer(reqOff);
+
+		application.setCustomer(customer);
 
 		customer.getApplications().add(application);
 
 		this.customerService.save(customer);
 		this.applicationService.save(application);
 
+	}
+	public boolean appliedRequestOffer(final Customer customer, final RequestOffer requestOffer) {
+		boolean res = false;
+		Collection<Application> applications;
+
+		applications = customer.getApplications();
+		for (final Application a : applications)
+			if (a.getRequestOffer().getId() == requestOffer.getId()) {
+				res = true;
+				break;
+			}
+
+		return res;
 	}
 
 	public RequestOffer reconstruct(final RequestOfferForm requestOfferForm) {
