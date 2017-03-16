@@ -14,7 +14,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<img src="images/logo.png" alt="Acme-CnG Co., Inc." />
+	<a href="welcome/index.do"><img src="images/logo.png" alt="Acme-CnG Co., Inc." /></a>
 </div>
 <!-- Ocultado porque aparecia en este proyecto  -->
 <!--  "src/main/webapp/views/master-page/header.jsp" -->

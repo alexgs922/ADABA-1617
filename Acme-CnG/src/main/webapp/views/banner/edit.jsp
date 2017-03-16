@@ -12,18 +12,22 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <form:form action="${requestURI}" modelAttribute="banner">
-	
-	<form:hidden path="id"/>
-	<form:hidden path="version"/>
+
+	<form:hidden path="id" />
+	<form:hidden path="version" />
 
 	<fieldset>
 		<legend>
 			<spring:message code="banner.info" />
 		</legend>
-		
-		<acme:textbox code="banner.url" path="url" />
+		<div>
+			<form:label path="url">
+				<spring:message code="banner.url" />
+			</form:label>
+			<form:input path="url" placeholder="https://c1.staticflickr.com/xxxxx.jpg" size="70" />
+			<form:errors path="url" cssClass="error" />
+		</div>
 		<br>
-
 	</fieldset>
 
 
