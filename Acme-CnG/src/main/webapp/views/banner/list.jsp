@@ -24,7 +24,7 @@
 		<display:column>
 			<a
 				href="banner/administrator/edit.do?bannerId=${row.id}">
-				<spring:message code="banner.edit" />
+				<spring:message code="banner.change" />
 			</a>
 
 		</display:column>
