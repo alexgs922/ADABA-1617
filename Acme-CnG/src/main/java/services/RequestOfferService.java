@@ -136,6 +136,21 @@ public class RequestOfferService {
 		return res;
 	}
 
+	public void banRequestOffer(final RequestOffer requestOffer) {
+		Assert.notNull(requestOffer);
+
+		RequestOffer res;
+
+		res = this.requestOfferRepository.findOne(requestOffer.getId());
+
+		Assert.isTrue(res.isBanned() == false);
+
+		res.setBanned(true);
+
+		this.requestOfferRepository.save(res);
+
+	}
+
 	public RequestOffer reconstruct(final RequestOfferForm requestOfferForm) {
 		final RequestOffer requestOffer;
 		Collection<Comment> commentsReceived;

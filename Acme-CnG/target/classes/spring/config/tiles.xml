@@ -28,6 +28,8 @@
 		<value>/views/profile/tiles.xml</value>
 		<value>/views/privateMessage/tiles.xml</value>
 		<value>/views/banner/tiles.xml</value>
+		<value>/views/application/tiles.xml</value>
+		<value>/views/requestOffer/tiles.xml</value>
 	</util:list>
 
 </beans>
