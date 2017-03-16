@@ -77,7 +77,8 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/message/response/create.do"
 			access="isAuthenticated()" />
-
+		<security:intercept-url pattern="/message/delete.do"
+			access="isAuthenticated()" />
 
 
 

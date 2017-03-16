@@ -81,6 +81,7 @@
 	<spring:message code="message.moment" var="messageMoment" />
 	<display:column property="moment" title="${messageMoment}"
 		sortable="false" />
+		
 
 	<jstl:if test="${requestURI == 'message/listReceivedMessages.do'}">
 		<display:column>
@@ -91,6 +92,8 @@
 
 		</display:column>
 	</jstl:if>
-
+	<display:column>
+		<a href="message/delete.do?privateMessageId=${row.id}"><spring:message code="message.delete" /></a>
+	</display:column>
 
 </display:table>

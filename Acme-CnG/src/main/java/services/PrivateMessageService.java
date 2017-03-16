@@ -87,15 +87,44 @@ public class PrivateMessageService {
 		return res;
 	}
 
-	public PrivateMessage save(final PrivateMessage m) {
+	public void save(final PrivateMessage m) {
 		Assert.notNull(m);
-		return this.privateMessageRepository.save(m);
+
+		final Actor c = this.actorService.findByPrincipal();
+
+		final PrivateMessage message1 = new PrivateMessage();
+		message1.setTitle(m.getTitle());
+		message1.setText(m.getText());
+		message1.setMoment(m.getMoment());
+		message1.setAttachments(m.getAttachments());
+		message1.setRecipient(m.getRecipient());
+		message1.setSender(m.getSender());
+
+		final PrivateMessage message2 = new PrivateMessage();
+		message2.setTitle(m.getTitle());
+		message2.setText(m.getText());
+		message2.setMoment(m.getMoment());
+		message2.setAttachments(m.getAttachments());
+		message2.setRecipient(m.getRecipient());
+		message2.setSender(m.getSender());
+
+		this.privateMessageRepository.save(message1);
+		this.privateMessageRepository.save(message2);
+		//
+		//		final Collection<PrivateMessage> cr = m.getRecipient().getRecivedMessages();
+		//		cr.add(message1);
+		//		final Collection<PrivateMessage> cs = c.getSendedMessages();
+		//		cs.add(message2);
 
 	}
 
 	public void delete(final PrivateMessage m) {
 		Assert.notNull(m);
+		final Actor principal = this.actorService.findByPrincipal();
+		Assert.isTrue(principal.getId() == m.getSender().getId() || principal.getId() == m.getRecipient().getId());
 		this.privateMessageRepository.delete(m);
 	}
+
+	//Other methods ---------------------------------------------------------
 
 }

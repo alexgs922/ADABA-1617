@@ -15,20 +15,26 @@
 		<put-attribute name="title" value="Received Messages" />
 		<put-attribute name="body" value="/views/privateMessage/list.jsp" />
 	</definition>
-	
-		<definition name="message/create" extends="master.page">
+
+	<definition name="message/create" extends="master.page">
 		<put-attribute name="title" value="Send a new Message" />
 		<put-attribute name="body" value="/views/privateMessage/create.jsp" />
 	</definition>
-	
+
 	<definition name="message/listSentMessages" extends="master.page">
 		<put-attribute name="title" value="Sent Messages" />
 		<put-attribute name="body" value="/views/privateMessage/list.jsp" />
 	</definition>
-	
-		<definition name="message/response/create" extends="master.page">
+
+	<definition name="message/response/create" extends="master.page">
 		<put-attribute name="title" value="Send a new Message" />
-		<put-attribute name="body" value="/views/privateMessage/createResponse.jsp" />
+		<put-attribute name="body"
+			value="/views/privateMessage/createResponse.jsp" />
+	</definition>
+
+	<definition name="message/delete" extends="master.page">
+		<put-attribute name="title" value="Delete Message" />
+		<put-attribute name="body" value="/views/privateMessage/delete.jsp" />
 	</definition>
 
 
