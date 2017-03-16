@@ -78,10 +78,20 @@
 
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
-			<a
-				href="administrator/requestOffer/banRequestOffer.do?requestOfferId=${row.id}">
-				<spring:message code="requestOffer.ban" />
-			</a>
+			<jstl:choose >
+			<jstl:when test="${row.banned == false }">
+				<a
+					href="requestOffer/administrator/banRequestOffer.do?requestOfferId=${row.id}">
+							<spring:message code="requestOffer.ban" />
+				</a>
+			</jstl:when>
+			<jstl:when test="${row.banned == true }">
+				<a>
+					<spring:message code="requestOffer.banned" />
+				</a>
+			</jstl:when>
+				
+			</jstl:choose>
 
 		</display:column>
 	</security:authorize>

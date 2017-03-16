@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ApplicationService;
 import services.CustomerService;
 import services.RequestOfferService;
 import controllers.AbstractController;
@@ -36,9 +35,6 @@ public class CustomerRequestOfferController extends AbstractController {
 	@Autowired
 	private CustomerService		customerService;
 
-	@Autowired
-	private ApplicationService	applicationService;
-
 
 	//Methods ---------------------------------------------------------------
 
@@ -49,7 +45,7 @@ public class CustomerRequestOfferController extends AbstractController {
 		Customer customer;
 		Collection<Application> applications;
 
-		requests = this.requestOfferService.findAllRequest();
+		requests = this.requestOfferService.findAllRequestNotBanned();
 		customer = this.customerService.findByPrincipal();
 		applications = customer.getApplications();
 
@@ -68,7 +64,7 @@ public class CustomerRequestOfferController extends AbstractController {
 		Customer customer;
 		Collection<Application> applications;
 
-		offers = this.requestOfferService.findAllOffers();
+		offers = this.requestOfferService.findAllOffersNotBanned();
 		customer = this.customerService.findByPrincipal();
 		applications = customer.getApplications();
 

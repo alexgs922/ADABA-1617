@@ -139,6 +139,21 @@ public class RequestOfferService {
 		return res;
 	}
 
+	public void banRequestOffer(final RequestOffer requestOffer) {
+		Assert.notNull(requestOffer);
+
+		RequestOffer res;
+
+		res = this.requestOfferRepository.findOne(requestOffer.getId());
+
+		Assert.isTrue(res.isBanned() == false);
+
+		res.setBanned(true);
+
+		this.requestOfferRepository.save(res);
+
+	}
+
 	public RequestOffer reconstruct(final RequestOfferForm requestOfferForm) {
 		Assert.notNull(requestOfferForm);
 		final RequestOffer requestOffer;
@@ -192,6 +207,24 @@ public class RequestOfferService {
 		Collection<RequestOffer> offs;
 
 		offs = this.requestOfferRepository.findAllOffersFromPrincipal(cus.getId());
+
+		return offs;
+	}
+
+	public Collection<RequestOffer> findAllRequestNotBanned() {
+
+		Collection<RequestOffer> reqs;
+
+		reqs = this.requestOfferRepository.findAllRequestNotBanned();
+
+		return reqs;
+	}
+
+	public Collection<RequestOffer> findAllOffersNotBanned() {
+
+		Collection<RequestOffer> offs;
+
+		offs = this.requestOfferRepository.findAllOffersNotBanned();
 
 		return offs;
 	}
