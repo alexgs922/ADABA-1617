@@ -9,10 +9,21 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="c" 
+           uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+
 
 
 <display:table pagesize="5" class="displaytag" name="requestOffers"
 	requestURI="${requestURI}" id="row">
+	
+	<jstl:forEach var = "x" items ="${applications}">
+		<jstl:if test="${x.requestOffer.id == row.id }">
+			<jstl:set var = "applied" value = "${1}"/>
+		</jstl:if>
+	</jstl:forEach>
 
 	<spring:message code="requestOffer.title" var="requestOfferTitle" />
 	<display:column property="title" title="${requestOfferTitle}"
@@ -45,10 +56,22 @@
 
 	<security:authorize access="hasRole('CUSTOMER')">
 		<display:column>
-			<a
-				href="customer/requestOffer/applyRequestOffer.do?requestOfferId=${row.id}">
-				<spring:message code="requestOffer.apply" />
-			</a>
+			<jstl:choose>
+				<jstl:when test="${row.requestOrOffer == 'REQUEST' && row.customer.id != principal.id && applied != 1}">
+					<a
+						href="requestOffer/customer/applyRequest.do?requestOfferId=${row.id}">
+						<spring:message code="requestOffer.apply" />
+					</a>
+				</jstl:when>
+				
+				<jstl:when test="${row.requestOrOffer == 'OFFER' && row.customer.id != principal.id && applied != 1}">
+					<a
+						href="requestOffer/customer/applyOffer.do?requestOfferId=${row.id}">
+						<spring:message code="requestOffer.apply" />
+					</a>
+				</jstl:when>
+			
+			</jstl:choose>
 
 		</display:column>
 	</security:authorize>
@@ -66,6 +89,8 @@
 
 
 </display:table>
+
+
 
 
 <security:authorize access="hasRole('CUSTOMER')">

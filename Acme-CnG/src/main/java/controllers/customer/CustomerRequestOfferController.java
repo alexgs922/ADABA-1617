@@ -11,11 +11,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ApplicationService;
 import services.CustomerService;
 import services.RequestOfferService;
 import controllers.AbstractController;
+import domain.Application;
 import domain.Customer;
 import domain.RequestOffer;
 import domain.RequestOrOffer;
@@ -33,8 +36,78 @@ public class CustomerRequestOfferController extends AbstractController {
 	@Autowired
 	private CustomerService		customerService;
 
+	@Autowired
+	private ApplicationService	applicationService;
+
 
 	//Methods ---------------------------------------------------------------
+
+	@RequestMapping(value = "/listRequests", method = RequestMethod.GET)
+	public ModelAndView listAllRequests() {
+		ModelAndView result;
+		Collection<RequestOffer> requests;
+		Customer customer;
+		Collection<Application> applications;
+
+		requests = this.requestOfferService.findAllRequest();
+		customer = this.customerService.findByPrincipal();
+		applications = customer.getApplications();
+
+		result = new ModelAndView("requestOffer/customer/listRequests");
+		result.addObject("requestOffers", requests);
+		result.addObject("requestURI", "requestOffer/customer/listRequests.do");
+		result.addObject("principal", customer);
+		result.addObject("applications", applications);
+
+		return result;
+	}
+	@RequestMapping(value = "/listOffers", method = RequestMethod.GET)
+	public ModelAndView listAllOffers() {
+		ModelAndView result;
+		Collection<RequestOffer> offers;
+		Customer customer;
+		Collection<Application> applications;
+
+		offers = this.requestOfferService.findAllOffers();
+		customer = this.customerService.findByPrincipal();
+		applications = customer.getApplications();
+
+		result = new ModelAndView("requestOffer/customer/listOffers");
+		result.addObject("requestOffers", offers);
+		result.addObject("requestURI", "requestOffer/customer/listOffers.do");
+		result.addObject("principal", customer);
+		result.addObject("applications", applications);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/applyRequest", method = RequestMethod.GET)
+	public ModelAndView applyRequest(@RequestParam final int requestOfferId) {
+		ModelAndView result;
+		RequestOffer requestOffer;
+
+		requestOffer = this.requestOfferService.findOne(requestOfferId);
+
+		this.requestOfferService.applyRequestOffer(requestOffer);
+
+		result = new ModelAndView("redirect:listRequests.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/applyOffer", method = RequestMethod.GET)
+	public ModelAndView applyOffer(@RequestParam final int requestOfferId) {
+		ModelAndView result;
+		RequestOffer requestOffer;
+
+		requestOffer = this.requestOfferService.findOne(requestOfferId);
+
+		this.requestOfferService.applyRequestOffer(requestOffer);
+
+		result = new ModelAndView("redirect:listOffers.do");
+
+		return result;
+	}
 
 	@RequestMapping(value = "/myRequestsandOffers", method = RequestMethod.GET)
 	public ModelAndView listRequests() {

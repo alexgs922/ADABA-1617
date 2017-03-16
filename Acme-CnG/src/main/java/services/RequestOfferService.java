@@ -124,7 +124,7 @@ public class RequestOfferService {
 		this.applicationService.save(application);
 
 	}
-	
+
 	public boolean appliedRequestOffer(final Customer customer, final RequestOffer requestOffer) {
 		boolean res = false;
 		Collection<Application> applications;

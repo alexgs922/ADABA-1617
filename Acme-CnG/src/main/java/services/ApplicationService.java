@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 
 import repositories.ApplicationRepository;
 import domain.Application;
+import domain.Customer;
 
 @Service
 @Transactional
@@ -60,5 +61,27 @@ public class ApplicationService {
 	public void delete(final Application a) {
 		Assert.notNull(a);
 		this.applicationRepository.delete(a);
+	}
+
+	//Other business methods --------------------------------------
+
+	public Collection<Application> findCustomerApplications(final Customer customer) {
+		Assert.notNull(customer);
+
+		Collection<Application> res;
+
+		res = this.applicationRepository.findCustomerApplications(customer.getId());
+
+		return res;
+	}
+
+	public Collection<Application> findCustomerRequestOfferApplications(final Customer customer) {
+		Assert.notNull(customer);
+
+		Collection<Application> res;
+
+		res = this.applicationRepository.findCustomerRequestOfferApplications(customer.getId());
+
+		return res;
 	}
 }
