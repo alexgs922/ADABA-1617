@@ -58,11 +58,11 @@ public class BannerAdministratorController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int bannerId) {
 		ModelAndView result;
 		Banner banner;
-		Banner bannerRes;
+		final Banner bannerRes;
 
 		banner = this.bannerService.findOne(bannerId);
-		bannerRes = this.bannerService.findOne(bannerId);
-		this.bannerService.delete(bannerRes);
+		//		bannerRes = this.bannerService.findOne(bannerId);
+		//		this.bannerService.delete(bannerRes);
 		result = this.createEditModelAndView(banner);
 
 		return result;

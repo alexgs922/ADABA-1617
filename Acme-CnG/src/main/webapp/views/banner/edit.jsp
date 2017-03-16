@@ -13,6 +13,8 @@
 
 <form:form action="${requestURI}" modelAttribute="banner">
 	
+	<form:hidden path="id"/>
+	<form:hidden path="version"/>
 
 	<fieldset>
 		<legend>
