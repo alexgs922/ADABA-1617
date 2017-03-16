@@ -20,16 +20,16 @@ public class Banner extends DomainEntity {
 
 	//Attributes -----------------------------------------------------
 
-	private String	banner;
+	private String	url;
 
 
 	@URL
-	public String getBanner() {
-		return this.banner;
+	public String getUrl() {
+		return this.url;
 	}
 
-	public void setBanner(final String banner) {
-		this.banner = banner;
+	public void setUrl(final String url) {
+		this.url = url;
 	}
 
 }

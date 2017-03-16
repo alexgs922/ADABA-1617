@@ -25,6 +25,7 @@
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
+					<li><a href="banner/administrator/list.do"><spring:message code="master.page.administrator.list" /></a></li>
 					<li><a href="requestOffer/listRequests.do"><spring:message code="master.page.customer.listRequests" /></a></li>
 					<li><a href="requestOffer/listOffers.do"><spring:message code="master.page.customer.listOffers" /></a></li>					
 				</ul>

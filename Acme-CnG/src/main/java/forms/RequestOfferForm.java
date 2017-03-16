@@ -7,6 +7,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import utilities.validators.FutureDate;
@@ -81,6 +82,7 @@ public class RequestOfferForm {
 		this.originaddress = originaddress;
 	}
 
+	@Range(min = -180, max = 180)
 	public Double getOriginlength() {
 		return this.originlength;
 	}
@@ -89,6 +91,7 @@ public class RequestOfferForm {
 		this.originlength = originlength;
 	}
 
+	@Range(min = -90, max = 90)
 	public Double getOriginlatitude() {
 		return this.originlatitude;
 	}
@@ -106,6 +109,7 @@ public class RequestOfferForm {
 		this.destinationaddress = destinationaddress;
 	}
 
+	@Range(min = -180, max = 180)
 	public Double getDestinationlength() {
 		return this.destinationlength;
 	}
@@ -114,6 +118,7 @@ public class RequestOfferForm {
 		this.destinationlength = destinationlength;
 	}
 
+	@Range(min = -90, max = 90)
 	public Double getDestinationlatitude() {
 		return this.destinationlatitude;
 	}

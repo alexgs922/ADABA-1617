@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.BannerRepository;
+import domain.Administrator;
 import domain.Banner;
 
 @Service
@@ -18,10 +19,13 @@ public class BannerService {
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
-	private BannerRepository	bannerRepository;
-
+	private BannerRepository		bannerRepository;
 
 	// Supporting services ----------------------------------------------------
+
+	@Autowired
+	private AdministratorService	administratorService;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -30,6 +34,15 @@ public class BannerService {
 	}
 
 	// Simple CRUD methods ----------------------------------------------------
+
+	public Banner create() {
+		Banner result;
+
+		result = new Banner();
+
+		return result;
+
+	}
 
 	public Collection<Banner> findAll() {
 		Collection<Banner> result;
@@ -46,10 +59,9 @@ public class BannerService {
 	}
 
 	public Banner save(final Banner banner) {
+		Assert.isTrue(this.checkAdminPrincipal());
 		Assert.notNull(banner);
-		Banner result;
-		result = this.bannerRepository.save(banner);
-		return result;
+		return this.bannerRepository.save(banner);
 	}
 
 	public void delete(final Banner banner) {
@@ -57,6 +69,19 @@ public class BannerService {
 		Assert.isTrue(banner.getId() != 0);
 
 		this.bannerRepository.delete(banner);
+	}
+
+	// Other business methods ----------------------------------------------
+
+	private boolean checkAdminPrincipal() {
+		final boolean res;
+		Administrator principal;
+
+		principal = this.administratorService.findByPrincipal();
+
+		res = principal != null;
+
+		return res;
 	}
 
 }

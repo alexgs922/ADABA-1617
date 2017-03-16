@@ -48,6 +48,18 @@
 		</property>
 	</bean>
 
+	<bean id="userAccount4" class="security.UserAccount">
+		<property name="username" value="customer3" />
+		<property name="password" value="033f7f6121501ae98285ad77f216d5e7" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CUSTOMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 
 
 	<!-- Other domain beans come here -->
@@ -62,7 +74,7 @@
 		<property name="phone" value="+34-657814675" />
 		<property name="sendedMessages">
 			<list>
-
+				<ref bean="message5" />
 			</list>
 		</property>
 		<property name="recivedMessages">
@@ -94,6 +106,9 @@
 		<property name="sendedMessages">
 			<list>
 
+				<ref bean="message2" />
+				<ref bean="message3" />
+				<ref bean="message4" />
 
 			</list>
 		</property>
@@ -104,20 +119,25 @@
 		</property>
 		<property name="commentsReceived">
 			<list>
-
+				<ref bean="comment3" />
+				<ref bean="comment4" />
+				<ref bean="comment5" />
 			</list>
 		</property>
 		<property name="commentsSent">
 			<list>
 				<ref bean="comment1" />
+				<ref bean="comment8" />
 			</list>
 		</property>
 		<property name="requestsOffers">
 			<list>
 				<ref bean="offer1" />
+				<ref bean="offer2" />
+				<ref bean="offer3" />
 			</list>
 		</property>
-		
+
 
 	</bean>
 
@@ -134,7 +154,8 @@
 		</property>
 		<property name="recivedMessages">
 			<list>
-
+				<ref bean="message2" />
+				<ref bean="message3" />
 			</list>
 		</property>
 		<property name="commentsReceived">
@@ -144,24 +165,67 @@
 		</property>
 		<property name="commentsSent">
 			<list>
-
+				<ref bean="comment2" />
+				<ref bean="comment5" />
+				<ref bean="comment6" />
 			</list>
 		</property>
 		<property name="requestsOffers">
 			<list>
 				<ref bean="request1" />
+				<ref bean="request3" />
+				<ref bean="offer4" />
 			</list>
 		</property>
-		
+
 
 	</bean>
+
+	<bean id="customer3" class="domain.Customer">
+		<property name="userAccount" ref="userAccount4" />
+		<property name="fullName" value="Customer3 cus3 cus3" />
+		<property name="email" value="customer3@acme.es" />
+		<property name="phone" value="+34 657814875" />
+		<property name="sendedMessages">
+			<list>
+
+			</list>
+		</property>
+		<property name="recivedMessages">
+			<list>
+				<ref bean="message4" />
+				<ref bean="message5" />
+			</list>
+		</property>
+		<property name="commentsReceived">
+			<list>
+				<ref bean="comment2" />
+			</list>
+		</property>
+		<property name="commentsSent">
+			<list>
+				<ref bean="comment3" />
+				<ref bean="comment4" />
+				<ref bean="comment7" />
+				<ref bean="comment9" />
+			</list>
+		</property>
+		<property name="requestsOffers">
+			<list>
+				<ref bean="request2" />
+			</list>
+		</property>
+
+
+	</bean>
+
 
 
 
 	<!-- BANNERS -->
 
 	<bean id="banner" class="domain.Banner">
-		<property name="banner"
+		<property name="url"
 			value="https://c1.staticflickr.com/7/6192/6051907767_c4fbf6b5b9_b.jpg" />
 	</bean>
 
@@ -177,6 +241,79 @@
 		<property name="commentableEntity" ref="customer2" />
 	</bean>
 
+	<bean id="comment2" class="domain.Comment">
+		<property name="title" value="Comment2" />
+		<property name="moment" value="17/03/2017 08:00" />
+		<property name="text" value="Comment2 text" />
+		<property name="stars" value="2" />
+		<property name="actor" ref="customer2" />
+		<property name="commentableEntity" ref="customer3" />
+	</bean>
+
+	<bean id="comment3" class="domain.Comment">
+		<property name="title" value="Comment3" />
+		<property name="moment" value="04/11/2016 22:00" />
+		<property name="text" value="Comment3 text" />
+		<property name="stars" value="0" />
+		<property name="actor" ref="customer3" />
+		<property name="commentableEntity" ref="customer1" />
+	</bean>
+
+	<bean id="comment4" class="domain.Comment">
+		<property name="title" value="Comment4" />
+		<property name="moment" value="05/10/2016 19:00" />
+		<property name="text" value="Comment4 text" />
+		<property name="stars" value="5" />
+		<property name="actor" ref="customer3" />
+		<property name="commentableEntity" ref="customer1" />
+	</bean>
+
+	<bean id="comment5" class="domain.Comment">
+		<property name="title" value="Comment5" />
+		<property name="moment" value="07/08/2016 04:00" />
+		<property name="text" value="Comment5 text" />
+		<property name="stars" value="2" />
+		<property name="actor" ref="customer2" />
+		<property name="commentableEntity" ref="customer1" />
+	</bean>
+
+	<bean id="comment6" class="domain.Comment">
+		<property name="title" value="Comment6" />
+		<property name="moment" value="07/08/2016 04:01" />
+		<property name="text" value="Comment6 text" />
+		<property name="stars" value="5" />
+		<property name="actor" ref="customer2" />
+		<property name="commentableEntity" ref="request1" />
+	</bean>
+
+	<bean id="comment7" class="domain.Comment">
+		<property name="title" value="Comment7" />
+		<property name="moment" value="19/06/2016 14:01" />
+		<property name="text" value="Comment7 text" />
+		<property name="stars" value="4" />
+		<property name="actor" ref="customer3" />
+		<property name="commentableEntity" ref="request1" />
+	</bean>
+
+	<bean id="comment8" class="domain.Comment">
+		<property name="title" value="Comment8" />
+		<property name="moment" value="13/01/2016 18:30" />
+		<property name="text" value="Comment8 text" />
+		<property name="stars" value="1" />
+		<property name="actor" ref="customer1" />
+		<property name="commentableEntity" ref="request1" />
+	</bean>
+
+	<bean id="comment9" class="domain.Comment">
+		<property name="title" value="Comment9" />
+		<property name="moment" value="14/03/2017 17:30" />
+		<property name="text" value="Comment9 text" />
+		<property name="stars" value="4" />
+		<property name="actor" ref="customer3" />
+		<property name="commentableEntity" ref="offer1" />
+	</bean>
+
+
 
 	<!-- MESSAGES -->
 
@@ -188,6 +325,45 @@
 		<property name="sender" ref="customer2" />
 		<property name="recipient" ref="customer1" />
 	</bean>
+
+	<bean id="message2" class="domain.PrivateMessage">
+		<property name="title" value="message2" />
+		<property name="moment" value="12/12/2016 16:45" />
+		<property name="text" value="Message2 text" />
+		<property name="attachments"
+			value="https://consigna.us.es/,https://consigna.us.es/,https://consigna.us.es/" />
+		<property name="sender" ref="customer1" />
+		<property name="recipient" ref="customer2" />
+	</bean>
+
+	<bean id="message3" class="domain.PrivateMessage">
+		<property name="title" value="message3" />
+		<property name="moment" value="12/12/2016 16:48" />
+		<property name="text" value="Message3 text" />
+		<property name="attachments" value="https://www.google.es/" />
+		<property name="sender" ref="customer1" />
+		<property name="recipient" ref="customer2" />
+	</bean>
+
+	<bean id="message4" class="domain.PrivateMessage">
+		<property name="title" value="message4" />
+		<property name="moment" value="13/01/2017 16:47" />
+		<property name="text" value="Message4 text" />
+		<property name="attachments" value="" />
+		<property name="sender" ref="customer1" />
+		<property name="recipient" ref="customer3" />
+	</bean>
+
+	<bean id="message5" class="domain.PrivateMessage">
+		<property name="title" value="message5" />
+		<property name="moment" value="22/03/2016 09:00" />
+		<property name="text" value="Message5 text" />
+		<property name="attachments" value="https://trello.com/c/RXSDz3VU/8-populate-xml" />
+		<property name="sender" ref="admin" />
+		<property name="recipient" ref="customer3" />
+	</bean>
+
+
 
 	<!-- PLACES -->
 
@@ -202,7 +378,7 @@
 		<property name="length" value="1.95" />
 		<property name="latitude" value="-1.85" />
 	</bean>
-	
+
 	<bean id="place3" class="domain.Place">
 		<property name="address" value="Address3" />
 		<property name="length" value="" />
@@ -215,6 +391,66 @@
 		<property name="latitude" value="0.85" />
 	</bean>
 
+	<bean id="placeoo2" class="domain.Place">
+		<property name="address" value="addressoo2" />
+		<property name="length" value="14.78" />
+		<property name="latitude" value="-0.85" />
+	</bean>
+
+	<bean id="placeoo3" class="domain.Place">
+		<property name="address" value="addressoo3" />
+		<property name="length" value="78.78" />
+		<property name="latitude" value="-40.85" />
+	</bean>
+
+	<bean id="placeoo4" class="domain.Place">
+		<property name="address" value="addressoo4" />
+		<property name="length" value="84.78" />
+		<property name="latitude" value="-89.85" />
+	</bean>
+
+	<bean id="placedo2" class="domain.Place">
+		<property name="address" value="addressdo2" />
+		<property name="length" value="49.00" />
+		<property name="latitude" value="-0.85" />
+	</bean>
+
+	<bean id="placedo3" class="domain.Place">
+		<property name="address" value="addressdo3" />
+		<property name="length" value="56.89" />
+		<property name="latitude" value="-63.11" />
+	</bean>
+
+	<bean id="placedo4" class="domain.Place">
+		<property name="address" value="addressdo4" />
+		<property name="length" value="48.00" />
+		<property name="latitude" value="-1.85" />
+	</bean>
+
+	<bean id="placeor2" class="domain.Place">
+		<property name="address" value="addressor2" />
+		<property name="length" value="14.78" />
+		<property name="latitude" value="-0.85" />
+	</bean>
+
+	<bean id="placeor3" class="domain.Place">
+		<property name="address" value="addressor3" />
+		<property name="length" value="19.78" />
+		<property name="latitude" value="0.85" />
+	</bean>
+
+	<bean id="placedr2" class="domain.Place">
+		<property name="address" value="addressod2" />
+		<property name="length" value="89.78" />
+		<property name="latitude" value="56.85" />
+	</bean>
+	
+	<bean id="placedr3" class="domain.Place">
+		<property name="address" value="addressod3" />
+		<property name="length" value="71.19" />
+		<property name="latitude" value="34.29" />
+	</bean>
+
 
 	<!-- OFFERS -->
 
@@ -225,16 +461,76 @@
 		<property name="originPlace" ref="place1" />
 		<property name="destinationPlace" ref="place2" />
 		<property name="requestOrOffer" value="OFFER" />
-		<property name="banned" value= "false" />
-		<property name="customer" ref = "customer1" />
+		<property name="banned" value="false" />
+		<property name="customer" ref="customer1" />
+		<property name="commentsReceived">
+			<list>
+				<ref bean="comment9" />
+			</list>
+		</property>
+
+
+	</bean>
+
+	<bean id="offer2" class="domain.RequestOffer">
+		<property name="title" value="Offer2" />
+		<property name="description" value="Offer2 description" />
+		<property name="moment" value="05/01/2016 10:14" />
+		<property name="originPlace" ref="placeoo2" />
+		<property name="destinationPlace" ref="placedo2" />
+		<property name="requestOrOffer" value="OFFER" />
+		<property name="banned" value="false" />
+		<property name="customer" ref="customer1" />
+		<property name="commentsReceived">
+			<list>
+
+			</list>
+		</property>
+
+
+	</bean>
+
+	<bean id="offer3" class="domain.RequestOffer">
+		<property name="title" value="Offer3" />
+		<property name="description" value="Offer3 description" />
+		<property name="moment" value="08/01/2016 21:14" />
+		<property name="originPlace" ref="placeoo3" />
+		<property name="destinationPlace" ref="placedo3" />
+		<property name="requestOrOffer" value="OFFER" />
+		<property name="banned" value="true" />
+		<property name="customer" ref="customer1" />
+		<property name="commentsReceived">
+			<list>
+
+			</list>
+		</property>
+
+
+	</bean>
+
+	<bean id="offer4" class="domain.RequestOffer">
+		<property name="title" value="Offer4" />
+		<property name="description" value="Offer4 description" />
+		<property name="moment" value="08/02/2016 21:14" />
+		<property name="originPlace" ref="placeoo4" />
+		<property name="destinationPlace" ref="placedo4" />
+		<property name="requestOrOffer" value="OFFER" />
+		<property name="banned" value="false" />
+		<property name="customer" ref="customer2" />
+		<property name="commentsReceived">
+			<list>
+
+			</list>
+		</property>
 
 
 	</bean>
 
 
 
+
 	<!-- REQUESTS -->
-	
+
 	<bean id="request1" class="domain.RequestOffer">
 		<property name="title" value="Request1" />
 		<property name="description" value="Request1 description" />
@@ -242,23 +538,67 @@
 		<property name="originPlace" ref="place3" />
 		<property name="destinationPlace" ref="place4" />
 		<property name="requestOrOffer" value="REQUEST" />
-		<property name="banned" value= "false" />
-		<property name="customer" ref = "customer2" />
+		<property name="banned" value="false" />
+		<property name="customer" ref="customer2" />
+		<property name="commentsReceived">
+			<list>
+				<ref bean="comment6" />
+				<ref bean="comment7" />
+				<ref bean="comment8" />
+			</list>
+		</property>
 
 
 	</bean>
-	
-	
+
+	<bean id="request2" class="domain.RequestOffer">
+		<property name="title" value="Request2" />
+		<property name="description" value="Request2 description" />
+		<property name="moment" value="19/01/2017 10:14" />
+		<property name="originPlace" ref="placeor2" />
+		<property name="destinationPlace" ref="placedr2" />
+		<property name="requestOrOffer" value="REQUEST" />
+		<property name="banned" value="false" />
+		<property name="customer" ref="customer3" />
+		<property name="commentsReceived">
+			<list>
+
+			</list>
+		</property>
+
+
+	</bean>
+
+	<bean id="request3" class="domain.RequestOffer">
+		<property name="title" value="Request3" />
+		<property name="description" value="Request3 description" />
+		<property name="moment" value="27/01/2017 20:11" />
+		<property name="originPlace" ref="placeor3" />
+		<property name="destinationPlace" ref="placedr3" />
+		<property name="requestOrOffer" value="REQUEST" />
+		<property name="banned" value="true" />
+		<property name="customer" ref="customer2" />
+		<property name="commentsReceived">
+			<list>
+
+			</list>
+		</property>
+
+
+	</bean>
+
+
 	<!-- Applications -->
-	
+
 	<bean id="application1" class="domain.Application">
 		<property name="status" value="PENDING" />
 		<property name="customer" ref="customer1" />
 		<property name="requestOffer" ref="request1" />
-		
+
 	</bean>
 	
-	
+
+
 
 
 
