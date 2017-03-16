@@ -70,6 +70,8 @@ public class RequestOfferService {
 
 	public RequestOffer save(final RequestOffer ro) {
 		Assert.notNull(ro);
+		final Customer principal = this.customerService.findByPrincipal();
+		Assert.isTrue(principal != null);
 		return this.requestOfferRepository.save(ro);
 
 	}
@@ -122,6 +124,7 @@ public class RequestOfferService {
 		this.applicationService.save(application);
 
 	}
+
 	public boolean appliedRequestOffer(final Customer customer, final RequestOffer requestOffer) {
 		boolean res = false;
 		Collection<Application> applications;
@@ -137,9 +140,12 @@ public class RequestOfferService {
 	}
 
 	public RequestOffer reconstruct(final RequestOfferForm requestOfferForm) {
+		Assert.notNull(requestOfferForm);
 		final RequestOffer requestOffer;
 		Collection<Comment> commentsReceived;
 		final Customer principal = this.customerService.findByPrincipal();
+		Assert.isTrue(principal != null);
+
 		Place originPlace;
 		Place destinationPlace;
 
