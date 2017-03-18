@@ -34,6 +34,8 @@ public class PrivateMessage extends DomainEntity {
 	private String	text;
 	private String	attachments;
 
+	private boolean	copy;
+
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
@@ -70,6 +72,14 @@ public class PrivateMessage extends DomainEntity {
 
 	public void setAttachments(final String attachments) {
 		this.attachments = attachments;
+	}
+
+	public boolean getCopy() {
+		return this.copy;
+	}
+
+	public void setCopy(final boolean copy) {
+		this.copy = copy;
 	}
 
 

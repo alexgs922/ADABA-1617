@@ -238,4 +238,9 @@ public class RequestOfferService {
 
 		return banned;
 	}
+
+	public void flush() {
+		this.requestOfferRepository.flush();
+
+	}
 }

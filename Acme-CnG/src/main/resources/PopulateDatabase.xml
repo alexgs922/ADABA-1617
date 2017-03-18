@@ -74,7 +74,7 @@
 		<property name="phone" value="+34-657814675" />
 		<property name="sendedMessages">
 			<list>
-				<ref bean="message5" />
+				
 			</list>
 		</property>
 		<property name="recivedMessages">
@@ -96,6 +96,8 @@
 
 	</bean>
 
+
+
 	<!-- CUSTOMERS -->
 
 	<bean id="customer1" class="domain.Customer">
@@ -108,13 +110,13 @@
 
 				<ref bean="message2" />
 				<ref bean="message3" />
-				<ref bean="message4" />
+			
 
 			</list>
 		</property>
 		<property name="recivedMessages">
 			<list>
-				<ref bean="message1" />
+				<ref bean="messageCopy1" />
 			</list>
 		</property>
 		<property name="commentsReceived">
@@ -154,8 +156,8 @@
 		</property>
 		<property name="recivedMessages">
 			<list>
-				<ref bean="message2" />
-				<ref bean="message3" />
+				<ref bean="messageCopy2" />
+				<ref bean="messageCopy3" />
 			</list>
 		</property>
 		<property name="commentsReceived">
@@ -193,8 +195,7 @@
 		</property>
 		<property name="recivedMessages">
 			<list>
-				<ref bean="message4" />
-				<ref bean="message5" />
+				
 			</list>
 		</property>
 		<property name="commentsReceived">
@@ -324,6 +325,19 @@
 		<property name="attachments" value="" />
 		<property name="sender" ref="customer2" />
 		<property name="recipient" ref="customer1" />
+		<property name="copy" value="true" />
+
+	</bean>
+
+	<bean id="messageCopy1" class="domain.PrivateMessage">
+		<property name="title" value="message1" />
+		<property name="moment" value="12/12/2016 16:00" />
+		<property name="text" value="Message1 text" />
+		<property name="attachments" value="" />
+		<property name="sender" ref="customer2" />
+		<property name="recipient" ref="customer1" />
+		<property name="copy" value="false" />
+
 	</bean>
 
 	<bean id="message2" class="domain.PrivateMessage">
@@ -334,6 +348,20 @@
 			value="https://consigna.us.es/,https://consigna.us.es/,https://consigna.us.es/" />
 		<property name="sender" ref="customer1" />
 		<property name="recipient" ref="customer2" />
+		<property name="copy" value="true" />
+
+	</bean>
+
+	<bean id="messageCopy2" class="domain.PrivateMessage">
+		<property name="title" value="message2" />
+		<property name="moment" value="12/12/2016 16:45" />
+		<property name="text" value="Message2 text" />
+		<property name="attachments"
+			value="https://consigna.us.es/,https://consigna.us.es/,https://consigna.us.es/" />
+		<property name="sender" ref="customer1" />
+		<property name="recipient" ref="customer2" />
+		<property name="copy" value="false" />
+
 	</bean>
 
 	<bean id="message3" class="domain.PrivateMessage">
@@ -343,25 +371,23 @@
 		<property name="attachments" value="https://www.google.es/" />
 		<property name="sender" ref="customer1" />
 		<property name="recipient" ref="customer2" />
+		<property name="copy" value="true" />
+
 	</bean>
 
-	<bean id="message4" class="domain.PrivateMessage">
-		<property name="title" value="message4" />
-		<property name="moment" value="13/01/2017 16:47" />
-		<property name="text" value="Message4 text" />
-		<property name="attachments" value="" />
+	<bean id="messageCopy3" class="domain.PrivateMessage">
+		<property name="title" value="message3" />
+		<property name="moment" value="12/12/2016 16:48" />
+		<property name="text" value="Message3 text" />
+		<property name="attachments" value="https://www.google.es/" />
 		<property name="sender" ref="customer1" />
-		<property name="recipient" ref="customer3" />
+		<property name="recipient" ref="customer2" />
+		<property name="copy" value="false" />
+
 	</bean>
 
-	<bean id="message5" class="domain.PrivateMessage">
-		<property name="title" value="message5" />
-		<property name="moment" value="22/03/2016 09:00" />
-		<property name="text" value="Message5 text" />
-		<property name="attachments" value="https://trello.com/c/RXSDz3VU/8-populate-xml" />
-		<property name="sender" ref="admin" />
-		<property name="recipient" ref="customer3" />
-	</bean>
+
+
 
 
 
@@ -444,7 +470,7 @@
 		<property name="length" value="89.78" />
 		<property name="latitude" value="56.85" />
 	</bean>
-	
+
 	<bean id="placedr3" class="domain.Place">
 		<property name="address" value="addressod3" />
 		<property name="length" value="71.19" />
@@ -596,7 +622,7 @@
 		<property name="requestOffer" ref="request1" />
 
 	</bean>
-	
+
 
 
 

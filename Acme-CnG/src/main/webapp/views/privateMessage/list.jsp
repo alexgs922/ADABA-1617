@@ -92,8 +92,24 @@
 
 		</display:column>
 	</jstl:if>
-	<display:column>
-		<a href="message/delete.do?privateMessageId=${row.id}"><spring:message code="message.delete" /></a>
+	
+	<jstl:if test="${requestURI == 'message/listReceivedMessages.do'}">
+
+		<display:column>
+		<a href="message/deleteReceived.do?privateMessageId=${row.id}"><spring:message code="message.delete" /></a>
 	</display:column>
+
+	</jstl:if>
+
+	<jstl:if test="${requestURI == 'message/listSentMessages.do'}">
+
+		<display:column>
+		<a href="message/deleteSent.do?privateMessageId=${row.id}"><spring:message code="message.delete" /></a>
+	</display:column>
+
+	</jstl:if>
+	
+	
+
 
 </display:table>

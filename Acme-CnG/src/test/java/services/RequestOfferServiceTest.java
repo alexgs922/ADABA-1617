@@ -119,6 +119,7 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 		Assert.isTrue(beforeSave < afterSave);
 		Assert.isTrue(beforeSave == afterSave - 1);
+		this.requestOfferService.flush();
 
 	}
 

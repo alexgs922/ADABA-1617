@@ -13,7 +13,7 @@
 
 <form:form action="message/create.do" modelAttribute="privateMessage">
 
-
+	
 
 	<acme:textbox code="message.title" path="title" />
 	<br>
@@ -31,6 +31,6 @@
 
 	<acme:submit name="save" code="message.save" />
 
-	<acme:cancel url="welcome/index.do" code="message.cancel"/>
+	<acme:cancel url="welcome/index.do" code="message.cancel" />
 
 </form:form>

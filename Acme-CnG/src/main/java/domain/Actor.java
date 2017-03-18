@@ -70,8 +70,8 @@ public abstract class Actor extends CommentableEntity {
 
 	private Collection<PrivateMessage>	sendedMessages;
 	private Collection<PrivateMessage>	recivedMessages;
-	private Collection<Comment>	commentsSent;
-	private UserAccount			userAccount;
+	private Collection<Comment>			commentsSent;
+	private UserAccount					userAccount;
 
 
 	@NotNull

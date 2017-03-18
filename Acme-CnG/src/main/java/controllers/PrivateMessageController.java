@@ -44,11 +44,11 @@ public class PrivateMessageController extends AbstractController {
 
 	@RequestMapping(value = "/listReceivedMessages", method = RequestMethod.GET)
 	public ModelAndView listReceivedMessages() {
-		ModelAndView result;
+		final ModelAndView result;
 
 		final Actor c = this.actorService.findByPrincipal();
 
-		final Collection<PrivateMessage> receivedMessages = c.getRecivedMessages();
+		final Collection<PrivateMessage> receivedMessages = this.privateMessageService.myRecivedMessages(c.getId());
 
 		result = new ModelAndView("message/listReceivedMessages");
 		result.addObject("messages", receivedMessages);
@@ -56,14 +56,13 @@ public class PrivateMessageController extends AbstractController {
 
 		return result;
 	}
-
 	@RequestMapping(value = "/listSentMessages", method = RequestMethod.GET)
 	public ModelAndView listSentMessages() {
 		ModelAndView result;
 
 		final Actor c = this.actorService.findByPrincipal();
 
-		final Collection<PrivateMessage> sendMessages = c.getSendedMessages();
+		final Collection<PrivateMessage> sendMessages = this.privateMessageService.mySendedMessages(c.getId());
 
 		result = new ModelAndView("message/listSentMessages");
 		result.addObject("messages", sendMessages);
@@ -101,30 +100,20 @@ public class PrivateMessageController extends AbstractController {
 	public ModelAndView save(PrivateMessage messageToEdit, final BindingResult binding) {
 
 		ModelAndView result;
-		final Actor c = this.actorService.findByPrincipal();
 
 		messageToEdit = this.privateMessageService.reconstruct(messageToEdit, binding);
-		if (binding.hasErrors()) {
+		if (binding.hasErrors())
 			result = this.createEditModelAndView(messageToEdit);
-
-			result.addObject("privateMessage", messageToEdit);
-
-		} else {
+		else
 			try {
 
 				this.privateMessageService.save(messageToEdit);
+				result = new ModelAndView("redirect:/message/listSentMessages.do");
 
 			} catch (final Throwable th) {
 				result = this.createEditModelAndView(messageToEdit, "message.commit.error");
 
-				result.addObject("privateMessage", messageToEdit);
-
-				return result;
 			}
-
-			result = new ModelAndView("redirect:/message/listSentMessages.do");
-
-		}
 
 		return result;
 	}
@@ -153,7 +142,7 @@ public class PrivateMessageController extends AbstractController {
 				return result;
 			}
 
-			result = new ModelAndView("redirect:/message/listSentMessages.do");
+			result = new ModelAndView("redirect:/message/listReceivedMessages.do");
 
 		}
 
@@ -162,62 +151,43 @@ public class PrivateMessageController extends AbstractController {
 
 	// DELETE ---------------------------------------------------
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteReceived", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int privateMessageId) {
 
 		ModelAndView result;
 		PrivateMessage privateMessage;
-		final Actor principal = this.actorService.findByPrincipal();
 
 		privateMessage = this.privateMessageService.findOne(privateMessageId);
 		try {
-			this.privateMessageService.delete(privateMessage);
+			this.privateMessageService.deleteReceived(privateMessage);
 		} catch (final Throwable th) {
-			//			result = list();
-			//			result.addObject("forbiddenDelete", true);
-			//			return result;
+
 		}
 
-		result = new ModelAndView("redirect:/welcome/index.do");
+		result = new ModelAndView("redirect:/message/listReceivedMessages.do");
 
 		return result;
 
 	}
-	//	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	//	public ModelAndView delete(@RequestParam final int privateMessageId) {
-	//		ModelAndView result;
-	//		PrivateMessage message;
-	//
-	//		Assert.notNull(privateMessageId);
-	//
-	//		message = this.privateMessageService.findOne(privateMessageId);
-	//
-	//		result = this.createEditModelAndView3(message);
-	//
-	//		return result;
-	//	}
-	//
-	//	@RequestMapping(value = "/delete", method = RequestMethod.POST, params = "delete")
-	//	public ModelAndView delete(final PrivateMessage privateMessage, final BindingResult binding) {
-	//
-	//		ModelAndView result;
-	//
-	//		try {
-	//
-	//			this.privateMessageService.delete(privateMessage);
-	//
-	//		} catch (final Throwable th) {
-	//			result = this.createEditModelAndView3(privateMessage, "message.commit.error");
-	//
-	//			result.addObject("privateMessage", privateMessage);
-	//
-	//			return result;
-	//		}
-	//
-	//		result = new ModelAndView("redirect:welcome/index.do");
-	//
-	//		return result;
-	//	}
+
+	@RequestMapping(value = "/deleteSent", method = RequestMethod.GET)
+	public ModelAndView delete2(@RequestParam final int privateMessageId) {
+
+		ModelAndView result;
+		PrivateMessage privateMessage;
+
+		privateMessage = this.privateMessageService.findOne(privateMessageId);
+		try {
+			this.privateMessageService.deleteSent(privateMessage);
+		} catch (final Throwable th) {
+
+		}
+
+		result = new ModelAndView("redirect:/message/listSentMessages.do");
+
+		return result;
+
+	}
 
 	//CREATE EDIT MODEL AND VIEW
 
