@@ -227,7 +227,7 @@
 
 	<bean id="banner" class="domain.Banner">
 		<property name="url"
-			value="https://c1.staticflickr.com/7/6192/6051907767_c4fbf6b5b9_b.jpg" />
+			value="https://c1.staticflickr.com/3/2875/32662160373_4a9e9e2b1f_b.jpg" />
 	</bean>
 
 

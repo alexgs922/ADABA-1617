@@ -20,7 +20,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<!-- Listing grid -->
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
 <display:table pagesize="10" class="displaytag" name="messages"
@@ -81,7 +81,7 @@
 	<spring:message code="message.moment" var="messageMoment" />
 	<display:column property="moment" title="${messageMoment}"
 		sortable="false" />
-		
+
 
 	<jstl:if test="${requestURI == 'message/listReceivedMessages.do'}">
 		<display:column>
@@ -92,24 +92,30 @@
 
 		</display:column>
 	</jstl:if>
-	
+
 	<jstl:if test="${requestURI == 'message/listReceivedMessages.do'}">
 
 		<display:column>
-		<a href="message/deleteReceived.do?privateMessageId=${row.id}"><spring:message code="message.delete" /></a>
-	</display:column>
+
+			<acme:confirmDelete
+				url="message/deleteReceived.do?privateMessageId=${row.id}"
+				code="message.delete" codeConfirm="message.confirm.delete" />
+
+		</display:column>
 
 	</jstl:if>
 
 	<jstl:if test="${requestURI == 'message/listSentMessages.do'}">
 
 		<display:column>
-		<a href="message/deleteSent.do?privateMessageId=${row.id}"><spring:message code="message.delete" /></a>
-	</display:column>
+			<acme:confirmDelete url="message/deleteSent.do?privateMessageId=${row.id}" code="message.delete"
+				codeConfirm="message.confirm.delete" />
+
+		</display:column>
 
 	</jstl:if>
-	
-	
+
+
 
 
 </display:table>
