@@ -91,9 +91,14 @@
 			</a>
 
 		</display:column>
-	</jstl:if>
 
-	<jstl:if test="${requestURI == 'message/listReceivedMessages.do'}">
+		<display:column>
+
+			<a href="message/reply.do?privateMessageId=${row.id}"> <spring:message
+					code="message.reply" />
+			</a>
+
+		</display:column>
 
 		<display:column>
 
@@ -102,14 +107,23 @@
 				code="message.delete" codeConfirm="message.confirm.delete" />
 
 		</display:column>
-
 	</jstl:if>
+
 
 	<jstl:if test="${requestURI == 'message/listSentMessages.do'}">
 
 		<display:column>
-			<acme:confirmDelete url="message/deleteSent.do?privateMessageId=${row.id}" code="message.delete"
-				codeConfirm="message.confirm.delete" />
+
+			<a href="message/reply.do?privateMessageId=${row.id}"> <spring:message
+					code="message.reply" />
+			</a>
+
+		</display:column>
+
+		<display:column>
+			<acme:confirmDelete
+				url="message/deleteSent.do?privateMessageId=${row.id}"
+				code="message.delete" codeConfirm="message.confirm.delete" />
 
 		</display:column>
 

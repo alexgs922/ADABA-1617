@@ -80,6 +80,25 @@ public class PrivateMessageService {
 
 	}
 
+	public PrivateMessage reply(final PrivateMessage message, final BindingResult binding) {
+
+		PrivateMessage result;
+		final Actor t = this.actorService.findByPrincipal();
+
+		result = message;
+		result.setRecipient(message.getRecipient());
+		result.setSender(t);
+		result.setText(message.getText());
+		result.setTitle(message.getTitle());
+		result.setAttachments(message.getAttachments());
+		result.setMoment(new Date(System.currentTimeMillis() - 1000));
+		result.setCopy(message.getCopy());
+		this.validator.validate(result, binding);
+
+		return result;
+
+	}
+
 	public Collection<PrivateMessage> findAll() {
 		Collection<PrivateMessage> res;
 		res = this.privateMessageRepository.findAll();

@@ -149,6 +149,41 @@ public class PrivateMessageController extends AbstractController {
 		return result;
 	}
 
+	// REPLY ----------------------------------------------------
+
+	@RequestMapping(value = "/reply", method = RequestMethod.GET)
+	public ModelAndView reply(@RequestParam final int privateMessageId) {
+		ModelAndView result;
+
+		final PrivateMessage message = this.privateMessageService.findOne(privateMessageId);
+
+		result = this.createEditModelAndView(message);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/reply", method = RequestMethod.POST, params = "save")
+	public ModelAndView reply(PrivateMessage messageToEdit, final BindingResult binding) {
+
+		ModelAndView result;
+
+		messageToEdit = this.privateMessageService.reply(messageToEdit, binding);
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(messageToEdit);
+		else
+			try {
+
+				this.privateMessageService.save(messageToEdit);
+				result = new ModelAndView("redirect:/message/listSentMessages.do");
+
+			} catch (final Throwable th) {
+				result = this.createEditModelAndView(messageToEdit, "message.commit.error");
+
+			}
+
+		return result;
+	}
+
 	// DELETE ---------------------------------------------------
 
 	@RequestMapping(value = "/deleteReceived", method = RequestMethod.GET)
@@ -233,23 +268,5 @@ public class PrivateMessageController extends AbstractController {
 
 		return result;
 	}
-	//
-	//	protected ModelAndView createEditModelAndView3(final PrivateMessage privateMessage) {
-	//		ModelAndView result;
-	//
-	//		result = this.createEditModelAndView(privateMessage, null);
-	//
-	//		return result;
-	//	}
-	//
-	//	protected ModelAndView createEditModelAndView3(final PrivateMessage privateMessage, final String message) {
-	//		ModelAndView result;
-	//
-	//		result = new ModelAndView("message/delete");
-	//		result.addObject("privateMessage", privateMessage);
-	//		result.addObject("message", message);
-	//
-	//		return result;
-	//	}
 
 }

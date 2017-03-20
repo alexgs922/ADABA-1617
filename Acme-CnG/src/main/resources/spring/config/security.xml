@@ -85,7 +85,8 @@
 			access="isAuthenticated()" />
 				<security:intercept-url pattern="/message/deleteSent.do"
 			access="isAuthenticated()" />
-
+		<security:intercept-url pattern="/message/reply.do"
+			access="isAuthenticated()" />
 
 
 		<security:intercept-url pattern="/**"
