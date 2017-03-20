@@ -22,4 +22,10 @@ public interface PrivateMessageRepository extends JpaRepository<PrivateMessage, 
 	@Query("select m from Actor c join c.sendedMessages m where m.copy=true and c.id=?1")
 	Collection<PrivateMessage> mySendedMessages(int actorId);
 
+	@Query("select min(a.sendedMessages.size),avg(a.sendedMessages.size),max(a.sendedMessages.size) from Actor a")
+	Collection<Object> minAvgMaxMessagesSentPerActor();
+
+	@Query("select min(a.recivedMessages.size),avg(a.recivedMessages.size),max(a.recivedMessages.size) from Actor a")
+	Collection<Object> minAvgMaxMessagesRecivedMessagesPerActor();
+
 }

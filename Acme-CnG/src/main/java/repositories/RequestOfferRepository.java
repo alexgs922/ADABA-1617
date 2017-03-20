@@ -33,4 +33,13 @@ public interface RequestOfferRepository extends JpaRepository<RequestOffer, Inte
 	@Query("select ro from RequestOffer ro where ro.customer.id=?1 and ro.banned=true")
 	Collection<RequestOffer> findAllBannedRequestsOffersFromPrincipal(int principalid);
 
+	@Query("select count(ro)*1.0 /(select count(rr)*1.0 from RequestOffer rr where rr.requestOrOffer=0)from RequestOffer ro where ro.requestOrOffer=1")
+	Double ratioOffersVsRequest();
+
+	@Query("select avg(o.size) from Customer c join c.requestsOffers o where o.requestOrOffer = 1")
+	Double averageNumberOfOffersPerCustomer();
+
+	@Query("select avg(o.size) from Customer c join c.requestsOffers o where o.requestOrOffer = 0")
+	Double averageNumberOfRequestPerCustomer();
+
 }

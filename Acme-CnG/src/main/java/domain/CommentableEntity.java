@@ -11,7 +11,7 @@ import javax.validation.Valid;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class CommentableEntity extends DomainEntity {
+public abstract class CommentableEntity extends DomainEntity {
 
 	//Constructor ----------------------------------------------------
 

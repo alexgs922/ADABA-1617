@@ -617,7 +617,7 @@
 	<!-- Applications -->
 
 	<bean id="application1" class="domain.Application">
-		<property name="status" value="PENDING" />
+		<property name="status" value="ACCEPTED" />
 		<property name="customer" ref="customer1" />
 		<property name="requestOffer" ref="request1" />
 
