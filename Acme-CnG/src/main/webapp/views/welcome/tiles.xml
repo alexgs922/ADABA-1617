@@ -21,4 +21,14 @@
 		<put-attribute name="body" value="/views/welcome/index.jsp" />
 	</definition>
 	
+	 <definition name="welcome/cookiesPolicy" extends="master.page">
+  <put-attribute name="title" value="Cookies Policy" /> 
+  <put-attribute name="body" value="/views/welcome/cookiesPolicy.jsp" /> 
+  </definition>
+  
+	<definition name="welcome/about" extends="master.page">
+  <put-attribute name="title" value="About us" /> 
+  <put-attribute name="body" value="/views/welcome/about.jsp" /> 
+  </definition>
+	
 </tiles-definitions>
