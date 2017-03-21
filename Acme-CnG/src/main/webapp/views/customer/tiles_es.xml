@@ -43,4 +43,9 @@
 	</definition>
 	
 	
+	<definition name="comment/listComments" extends="master.page">
+		<put-attribute name="title" value="List comments" />
+		<put-attribute name="body" value="/views/customer/listComments.jsp" />
+	</definition>
+	
 </tiles-definitions>

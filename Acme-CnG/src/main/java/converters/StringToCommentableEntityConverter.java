@@ -29,7 +29,7 @@ public class StringToCommentableEntityConverter implements Converter<String, Com
 				result = null;
 			} else {
 				id = Integer.valueOf(text);
-				result = commentRepository.findOne(id);
+				result = commentRepository.findOneAlternativo(id);
 			}
 		} catch (Throwable oops) {
 			throw new IllegalArgumentException(oops);

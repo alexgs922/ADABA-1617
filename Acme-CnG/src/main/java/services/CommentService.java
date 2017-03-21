@@ -48,7 +48,7 @@ public class CommentService {
 		moment = new Date(System.currentTimeMillis()-10);
 		result = new Comment();
 	
-		commentable = this.commentableEntityService.findOne(commentableEntity);
+		commentable = this.commentableEntityService.findOneAlternativo(commentableEntity);
 		
 		result.setMoment(moment);
 		result.setActor(sender);

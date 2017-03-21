@@ -58,5 +58,10 @@ public class CommentableEntityService {
 
 		this.commentableEntityRepository.delete(commentableEntity);
 	}
+	
+	public CommentableEntity findOneAlternativo(int id){
+		return this.commentableEntityRepository.findOneAlternativo(id);
+		
+	}
 
 }

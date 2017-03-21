@@ -1,6 +1,8 @@
 
 package controllers;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.CommentService;
+import services.CommentableEntityService;
 import domain.Comment;
+import domain.CommentableEntity;
 
 @Controller
 @RequestMapping("/comment")
@@ -25,13 +29,32 @@ public class CommentController extends AbstractController {
 	private CommentService	commentService;
 
 	@Autowired
+	private CommentableEntityService	commentableEntityService;
+
+	
+	@Autowired
 	private ActorService	actorService;
+
+	
+	@RequestMapping(value = "/listComments", method = RequestMethod.GET)
+	public ModelAndView listListMyApplications(@RequestParam int commentableEntityId) {
+		ModelAndView result;
+		Collection<Comment> comments;
+		CommentableEntity c = this.commentableEntityService.findOneAlternativo(commentableEntityId);
+		comments = c.getCommentsReceived();
+		
+		result = new ModelAndView("comment/listComments");
+		result.addObject("comments", comments);
+
+		return result;
+	}
 
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView createComment(@RequestParam final int commentableEntityId) {
 		ModelAndView result;
 		Comment comment;
+		
 		comment = this.commentService.create(commentableEntityId);
 
 		result = this.createEditModelAndView(comment);
@@ -53,6 +76,8 @@ public class CommentController extends AbstractController {
 			}
 		return result;
 	}
+	
+	
 
 	// Ancillary methods ---------------------------------------------------------
 	protected ModelAndView createEditModelAndView(final Comment comment) {

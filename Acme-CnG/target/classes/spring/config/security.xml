@@ -52,6 +52,8 @@
 		<security:intercept-url pattern="/application/customer/**" access="hasAnyRole('CUSTOMER')" />
 		
 		<security:intercept-url pattern="/comment/create.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/comment/listComments.do" access="hasRole('CUSTOMER')" />
+		
 		<security:intercept-url pattern="/customer/requestOffer/applyRequest.do" access="hasRole('CUSTOMER')" />
 
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
@@ -85,7 +87,8 @@
 			access="isAuthenticated()" />
 				<security:intercept-url pattern="/message/deleteSent.do"
 			access="isAuthenticated()" />
-
+		<security:intercept-url pattern="/message/reply.do"
+			access="isAuthenticated()" />
 
 
 		<security:intercept-url pattern="/**"

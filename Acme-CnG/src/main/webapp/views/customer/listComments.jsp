@@ -15,8 +15,20 @@
 	requestURI="${requestURI}" id="row">
 
 	<spring:message code="comment.title" var="title" />
-	<display:column title="${title}" sortable="true" >
+	<display:column title="${title}" sortable="false" >
 		<jstl:out value="${row.title}"></jstl:out>
+	
+	</display:column>
+	
+	<spring:message code="comment.text" var="text" />
+	<display:column title="${text}" sortable="false" >
+		<jstl:out value="${row.text}"></jstl:out>
+	
+	</display:column>
+	
+	<spring:message code="comment.stars" var="stars" />
+	<display:column title="${stars}" sortable="false" >
+		<jstl:out value="${row.stars}"></jstl:out>
 	
 	</display:column>
 	
