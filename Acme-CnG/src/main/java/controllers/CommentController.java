@@ -45,6 +45,7 @@ public class CommentController extends AbstractController {
 		
 		result = new ModelAndView("comment/listComments");
 		result.addObject("comments", comments);
+		result.addObject("commentable", c.getId());
 
 		return result;
 	}

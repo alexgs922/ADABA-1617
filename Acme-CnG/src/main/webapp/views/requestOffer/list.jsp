@@ -97,6 +97,12 @@
 	</security:authorize>
 
 
+	<display:column>
+			<a
+				href="comment/listComments.do?commentableEntityId=${row.id}">
+				<spring:message code="list.comments" />
+			</a>
+	</display:column>
 
 </display:table>
 

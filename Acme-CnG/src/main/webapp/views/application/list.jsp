@@ -28,6 +28,8 @@
 	
 	<spring:message code="application.status" var="applicationStatus" />
 	<display:column property = "status" title="${applicationStatus}" sortable="true" />
+	
+	
 		
 </display:table>
 

@@ -52,7 +52,7 @@
 		<security:intercept-url pattern="/application/customer/**" access="hasAnyRole('CUSTOMER')" />
 		
 		<security:intercept-url pattern="/comment/create.do" access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/comment/listComments.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/comment/listComments.do" access="hasAnyRole('CUSTOMER','ADMIN')" />
 		
 		<security:intercept-url pattern="/customer/requestOffer/applyRequest.do" access="hasRole('CUSTOMER')" />
 
