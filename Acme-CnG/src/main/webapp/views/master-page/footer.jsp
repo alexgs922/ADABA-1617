@@ -83,7 +83,7 @@
 		  
 		exdate.setDate(exdate.getDate() + exdays);
 		var c_value = escape(value)
-		  + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString() + "; path=" + "/Acme-BNB");
+		  + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString() + "; path=" + "/Acme-CnG");
 		  
 		document.cookie = c_name + "=" + c_value;
 	 }
