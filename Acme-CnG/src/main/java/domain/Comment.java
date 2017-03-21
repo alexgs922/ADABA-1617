@@ -33,7 +33,16 @@ public class Comment extends DomainEntity {
 	private Date	moment;
 	private String	text;
 	private int		stars;
+	private boolean	banned;
 
+
+	public boolean isBanned() {
+		return this.banned;
+	}
+
+	public void setBanned(final boolean banned) {
+		this.banned = banned;
+	}
 
 	@NotBlank
 	public String getTitle() {
