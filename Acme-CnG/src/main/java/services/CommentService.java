@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -40,35 +41,48 @@ public class CommentService {
 
 	//Simple CRUD methods ---------------------------------
 
-	public Comment create(int commentableEntity) {
-		Actor sender = this.actorService.findByPrincipal();
+	public Comment create(final int commentableEntity) {
+		final Actor sender = this.actorService.findByPrincipal();
 		Comment result;
 		CommentableEntity commentable;
 		Date moment;
-		moment = new Date(System.currentTimeMillis()-10);
+		moment = new Date(System.currentTimeMillis() - 10);
 		result = new Comment();
-	
+
 		commentable = this.commentableEntityService.findOneAlternativo(commentableEntity);
-		
+
 		result.setMoment(moment);
 		result.setActor(sender);
 		result.setCommentableEntity(commentable);
-	
+
 		return result;
 
-
 	}
-	
+
 	public Collection<Comment> findAll() {
 		Collection<Comment> res;
-		res = this.commentRepository.findAll();
+		Collection<CommentableEntity> commentableEntities;
+
+		commentableEntities = this.commentableEntityService.findAll();
+		res = new ArrayList<Comment>();
+
+		for (final CommentableEntity c : commentableEntities)
+			res.addAll(c.getCommentsReceived());
+
 		Assert.notNull(res);
 		return res;
 	}
 
 	public Comment findOne(final int commentId) {
+		Collection<Comment> comments;
 		Comment res;
-		res = this.commentRepository.findOne(commentId);
+
+		comments = this.findAll();
+		res = new Comment();
+		for (final Comment c : comments)
+			if (c.getId() == commentId)
+				res = c;
+
 		Assert.notNull(res);
 		return res;
 	}
@@ -83,12 +97,28 @@ public class CommentService {
 		Assert.notNull(c);
 		this.commentRepository.delete(c);
 	}
-/*
-	public Collection<Comment> findCommentsByActorId(final int actorId) {
-		Collection<Comment> result;
-		result = this.commentRepository.findCommentsByActorId(actorId);
-		Assert.notNull(result);
-		return result;
 
-	}*/
+	//Other business methods ----------------------------------------------------------------
+
+	public void banComment(final Comment comment) {
+		Assert.notNull(comment);
+
+		final Actor principal = this.actorService.findByPrincipal();
+
+		//		Assert.isTrue(principal.getUserAccount().getAuthorities().contains(Authority.ADMIN));
+
+		comment.setBanned(true);
+
+		this.commentRepository.save(comment);
+
+	}
+	/*
+	 * public Collection<Comment> findCommentsByActorId(final int actorId) {
+	 * Collection<Comment> result;
+	 * result = this.commentRepository.findCommentsByActorId(actorId);
+	 * Assert.notNull(result);
+	 * return result;
+	 * 
+	 * }
+	 */
 }
