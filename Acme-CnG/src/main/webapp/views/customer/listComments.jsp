@@ -42,6 +42,11 @@
 	</security:authorize>
 	
 	
-		
-</display:table>
+	</display:table>
+	<security:authorize access="hasRole('CUSTOMER')">
 
+<a href="comment/create.do?commentableEntityId=${commentable}">
+				<spring:message code="create.comment" />
+</a>
+
+	</security:authorize>
