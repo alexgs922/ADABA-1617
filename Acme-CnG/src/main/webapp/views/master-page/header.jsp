@@ -47,6 +47,7 @@
 			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
 				<ul>
 					<li class="arrow"></li>
+					<li><a href="requestOffer/customer/search.do"><spring:message code="master.page.customer.search" /></a></li>
 					<li><a href="requestOffer/customer/listRequests.do"><spring:message code="master.page.customer.listRequests" /></a></li>
 					<li><a href="requestOffer/customer/listOffers.do"><spring:message code="master.page.customer.listOffers" /></a></li>
 					<li><a href="application/customer/listMyApplications.do"><spring:message code="master.page.customer.listMyApplications" /></a></li>
