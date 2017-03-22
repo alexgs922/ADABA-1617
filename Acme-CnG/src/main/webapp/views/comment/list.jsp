@@ -34,7 +34,18 @@
 	
 	<security:authorize access = "hasRole('ADMIN')">
 		<spring:message code="comment.banned" var="banned" />
-		<display:column property = "banned" title="${banned}" sortable="false" >
+		<display:column>
+		<jstl:choose>
+			<jstl:when test="${row.banned == true }">
+				<jstl:out value="${banned}"></jstl:out>
+			</jstl:when>
+			<jstl:when test="${row.banned == false }">
+				<a
+					href="comment/administrator/banComment.do?commentId=${row.id}">
+					<spring:message code="comment.ban" />
+				</a>
+			</jstl:when>
+		</jstl:choose>
 		
 	
 		</display:column>
@@ -42,11 +53,6 @@
 	</security:authorize>
 	
 	
-	</display:table>
-	<security:authorize access="hasRole('CUSTOMER')">
+		
+</display:table>
 
-<a href="comment/create.do?commentableEntityId=${commentable}">
-				<spring:message code="create.comment" />
-</a>
-
-	</security:authorize>

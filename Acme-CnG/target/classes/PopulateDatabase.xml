@@ -240,6 +240,7 @@
 		<property name="stars" value="3" />
 		<property name="actor" ref="customer1" />
 		<property name="commentableEntity" ref="customer2" />
+		<property name="banned" value="false" />
 	</bean>
 
 	<bean id="comment2" class="domain.Comment">
@@ -249,6 +250,7 @@
 		<property name="stars" value="2" />
 		<property name="actor" ref="customer2" />
 		<property name="commentableEntity" ref="customer3" />
+		<property name="banned" value="false" />
 	</bean>
 
 	<bean id="comment3" class="domain.Comment">
@@ -258,6 +260,7 @@
 		<property name="stars" value="0" />
 		<property name="actor" ref="customer3" />
 		<property name="commentableEntity" ref="customer1" />
+		<property name="banned" value="false" />
 	</bean>
 
 	<bean id="comment4" class="domain.Comment">
@@ -267,6 +270,7 @@
 		<property name="stars" value="5" />
 		<property name="actor" ref="customer3" />
 		<property name="commentableEntity" ref="customer1" />
+		<property name="banned" value="false" />
 	</bean>
 
 	<bean id="comment5" class="domain.Comment">
@@ -276,6 +280,7 @@
 		<property name="stars" value="2" />
 		<property name="actor" ref="customer2" />
 		<property name="commentableEntity" ref="customer1" />
+		<property name="banned" value="false" />
 	</bean>
 
 	<bean id="comment6" class="domain.Comment">
@@ -285,6 +290,7 @@
 		<property name="stars" value="5" />
 		<property name="actor" ref="customer2" />
 		<property name="commentableEntity" ref="request1" />
+		<property name="banned" value="false" />
 	</bean>
 
 	<bean id="comment7" class="domain.Comment">
@@ -294,6 +300,7 @@
 		<property name="stars" value="4" />
 		<property name="actor" ref="customer3" />
 		<property name="commentableEntity" ref="request1" />
+		<property name="banned" value="false" />
 	</bean>
 
 	<bean id="comment8" class="domain.Comment">
@@ -303,6 +310,7 @@
 		<property name="stars" value="1" />
 		<property name="actor" ref="customer1" />
 		<property name="commentableEntity" ref="request1" />
+		<property name="banned" value="false" />
 	</bean>
 
 	<bean id="comment9" class="domain.Comment">
@@ -312,6 +320,7 @@
 		<property name="stars" value="4" />
 		<property name="actor" ref="customer3" />
 		<property name="commentableEntity" ref="offer1" />
+		<property name="banned" value="false" />
 	</bean>
 
 

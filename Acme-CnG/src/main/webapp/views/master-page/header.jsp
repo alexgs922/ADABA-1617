@@ -27,7 +27,8 @@
 					<li class="arrow"></li>
 					<li><a href="banner/administrator/list.do"><spring:message code="master.page.administrator.list" /></a></li>
 					<li><a href="requestOffer/administrator/listRequests.do"><spring:message code="master.page.customer.listRequests" /></a></li>
-					<li><a href="requestOffer/administrator/listOffers.do"><spring:message code="master.page.customer.listOffers" /></a></li>					
+					<li><a href="requestOffer/administrator/listOffers.do"><spring:message code="master.page.customer.listOffers" /></a></li>		
+					<li><a href="comment/administrator/listComments.do"><spring:message code="master.page.administrator.listComments" /></a></li>			
 				</ul>
 			</li>
 			
