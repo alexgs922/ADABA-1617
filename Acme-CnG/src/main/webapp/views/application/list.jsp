@@ -45,7 +45,7 @@
 			<jstl:when test="${row.status == 'ACCEPTED' }">
 			
 					<a>
-						Aceptada
+						<spring:message code = "application.accepted"/>
 					</a>
 			
 			</jstl:when>
@@ -68,7 +68,7 @@
 				<jstl:when test="${row.status == 'DENIED' }">
 				
 						<a>
-							Denegada
+							<spring:message code = "application.denied"/>
 						</a>
 					
 				</jstl:when>
