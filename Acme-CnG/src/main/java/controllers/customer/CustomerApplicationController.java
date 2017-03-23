@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ApplicationService;
@@ -60,6 +61,34 @@ public class CustomerApplicationController extends AbstractController {
 		result.addObject("applications", applications);
 		result.addObject("requestURI", "application/customer/listMyRequestOfferApplications.do");
 		result.addObject("principal", customer);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/accept", method = RequestMethod.GET)
+	public ModelAndView acceptApplication(@RequestParam final int applicationId) {
+		ModelAndView result;
+		Application application;
+
+		application = this.applicationService.findOne(applicationId);
+
+		this.applicationService.accept(application);
+
+		result = new ModelAndView("redirect:listMyRequestApplications.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/deny", method = RequestMethod.GET)
+	public ModelAndView denyApplication(@RequestParam final int applicationId) {
+		ModelAndView result;
+		Application application;
+
+		application = this.applicationService.findOne(applicationId);
+
+		this.applicationService.deny(application);
+
+		result = new ModelAndView("redirect:listMyRequestOfferApplications.do");
 
 		return result;
 	}

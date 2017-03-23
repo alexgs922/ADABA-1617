@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import repositories.ApplicationRepository;
 import domain.Application;
 import domain.Customer;
+import domain.Status;
 
 @Service
 @Transactional
@@ -20,6 +21,9 @@ public class ApplicationService {
 
 	@Autowired
 	private ApplicationRepository	applicationRepository;
+
+	@Autowired
+	private CustomerService			customerService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -83,5 +87,37 @@ public class ApplicationService {
 		res = this.applicationRepository.findCustomerRequestOfferApplications(customer.getId());
 
 		return res;
+	}
+
+	public void accept(final Application application) {
+		Assert.notNull(application);
+
+		Customer customer;
+
+		customer = this.customerService.findByPrincipal();
+
+		Assert.isTrue(application.getRequestOffer().getCustomer().getId() == customer.getId());
+		Assert.isTrue(application.getStatus().equals(Status.PENDING));
+
+		application.setStatus(Status.ACCEPTED);
+
+		this.applicationRepository.save(application);
+
+	}
+
+	public void deny(final Application application) {
+		Assert.notNull(application);
+
+		Customer customer;
+
+		customer = this.customerService.findByPrincipal();
+
+		Assert.isTrue(application.getRequestOffer().getCustomer().getId() == customer.getId());
+		Assert.isTrue(application.getStatus().equals(Status.PENDING));
+
+		application.setStatus(Status.DENIED);
+
+		this.applicationRepository.save(application);
+
 	}
 }
