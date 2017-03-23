@@ -90,6 +90,13 @@
 		<jstl:out
 			value="(${off.destinationPlace.length},${off.destinationPlace.latitude })" />
 	</display:column>
+	
+	<display:column>
+			<a
+				href="comment/listComments.do?commentableEntityId=${off.id}">
+				<spring:message code="list.comments" />
+			</a>
+	</display:column>
 
 
 </display:table>
