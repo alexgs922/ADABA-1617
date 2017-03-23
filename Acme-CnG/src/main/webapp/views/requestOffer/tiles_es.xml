@@ -25,17 +25,7 @@
 		<put-attribute name="title" value="Lista de Ofertas" />
 		<put-attribute name="body" value="/views/requestOffer/list.jsp" />
 	</definition>
-	
-	<definition name="requestOffer/administrator/listRequests" extends="master.page">	
-		<put-attribute name="title" value="Lista de Peticiones" />
-		<put-attribute name="body" value="/views/requestOffer/list.jsp" />
-	</definition>
-	
-	<definition name="requestOffer/administrator/listOffers" extends="master.page">	
-		<put-attribute name="title" value="Lista de Ofertas" />
-		<put-attribute name="body" value="/views/requestOffer/list.jsp" />
-	</definition>
-	
+		
 	<definition name="requestOffer/edit" extends="master.page">	
 		<put-attribute name="title" value="Edición de peticion u oferta" />
 		<put-attribute name="body" value="/views/requestOffer/edit.jsp" />
@@ -45,5 +35,12 @@
 		<put-attribute name="title" value="Mis peticiones y ofertas" />
 		<put-attribute name="body" value="/views/requestOffer/mine.jsp" />
 	</definition>
+	
+	
+	<definition name="requestOffer/customer/search" extends="master.page">	
+		<put-attribute name="title" value="Buscar" />
+		<put-attribute name="body" value="/views/requestOffer/search.jsp" />
+	</definition>
+	
 	
 </tiles-definitions>

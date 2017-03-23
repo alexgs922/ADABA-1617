@@ -239,6 +239,15 @@ public class RequestOfferService {
 		return banned;
 	}
 
+	public Collection<RequestOffer> findRequestOfferByKeyword(String keyword){
+		Assert.notNull(keyword);
+		Collection<RequestOffer> coll;
+		
+		coll = this.requestOfferRepository.searchByKeyword(keyword);
+		Assert.notNull(coll);
+		return coll;
+	}
+	
 	public void flush() {
 		this.requestOfferRepository.flush();
 

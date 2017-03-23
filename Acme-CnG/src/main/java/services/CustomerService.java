@@ -150,4 +150,10 @@ public class CustomerService {
 		return res;
 	}
 
+	public void flush() {
+		this.customerRepository.flush();
+
+	}
+
+	
 }

@@ -48,6 +48,7 @@
 
 		<security:intercept-url pattern="/requestOffer/listRequests.do" access="hasAnyRole('CUSTOMER','ADMIN')" /> 
 		<security:intercept-url pattern="/requestOffer/listOffers.do" access="hasAnyRole('CUSTOMER','ADMIN')" /> 
+		<security:intercept-url pattern="/requestOffer/listRequestOffer.do" access="hasAnyRole('CUSTOMER','ADMIN')" />
 		<security:intercept-url pattern="/requestOffer/customer/**" access="hasAnyRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/application/customer/**" access="hasAnyRole('CUSTOMER')" />
 		
@@ -59,6 +60,8 @@
 
 		
 		<security:intercept-url pattern="/customer/requestOffer/applyRequest.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/customer/requestOffer/search.do" access="hasRole('CUSTOMER')" />
+
 
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
