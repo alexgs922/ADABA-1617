@@ -132,9 +132,15 @@ public class CustomerRequestOfferController extends AbstractController {
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public ModelAndView search(){
 		ModelAndView result;
-		result = new ModelAndView("requestOffer/customer/search");
-		return result;
+		Collection<RequestOffer> requests;
 
+		requests = this.requestOfferService.findAll();
+		result = new ModelAndView("requestOffer/customer/search");
+
+		result.addObject("requestOffers", requests);
+		result.addObject("requestURI", "requestOffer/customer/listRequests.do");
+		
+		return result;
 	}
 	
 	@RequestMapping(value="/listByKeyword", method=RequestMethod.GET)
@@ -142,7 +148,7 @@ public class CustomerRequestOfferController extends AbstractController {
 		ModelAndView result;
 		Collection<RequestOffer> requestOffer;
 		requestOffer = this.requestOfferService.findRequestOfferByKeyword(keyword);
-		result = new ModelAndView("requestOffer/customer/listRequests");
+		result = new ModelAndView("requestOffer/customer/search");
 		result.addObject("requestURI", "recipe/listByKeyword.do");
 		result.addObject("requestOffers", requestOffer);
 		return result;
