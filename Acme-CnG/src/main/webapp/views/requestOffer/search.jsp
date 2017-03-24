@@ -18,9 +18,7 @@
 	<input type="text" name="keyword"/> <br />
 	<br>
 	<input type="submit" value="<spring:message code="requestOffer.search" />" /> 	 
-	<input type="button" value="<spring:message code="requestOffer.return" />"
-	onclick="javascript: history.back()" />
-</form>
+	</form>
 
 
 <display:table pagesize="10" class="displaytag" name="requestOffers"

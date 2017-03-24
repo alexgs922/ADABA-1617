@@ -88,7 +88,10 @@ public class CommentService {
 	}
 
 	public Comment save(final Comment c) {
+		Actor sender = this.actorService.findByPrincipal();		
 		Assert.notNull(c);
+		
+		Assert.isTrue((c.getActor().getId()==sender.getId()));
 		return this.commentRepository.save(c);
 
 	}
