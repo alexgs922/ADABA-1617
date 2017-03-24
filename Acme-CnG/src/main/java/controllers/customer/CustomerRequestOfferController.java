@@ -1,7 +1,9 @@
 
 package controllers.customer;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CustomerService;
 import services.RequestOfferService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Application;
 import domain.Customer;
 import domain.RequestOffer;
@@ -113,6 +116,8 @@ public class CustomerRequestOfferController extends AbstractController {
 		Collection<RequestOffer> requests;
 		Collection<RequestOffer> offers;
 		Collection<RequestOffer> banned;
+		Collection<Application> applications;
+
 		Customer principal;
 
 		principal = this.customerService.findByPrincipal();
@@ -132,13 +137,26 @@ public class CustomerRequestOfferController extends AbstractController {
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public ModelAndView search(){
 		ModelAndView result;
-		Collection<RequestOffer> requests;
+		List<RequestOffer> requests;
+		Customer principal;
+		Collection<Application> applications;
+		
+		principal = this.customerService.findByPrincipal();
 
-		requests = this.requestOfferService.findAll();
+		
+		Collection<RequestOffer> offerNotBanned = this.requestOfferService.findAllOffersNotBanned();
+		Collection<RequestOffer> requestNotBanned = this.requestOfferService.findAllRequestNotBanned();
+		
+		requests = new ArrayList<RequestOffer>(offerNotBanned);
+		requests.addAll(requestNotBanned);
+		
+		applications = principal.getApplications();
+		
 		result = new ModelAndView("requestOffer/customer/search");
 
 		result.addObject("requestOffers", requests);
 		result.addObject("requestURI", "requestOffer/customer/listRequests.do");
+		result.addObject("applications", applications);
 		
 		return result;
 	}

@@ -53,11 +53,15 @@ public class PrivateMessageService {
 
 	public PrivateMessage create(final Actor c) {
 		PrivateMessage res;
+		Actor c1 = actorService.findByPrincipal();
 
 		res = new PrivateMessage();
+		//Assert.isTrue(c.getId() == c1.getId());
+		
 		res.setRecipient(c);
 		res.setCopy(true);
 
+		
 		return res;
 	}
 
@@ -142,72 +146,70 @@ public class PrivateMessageService {
 		final Collection<PrivateMessage> cs = c.getSendedMessages();
 		cs.add(message2);
 
+		//Assert.isTrue(c.getId() == m.getSender().getId());
+		
 		this.privateMessageRepository.save(message2);
 		this.privateMessageRepository.save(message1);
 
 	}
 
-	public void deleteReceived2(final PrivateMessage m) {
+
+	
+	public void save2(final PrivateMessage m) {
 		Assert.notNull(m);
 
-		final Actor principal = this.actorService.findByPrincipal();
-		final Collection<PrivateMessage> recibidos = this.myRecivedMessages(principal.getId());
+		final Actor c = this.actorService.findByPrincipal();
 
-		final Collection<PrivateMessage> todosPrincipal = new ArrayList<PrivateMessage>();
-		todosPrincipal.addAll(recibidos);
+		final PrivateMessage message1 = new PrivateMessage();
+		message1.setTitle(m.getTitle());
+		message1.setText(m.getText());
+		message1.setMoment(m.getMoment());
+		message1.setAttachments(m.getAttachments());
+		message1.setRecipient(m.getRecipient());
+		message1.setSender(m.getSender());
+		message1.setCopy(false);
 
-		final Collection<PrivateMessage> todosSender = new ArrayList<PrivateMessage>();
-		todosSender.addAll(this.mySendedMessages(m.getSender().getId()));
+		final PrivateMessage message2 = new PrivateMessage();
+		message2.setTitle(m.getTitle());
+		message2.setText(m.getText());
+		message2.setMoment(m.getMoment());
+		message2.setAttachments(m.getAttachments());
+		message2.setRecipient(m.getRecipient());
+		message2.setSender(m.getSender());
+		message1.setCopy(true);
 
-		Assert.isTrue(principal.getId() == m.getSender().getId() || principal.getId() == m.getRecipient().getId());
-		if (recibidos.contains(m)) {
-			recibidos.remove(m);
-			principal.setRecivedMessages(recibidos);
-			this.actorService.save(principal);
+		final Collection<PrivateMessage> cr = m.getRecipient().getRecivedMessages();
+		cr.add(message1);
 
-		}
+		final Collection<PrivateMessage> cs = c.getSendedMessages();
+		cs.add(message2);
 
-		if (!todosPrincipal.contains(m) && !todosSender.contains(m))
-			this.privateMessageRepository.delete(m);
+		Assert.isTrue(c.getId() == m.getRecipient().getId());
+		
+		this.privateMessageRepository.save(message2);
+		this.privateMessageRepository.save(message1);
 
 	}
 
-	public void deleteSent2(final PrivateMessage m) {
-		Assert.notNull(m);
 
-		final Actor principal = this.actorService.findByPrincipal();
-		final Collection<PrivateMessage> enviados = this.mySendedMessages(principal.getId());
-
-		final Collection<PrivateMessage> todosPrincipal = new ArrayList<PrivateMessage>();
-		todosPrincipal.addAll(enviados);
-
-		final Collection<PrivateMessage> todosRecipient = new ArrayList<PrivateMessage>();
-		todosRecipient.addAll(this.mySendedMessages(m.getRecipient().getId()));
-
-		Assert.isTrue(principal.getId() == m.getSender().getId() || principal.getId() == m.getRecipient().getId());
-
-		if (enviados.contains(m)) {
-			enviados.remove(m);
-			final Collection<PrivateMessage> nuevos = new ArrayList<PrivateMessage>();
-			nuevos.addAll(enviados);
-			principal.setSendedMessages(nuevos);
-			this.actorService.save(principal);
-
-		}
-
-		if (!todosPrincipal.contains(m) && !todosRecipient.contains(m))
-			this.privateMessageRepository.delete(m);
-
-	}
-
+	
+	
+	
 	public void deleteReceived(final PrivateMessage m) {
+		Actor principal = this.actorService.findByPrincipal();
 		Assert.notNull(m);
+		
+		Assert.isTrue(principal.getId() == m.getRecipient().getId());
+		
 		this.privateMessageRepository.delete(m.getId());
 
 	}
 
 	public void deleteSent(final PrivateMessage m) {
 		Assert.notNull(m);
+		Actor principal = this.actorService.findByPrincipal();
+		Assert.isTrue(principal.getId() == m.getSender().getId());
+		
 		this.privateMessageRepository.delete(m.getId());
 
 	}

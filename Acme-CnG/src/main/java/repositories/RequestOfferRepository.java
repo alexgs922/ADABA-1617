@@ -44,6 +44,6 @@ public interface RequestOfferRepository extends
 	@Query("select avg(o.size) from Customer c join c.requestsOffers o where o.requestOrOffer = 0")
 	Double averageNumberOfRequestPerCustomer();
 
-	@Query("select r from RequestOffer r where r.title like %?1% or r.description like %?1% or r.originPlace.address like %?1% or r.destinationPlace.address like %?1%")
+	@Query("select r from RequestOffer r where (r.title like %?1% or r.description like %?1% or r.originPlace.address like %?1% or r.destinationPlace.address like %?1%) and r.banned = false")
 	Collection<RequestOffer> searchByKeyword(String keyword);
 }
