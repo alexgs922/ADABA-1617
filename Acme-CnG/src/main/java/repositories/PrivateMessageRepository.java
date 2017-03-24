@@ -22,10 +22,22 @@ public interface PrivateMessageRepository extends JpaRepository<PrivateMessage, 
 	@Query("select m from Actor c join c.sendedMessages m where m.copy=true and c.id=?1")
 	Collection<PrivateMessage> mySendedMessages(int actorId);
 
-	@Query("select min(a.sendedMessages.size),avg(a.sendedMessages.size),max(a.sendedMessages.size) from Actor a")
-	Collection<Object> minAvgMaxMessagesSentPerActor();
+	@Query("select count(m) from Actor a join a.sendedMessages m where m.copy=true group by a.id having count(m)<= ALL (select count(m1) from Actor a1 join a1.sendedMessages m1 where m1.copy=true group by a1.id))")
+	Double minNumberMessagesSentPerActor();
 
-	@Query("select min(a.recivedMessages.size),avg(a.recivedMessages.size),max(a.recivedMessages.size) from Actor a")
-	Collection<Object> minAvgMaxMessagesRecivedMessagesPerActor();
+	@Query("select count(m) from Actor a join a.sendedMessages m where m.copy=true group by a.id having count(m)>= ALL (select count(m1) from Actor a1 join a1.sendedMessages m1 where m1.copy=true group by a1.id)")
+	Double maxNumberMessagesSentPerActor();
+
+	@Query("select (count(m)*1.0)/(select count(a1)*1.0 from Actor a1) from Actor a join a.sendedMessages m where m.copy=true")
+	Double averageNumberMessagesSentPerActor();
+
+	@Query("select count(m) from Actor a join a.recivedMessages m where m.copy=false group by a.id having count(m)<= ALL (select count(m1) from Actor a1 join a1.recivedMessages m1 where m1.copy=false group by a1.id)")
+	Double minNumberMessagesReceivedPerActor();
+
+	@Query("select count(m) from Actor a join a.recivedMessages m where m.copy=false group by a.id having count(m)>= ALL (select count(m1) from Actor a1 join a1.recivedMessages m1 where m1.copy=false group by a1.id)")
+	Double maxNumberMessagesReceivedPerActor();
+
+	@Query("select (count(m)*1.0)/(select count(a1)*1.0 from Actor a1) from Actor a join a.recivedMessages m where m.copy=false")
+	Double averageNumberMessagesReceivedPerActor();
 
 }
