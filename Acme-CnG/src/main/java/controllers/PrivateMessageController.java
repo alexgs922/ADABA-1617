@@ -106,8 +106,7 @@ public class PrivateMessageController extends AbstractController {
 			result = this.createEditModelAndView(messageToEdit);
 		else
 			try {
-
-				this.privateMessageService.save2(messageToEdit);
+				this.privateMessageService.save(messageToEdit);
 				result = new ModelAndView("redirect:/message/listSentMessages.do");
 
 			} catch (final Throwable th) {

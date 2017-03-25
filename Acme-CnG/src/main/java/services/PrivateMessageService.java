@@ -1,7 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -53,15 +52,13 @@ public class PrivateMessageService {
 
 	public PrivateMessage create(final Actor c) {
 		PrivateMessage res;
-		Actor c1 = actorService.findByPrincipal();
+		final Actor c1 = this.actorService.findByPrincipal();
 
 		res = new PrivateMessage();
-		//Assert.isTrue(c.getId() == c1.getId());
-		
+
 		res.setRecipient(c);
 		res.setCopy(true);
 
-		
 		return res;
 	}
 
@@ -143,73 +140,31 @@ public class PrivateMessageService {
 		final Collection<PrivateMessage> cr = m.getRecipient().getRecivedMessages();
 		cr.add(message1);
 
-		final Collection<PrivateMessage> cs = c.getSendedMessages();
+		final Collection<PrivateMessage> cs = m.getSender().getSendedMessages();
 		cs.add(message2);
 
-		//Assert.isTrue(c.getId() == m.getSender().getId());
-		
+		Assert.isTrue(c.getId() == m.getSender().getId());
+
 		this.privateMessageRepository.save(message2);
 		this.privateMessageRepository.save(message1);
 
 	}
 
-
-	
-	public void save2(final PrivateMessage m) {
-		Assert.notNull(m);
-
-		final Actor c = this.actorService.findByPrincipal();
-
-		final PrivateMessage message1 = new PrivateMessage();
-		message1.setTitle(m.getTitle());
-		message1.setText(m.getText());
-		message1.setMoment(m.getMoment());
-		message1.setAttachments(m.getAttachments());
-		message1.setRecipient(m.getRecipient());
-		message1.setSender(m.getSender());
-		message1.setCopy(false);
-
-		final PrivateMessage message2 = new PrivateMessage();
-		message2.setTitle(m.getTitle());
-		message2.setText(m.getText());
-		message2.setMoment(m.getMoment());
-		message2.setAttachments(m.getAttachments());
-		message2.setRecipient(m.getRecipient());
-		message2.setSender(m.getSender());
-		message1.setCopy(true);
-
-		final Collection<PrivateMessage> cr = m.getRecipient().getRecivedMessages();
-		cr.add(message1);
-
-		final Collection<PrivateMessage> cs = c.getSendedMessages();
-		cs.add(message2);
-
-		Assert.isTrue(c.getId() == m.getRecipient().getId());
-		
-		this.privateMessageRepository.save(message2);
-		this.privateMessageRepository.save(message1);
-
-	}
-
-
-	
-	
-	
 	public void deleteReceived(final PrivateMessage m) {
-		Actor principal = this.actorService.findByPrincipal();
+		final Actor principal = this.actorService.findByPrincipal();
 		Assert.notNull(m);
-		
+
 		Assert.isTrue(principal.getId() == m.getRecipient().getId());
-		
+
 		this.privateMessageRepository.delete(m.getId());
 
 	}
 
 	public void deleteSent(final PrivateMessage m) {
 		Assert.notNull(m);
-		Actor principal = this.actorService.findByPrincipal();
+		final Actor principal = this.actorService.findByPrincipal();
 		Assert.isTrue(principal.getId() == m.getSender().getId());
-		
+
 		this.privateMessageRepository.delete(m.getId());
 
 	}
