@@ -120,4 +120,16 @@ public class ApplicationService {
 		this.applicationRepository.save(application);
 
 	}
+
+	public Double findAverageNumberApplicationsPerOffer() {
+		final Double res = this.applicationRepository.findAverageNumberApplicationsPerOffer();
+
+		return res;
+	}
+
+	public Double findAverageNumberApplicationsPerRequest() {
+		final Double res = this.applicationRepository.findAverageNumberApplicationsPerRequest();
+
+		return res;
+	}
 }

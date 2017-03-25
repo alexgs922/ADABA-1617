@@ -166,4 +166,14 @@ public class CustomerService {
 
 	}
 
+	public Collection<Customer> findCustomersWithMoreAcceptedApplications() {
+		final Collection<Customer> res = this.customerRepository.findCustomersWithMoreAcceptedApplications();
+		return res;
+	}
+
+	public Collection<Customer> findCustomersWithMoreDeniedApplications() {
+		final Collection<Customer> res = this.customerRepository.findCustomersWithMoreDeniedApplications();
+		return res;
+	}
+
 }
