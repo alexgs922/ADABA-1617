@@ -216,6 +216,23 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 	}
 
+	// CASO DE USO 3 : CREACIÓN DE REQUESTS  ---------------------------------------------------------------------------------
+
+	protected void templateCreateRequest(final String username, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+
+	}
+
 	//	@Test
 	//	public void testReconstructAndCreate() {
 	//
