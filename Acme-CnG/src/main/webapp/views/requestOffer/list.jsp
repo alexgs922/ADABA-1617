@@ -24,6 +24,15 @@
 			<jstl:set var = "applied" value = "${1}"/>
 		</jstl:if>
 	</jstl:forEach>
+	
+	<spring:message code="requestOffer.author" var="requestOfferAuthor" />
+	<display:column title="${requestOfferAuthor}"
+		sortable="true" >
+			<a
+				href="customer/profile.do?customerId=${row.customer.id}">
+				<jstl:out value="${row.customer.userAccount.username}"></jstl:out>
+			</a>
+	</display:column>
 
 	<spring:message code="requestOffer.title" var="requestOfferTitle" />
 	<display:column property="title" title="${requestOfferTitle}"

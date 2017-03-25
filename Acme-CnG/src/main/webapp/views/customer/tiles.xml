@@ -41,6 +41,11 @@
 		<put-attribute name="body" value="/views/customer/comment.jsp" />
 	</definition>
 	
+	<definition name="customer/profile" extends="master.page">
+		<put-attribute name="title" value="Profile" />
+		<put-attribute name="body" value="/views/customer/profile.jsp" />
+	</definition>
+	
 	
 	<definition name="comment/listComments" extends="master.page">
 		<put-attribute name="title" value="List comments" />
