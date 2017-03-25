@@ -20,7 +20,7 @@
 	requestURI="${requestURI}" id="row">
 	
 	<jstl:forEach var = "x" items ="${applications}">
-		<jstl:if test="${x.requestOffer.id == row.id }">
+		<jstl:if test="${x.requestOffer.id == row.id}">
 			<jstl:set var = "applied" value = "${1}"/>
 		</jstl:if>
 	</jstl:forEach>
@@ -42,27 +42,32 @@
 		var="requestOfferOriginPlace" />
 	<display:column title="${requestOfferOriginPlace}" sortable="true">
 		<jstl:out value="${row.originPlace.address }" />
-		<jstl:out
-			value="(${row.originPlace.length},${row.originPlace.latitude })" />
+		<jstl:if test ="${row.originPlace.length != null && row.originPlace.latitude != null }">
+			<jstl:out
+				value="(${row.originPlace.length},${row.originPlace.latitude })" />
+		</jstl:if>	
 	</display:column>
 
 	<spring:message code="requestOffer.destinationPlace"
 		var="requestOfferDestinationPlace" />
 	<display:column title="${requestOfferDestinationPlace}" sortable="true">
 		<jstl:out value="${row.destinationPlace.address }" />
-		<jstl:out
-			value="(${row.destinationPlace.length},${row.destinationPlace.latitude })" />
+		<jstl:if test ="${row.destinationPlace.length != null && row.destinationPlace.latitude != null }">
+			<jstl:out value="(${row.destinationPlace.length},${row.destinationPlace.latitude })" />
+		</jstl:if>	
 	</display:column>
 
 	<security:authorize access="hasRole('CUSTOMER')">
 		<display:column>
 			<jstl:choose>
-				<jstl:when test="${row.requestOrOffer == 'REQUEST' && row.customer.id != principal.id && applied != 1}">
+				<jstl:when test="${row.requestOrOffer == 'REQUEST' && row.customer.id != principal.id && applied != 1}">  
 					<a
 						href="requestOffer/customer/applyRequest.do?requestOfferId=${row.id}">
 						<spring:message code="requestOffer.apply" />
 					</a>
-				</jstl:when>
+				</jstl:when>  
+			
+			
 				
 				<jstl:when test="${row.requestOrOffer == 'OFFER' && row.customer.id != principal.id && applied != 1}">
 					<a
