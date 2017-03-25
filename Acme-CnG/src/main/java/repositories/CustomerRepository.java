@@ -21,4 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	@Query("select c from Customer c join c.applications a where a.status = 2 group by c having count(a) >= ALL(select count(a2) from Customer c2 join c2.applications a2 group by c2)")
 	Collection<Customer> findCustomersWithMoreDeniedApplications();
 
+	@Query("select c from Customer c where c.userAccount.username = ?1")
+	Customer findCustomerByUsername(String username);
+
 }

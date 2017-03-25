@@ -155,5 +155,15 @@ public class CustomerService {
 
 	}
 
-	
+	public Customer findCustomerByUsername(final String username) {
+		Customer c;
+		Assert.notNull(username);
+
+		c = this.customerRepository.findCustomerByUsername(username);
+		Assert.notNull(username);
+
+		return c;
+
+	}
+
 }
