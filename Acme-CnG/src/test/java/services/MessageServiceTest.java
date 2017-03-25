@@ -36,6 +36,7 @@ public class MessageServiceTest extends AbstractTest {
 	//Customers = 98,99,100
 	//Admin = 97
 
+	//Crear mensajes sin errores de validacion y otros casos comunes
 	protected void template(final String username, final int enviarId, final int recibirId, final Class<?> expected) {
 
 		Class<?> caught;
@@ -110,6 +111,7 @@ public class MessageServiceTest extends AbstractTest {
 
 	}
 
+	//Crear mensajes con errores de validacion
 	protected void template2(final String username, final int enviarId, final int recibirId, final int opcionId, final Class<?> expected) {
 
 		Class<?> caught;
@@ -135,7 +137,7 @@ public class MessageServiceTest extends AbstractTest {
 				pm.setCopy(true);
 				pm.setRecipient(recibe);
 				pm.setSender(envia);
-				pm.setText("Me gustaria asistir mañana dia 15 a las 9:00");
+				pm.setTitle("Reunion de mañana");
 
 			}
 			if (opcionId == 2) {
@@ -143,7 +145,26 @@ public class MessageServiceTest extends AbstractTest {
 				pm.setCopy(true);
 				pm.setRecipient(recibe);
 				pm.setSender(envia);
+				pm.setText("Me gustaria asistir mañana dia 15 a las 9:00");
+
+			}
+			if (opcionId == 3) {
+				pm.setAttachments("");
+				pm.setCopy(true);
+				pm.setSender(envia);
 				pm.setTitle("Reunion de mañana");
+				pm.setText("Me gustaria asistir mañana dia 15 a las 9:00");
+
+			}
+			if (opcionId == 4) {
+				pm.setAttachments("");
+				pm.setCopy(true);
+				pm.setRecipient(recibe);
+				pm.setTitle("Reunion de mañana");
+				pm.setText("Me gustaria asistir mañana dia 15 a las 9:00");
+
+			}
+			if (opcionId == 5) {
 
 			}
 
@@ -163,11 +184,21 @@ public class MessageServiceTest extends AbstractTest {
 	public void driver2() {
 
 		final Object testingData[][] = {
-			{   //customer 1 envia mensaje sin titulo a customer 2
-				"customer1", 98, 99, 1, ConstraintViolationException.class
+			{
+				//customer 2 intenta enviar mensaje sin texto a customer 1
+				"customer2", 99, 98, 1, ConstraintViolationException.class
 			}, {
-				//customer 2 enviar mensaje sin texto a customer 1
-				"customer2", 99, 98, 2, ConstraintViolationException.class
+				//customer 3 intenta enviar mensaje sin titulo a customer 2
+				"customer3", 100, 99, 2, ConstraintViolationException.class
+			}, {
+				//customer 1 intenta enviar mensaje sin recipient
+				"customer1", 98, 99, 3, NullPointerException.class
+			}, {
+				//No existe sender
+				"customer1", 98, 99, 4, NullPointerException.class
+			}, {
+				//Mensaje vacio
+				"customer1", 98, 99, 5, NullPointerException.class
 			}
 
 		};
