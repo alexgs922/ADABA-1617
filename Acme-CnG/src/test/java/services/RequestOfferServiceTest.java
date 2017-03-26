@@ -285,4 +285,63 @@ public class RequestOfferServiceTest extends AbstractTest {
 	//
 	//	}
 
+	// CASO DE USO 4 : SOLICITAR UNA REQUEST/OFFER  ---------------------------------------------------------------------------------
+
+	protected void templateApplyRequestOffer(final String username, final RequestOffer requestOffer, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+			this.authenticate(username);
+
+			this.requestOfferService.applyRequestOffer(requestOffer);
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverApplyRequestOffer() {
+
+		final RequestOffer request1 = this.requestOfferService.findOne(117); // Obtenemos la request con id = 117 
+		final RequestOffer request2 = this.requestOfferService.findOne(118); // Obtenemos la request con id = 118 
+		final RequestOffer offer1 = this.requestOfferService.findOne(113); //Obtenemos la offer con id = 113
+		final RequestOffer offer4 = this.requestOfferService.findOne(116); //Obtenemos la offer con id = 116
+
+		final Object testingData[][] = {
+			//TEST POSITIVO: Solicitar una request correctamente. Se solicita una request que no es del customer1.
+			{
+				"customer1", request2, null
+			},
+			//TEST POSITIVO: Solicitar una offer correctamente. Se solicita una request que no es del customer2
+			{
+				"customer2", offer1, null
+			},
+			//TEST NEGATIVO: Solicitar una request que pertenece al customer que la creó.
+			{
+				"customer2", request1, IllegalArgumentException.class
+			},
+			//TEST NEGATIVO: Solicitar una request que pertenece al customer que la creó.
+			{
+				"customer2", offer4, IllegalArgumentException.class
+			},
+			//TEST NEGATIVO: Solicitar una request que ya esta solicitada
+			{
+				"customer1", request1, IllegalArgumentException.class
+			}
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateApplyRequestOffer((String) testingData[i][0], (RequestOffer) testingData[i][1], (Class<?>) testingData[i][2]);
+
+	}
+
 }

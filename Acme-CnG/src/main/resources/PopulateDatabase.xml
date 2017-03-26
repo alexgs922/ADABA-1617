@@ -250,7 +250,7 @@
 		<property name="stars" value="2" />
 		<property name="actor" ref="customer2" />
 		<property name="commentableEntity" ref="customer3" />
-		<property name="banned" value="false" />
+		<property name="banned" value="true" />
 	</bean>
 
 	<bean id="comment3" class="domain.Comment">

@@ -110,6 +110,8 @@ public class CommentService {
 
 		//		Assert.isTrue(principal.getUserAccount().getAuthorities().contains(Authority.ADMIN));
 
+		Assert.isTrue(comment.isBanned() == false);
+
 		comment.setBanned(true);
 
 		this.commentRepository.save(comment);
