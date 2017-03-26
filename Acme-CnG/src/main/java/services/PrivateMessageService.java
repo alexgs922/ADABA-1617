@@ -190,4 +190,34 @@ public class PrivateMessageService {
 
 	}
 
+	public Double minNumberMessagesSentPerActor() {
+		final Double res = this.privateMessageRepository.minNumberMessagesSentPerActor();
+		return res;
+	}
+
+	public Double maxNumberMessagesSentPerActor() {
+		final Double res = this.privateMessageRepository.maxNumberMessagesSentPerActor();
+		return res;
+	}
+
+	public Double averageNumberMessagesSentPerActor() {
+		final Double res = this.privateMessageRepository.averageNumberMessagesSentPerActor();
+		return res;
+	}
+
+	public Double minNumberMessagesReceivedPerActor() {
+		final Double res = this.privateMessageRepository.minNumberMessagesReceivedPerActor();
+		return res;
+	}
+
+	public Double maxNumberMessagesReceivedPerActor() {
+		final Double res = this.privateMessageRepository.maxNumberMessagesReceivedPerActor();
+		return res;
+	}
+
+	public Double averageNumberMessagesReceivedPerActor() {
+		final Double res = this.privateMessageRepository.averageNumberMessagesReceivedPerActor();
+		return res;
+	}
+
 }
