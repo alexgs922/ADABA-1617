@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CustomerService;
 import services.RequestOfferService;
 import controllers.AbstractController;
-import domain.Actor;
 import domain.Application;
 import domain.Customer;
 import domain.RequestOffer;
@@ -41,8 +40,6 @@ public class CustomerRequestOfferController extends AbstractController {
 
 	//Methods ---------------------------------------------------------------
 
-
-	
 	@RequestMapping(value = "/listRequests", method = RequestMethod.GET)
 	public ModelAndView listAllRequests() {
 		ModelAndView result;
@@ -86,12 +83,20 @@ public class CustomerRequestOfferController extends AbstractController {
 	public ModelAndView applyRequest(@RequestParam final int requestOfferId) {
 		ModelAndView result;
 		RequestOffer requestOffer;
+		Customer customer;
+		Collection<Application> applications;
+
+		customer = this.customerService.findByPrincipal();
 
 		requestOffer = this.requestOfferService.findOne(requestOfferId);
 
 		this.requestOfferService.applyRequestOffer(requestOffer);
 
+		applications = customer.getApplications();
+
 		result = new ModelAndView("redirect:listRequests.do");
+		result.addObject("applications", applications);
+		result.addObject("principal", customer);
 
 		return result;
 	}
@@ -116,7 +121,7 @@ public class CustomerRequestOfferController extends AbstractController {
 		Collection<RequestOffer> requests;
 		Collection<RequestOffer> offers;
 		Collection<RequestOffer> banned;
-		Collection<Application> applications;
+		final Collection<Application> applications;
 
 		Customer principal;
 
@@ -133,36 +138,35 @@ public class CustomerRequestOfferController extends AbstractController {
 
 		return result;
 	}
-	
-	@RequestMapping(value="/search", method=RequestMethod.GET)
-	public ModelAndView search(){
+
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ModelAndView search() {
 		ModelAndView result;
 		List<RequestOffer> requests;
 		Customer principal;
 		Collection<Application> applications;
-		
+
 		principal = this.customerService.findByPrincipal();
 
-		
-		Collection<RequestOffer> offerNotBanned = this.requestOfferService.findAllOffersNotBanned();
-		Collection<RequestOffer> requestNotBanned = this.requestOfferService.findAllRequestNotBanned();
-		
+		final Collection<RequestOffer> offerNotBanned = this.requestOfferService.findAllOffersNotBanned();
+		final Collection<RequestOffer> requestNotBanned = this.requestOfferService.findAllRequestNotBanned();
+
 		requests = new ArrayList<RequestOffer>(offerNotBanned);
 		requests.addAll(requestNotBanned);
-		
+
 		applications = principal.getApplications();
-		
+
 		result = new ModelAndView("requestOffer/customer/search");
 
 		result.addObject("requestOffers", requests);
 		result.addObject("requestURI", "requestOffer/customer/listRequests.do");
 		result.addObject("applications", applications);
-		
+
 		return result;
 	}
-	
-	@RequestMapping(value="/listByKeyword", method=RequestMethod.GET)
-	public ModelAndView listByKeyword(@RequestParam String keyword){
+
+	@RequestMapping(value = "/listByKeyword", method = RequestMethod.GET)
+	public ModelAndView listByKeyword(@RequestParam final String keyword) {
 		ModelAndView result;
 		Collection<RequestOffer> requestOffer;
 		requestOffer = this.requestOfferService.findRequestOfferByKeyword(keyword);
@@ -173,8 +177,6 @@ public class CustomerRequestOfferController extends AbstractController {
 
 	}
 
-	
-	
 	// Register ------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)

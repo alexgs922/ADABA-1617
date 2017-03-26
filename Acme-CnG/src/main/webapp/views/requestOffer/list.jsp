@@ -19,6 +19,7 @@
 <display:table pagesize="5" class="displaytag" name="requestOffers"
 	requestURI="${requestURI}" id="row">
 	
+	<jstl:set var = "applied" value = "${0}"/>
 	<jstl:forEach var = "x" items ="${applications}">
 		<jstl:if test="${x.requestOffer.id == row.id}">
 			<jstl:set var = "applied" value = "${1}"/>
