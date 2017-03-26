@@ -161,6 +161,7 @@ public class CustomerRequestOfferController extends AbstractController {
 		result.addObject("requestOffers", requests);
 		result.addObject("requestURI", "requestOffer/customer/listRequests.do");
 		result.addObject("applications", applications);
+		result.addObject("principal", principal);
 
 		return result;
 	}
@@ -169,10 +170,19 @@ public class CustomerRequestOfferController extends AbstractController {
 	public ModelAndView listByKeyword(@RequestParam final String keyword) {
 		ModelAndView result;
 		Collection<RequestOffer> requestOffer;
+		Customer principal;
+		Collection<Application> applications;
+
 		requestOffer = this.requestOfferService.findRequestOfferByKeyword(keyword);
+		principal = this.customerService.findByPrincipal();
+		applications = principal.getApplications();
+
 		result = new ModelAndView("requestOffer/customer/search");
 		result.addObject("requestURI", "recipe/listByKeyword.do");
 		result.addObject("requestOffers", requestOffer);
+		result.addObject("principal", principal);
+		result.addObject("applications", applications);
+
 		return result;
 
 	}
