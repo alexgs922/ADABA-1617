@@ -324,4 +324,5 @@ public class RequestOfferService {
 		final Double res = this.requestOfferRepository.averageNumberOfRequestPerCustomer();
 		return res;
 	}
+
 }

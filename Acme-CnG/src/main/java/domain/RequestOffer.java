@@ -9,7 +9,9 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -20,6 +22,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(columnList = "requestOrOffer"), @Index(columnList = "requestOrOffer,customer_id, banned"), @Index(columnList = "requestOrOffer,banned"), @Index(columnList = "title,description,originAddress,destinationAddress,banned")
+})
 public class RequestOffer extends CommentableEntity {
 
 	//Constructor --------------------------------------------------------
