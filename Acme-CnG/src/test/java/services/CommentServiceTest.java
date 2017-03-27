@@ -2,6 +2,7 @@
 package services;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,33 @@ public class CommentServiceTest extends AbstractTest {
 	@Autowired
 	private CommentService	commentService;
 
+
+	//USE CASE 2: 
+		protected void templateCreateAComment(final String username, final int commentableEntity,final String text,final String title,final int stars, final Class<?> expected) {
+			
+			Class<?> caught;
+
+			caught = null;
+			try {
+				this.authenticate(username);
+
+				Comment c = this.commentService.create(commentableEntity);
+				c.setText(text);
+				c.setTitle(title);
+				c.setStars(stars);
+				this.commentService.save(c);
+				this.unauthenticate();
+				this.commentService.flush();
+			} catch (final Throwable oops) {
+				caught = oops.getClass();
+			}
+
+			this.checkExceptions(expected, caught);
+
+			
+			
+		}
+
 	
 	//USE CASE 1: 
 	protected void templateBanComment(final String username, final Comment comment, final Class<?> expected) {
@@ -47,29 +75,6 @@ public class CommentServiceTest extends AbstractTest {
 
 	}
 
-	//USE CASE 2: 
-		protected void templateCreateAComment(final String username, final int commentableEntity, final Class<?> expected) {
-			
-			Class<?> caught;
-
-			caught = null;
-			try {
-				this.authenticate(username);
-
-				Comment c = this.commentService.create(commentableEntity);
-				this.commentService.save(c);
-				this.unauthenticate();
-				
-			} catch (final Throwable oops) {
-				caught = oops.getClass();
-			}
-
-			this.checkExceptions(expected, caught);			
-			
-		}
-
-
-	
 	@Test
 	public void driverBanComment() {
 
@@ -98,15 +103,21 @@ public class CommentServiceTest extends AbstractTest {
 
 		final Object testingData[][] = {
 			//Crear un comentario valido
-			{"customer1", 113, null},
-			
+			{"customer1", 113, "Texto","Titulo",5,null},
 			//Intentar crear un comentario si no estas logeado
-			{null, 113, IllegalArgumentException.class},
-		
+			{null, 113,"Texto","titulo",5, IllegalArgumentException.class},
+			//Intentar crear un comentario vacio
+			{"customer1", 113,null,null,5, ConstraintViolationException.class},
+			//Intentar crear un comentario con un valor negativo de estrellas
+			{"customer1", 113,"texto","titulo",-1, ConstraintViolationException.class},
+			//Intentar crear un comentario con un valor superior al maximo
+			{"customer1", 113,"texto","titulo",6, ConstraintViolationException.class}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreateAComment((String) testingData[i][0], (int) testingData[i][1],(Class<?>) testingData[i][2]);
+			this.templateCreateAComment((String) testingData[i][0], (int) testingData[i][1],
+					(String) testingData[i][2], (String) testingData[i][3],
+					(int) testingData[i][4],(Class<?>) testingData[i][5]);
 
 	}
 
