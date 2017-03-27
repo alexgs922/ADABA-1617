@@ -81,6 +81,8 @@
 			access="isAnonymous()" />
 		<security:intercept-url pattern="/customer/dataProtection.do"
 			access="isAnonymous()" />
+		<security:intercept-url pattern="/customer/profile.do"
+			access="isAuthenticated()" />
 
 		<security:intercept-url pattern="/message/listReceivedMessages.do"
 			access="isAuthenticated()" />

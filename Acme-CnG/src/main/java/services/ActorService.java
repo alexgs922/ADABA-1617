@@ -105,4 +105,24 @@ public class ActorService {
 		return result;
 	}
 
+	public Collection<Actor> findActorsWhoPostedPlus10PercentOfAverageNumberOfComments() {
+		final Collection<Actor> res = this.actorRepository.findActorsWhoPostedPlus10PercentOfAverageNumberOfComments();
+		return res;
+	}
+
+	public Collection<Actor> findActorsWhoPostedLess10PercentOfAverageNumberOfComments() {
+		final Collection<Actor> res = this.actorRepository.findActorsWhoPostedLess10PercentOfAverageNumberOfComments();
+		return res;
+	}
+
+	public Collection<Actor> findActorwithMoreMessagesSent() {
+		final Collection<Actor> res = this.actorRepository.findActorwithMoreMessagesSent();
+		return res;
+	}
+
+	public Collection<Actor> findActorwithMoreMessagesReceived() {
+		final Collection<Actor> res = this.actorRepository.findActorWithMoreMessagesReceived();
+		return res;
+	}
+
 }

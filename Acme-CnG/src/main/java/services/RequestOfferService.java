@@ -239,17 +239,32 @@ public class RequestOfferService {
 		return banned;
 	}
 
-	public Collection<RequestOffer> findRequestOfferByKeyword(String keyword){
+	public Collection<RequestOffer> findRequestOfferByKeyword(final String keyword) {
 		Assert.notNull(keyword);
 		Collection<RequestOffer> coll;
-		
+
 		coll = this.requestOfferRepository.searchByKeyword(keyword);
 		Assert.notNull(coll);
 		return coll;
 	}
-	
+
 	public void flush() {
 		this.requestOfferRepository.flush();
 
+	}
+
+	public Double ratioOffersVsRequest() {
+		final Double res = this.requestOfferRepository.ratioOffersVsRequest();
+		return res;
+	}
+
+	public Double averageNumberOfOffersPerCustomer() {
+		final Double res = this.requestOfferRepository.averageNumberOfOffersPerCustomer();
+		return res;
+	}
+
+	public Double averageNumberOfRequestPerCustomer() {
+		final Double res = this.requestOfferRepository.averageNumberOfRequestPerCustomer();
+		return res;
 	}
 }

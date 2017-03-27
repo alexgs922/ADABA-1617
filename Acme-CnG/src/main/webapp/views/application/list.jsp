@@ -29,52 +29,55 @@
 	<spring:message code="application.status" var="applicationStatus" />
 	<display:column property = "status" title="${applicationStatus}" sortable="true" />
 	
-	
+	<jstl:if test="${row.requestOffer.customer.id == principal.id }">
 	<security:authorize access = "hasRole('CUSTOMER')">
 		<spring:message code="application.accept" var="applicationAccept" />
 		<display:column title="${applicationAccept}" sortable="true" >
-			<jstl:choose>
-				<jstl:when test="${row.status == 'PENDING'}">
+				<jstl:choose>
+					<jstl:when test="${row.status == 'PENDING'}">
 			
-					<a
-						href="application/customer/accept.do?applicationId=${row.id}">
-						<spring:message code="application.accept" />
-					</a>
-			
-			</jstl:when>
-			<jstl:when test="${row.status == 'ACCEPTED' }">
-			
-					<a>
-						<spring:message code = "application.accepted"/>
-					</a>
-			
-			</jstl:when>
-			</jstl:choose>
-		</display:column>
-	</security:authorize>
-	
-	<security:authorize access = "hasRole('CUSTOMER')">
-		<spring:message code="application.deny" var="applicationDeny" />
-		<display:column title="${applicationDeny}" sortable="true" >
-			<jstl:choose>
-				<jstl:when test="${row.status == 'PENDING' }">
 						<a
-							href="application/customer/deny.do?applicationId=${row.id}">
-							<spring:message code="application.deny" />
+							href="application/customer/accept.do?applicationId=${row.id}">
+							<spring:message code="application.accept" />
 						</a>
 			
-				</jstl:when>
+					</jstl:when>
+					<jstl:when test="${row.status == 'ACCEPTED' }">
 			
-				<jstl:when test="${row.status == 'DENIED' }">
-				
 						<a>
-							<spring:message code = "application.denied"/>
+							<spring:message code = "application.accepted"/>
 						</a>
+			
+					</jstl:when>
+				</jstl:choose>
+			</display:column>
+		</security:authorize>
+	</jstl:if>
+	
+	<jstl:if test="${row.requestOffer.customer.id == principal.id }">
+		<security:authorize access = "hasRole('CUSTOMER')">
+			<spring:message code="application.deny" var="applicationDeny" />
+			<display:column title="${applicationDeny}" sortable="true" >
+				<jstl:choose>
+					<jstl:when test="${row.status == 'PENDING' }">
+							<a
+								href="application/customer/deny.do?applicationId=${row.id}">
+								<spring:message code="application.deny" />
+							</a>
+			
+					</jstl:when>
+			
+					<jstl:when test="${row.status == 'DENIED' }">
+				
+							<a>
+								<spring:message code = "application.denied"/>
+							</a>
 					
-				</jstl:when>
-			</jstl:choose>
-		</display:column>
-	</security:authorize>
+					</jstl:when>
+				</jstl:choose>
+			</display:column>
+		</security:authorize>
+	</jstl:if>
 	
 	
 		

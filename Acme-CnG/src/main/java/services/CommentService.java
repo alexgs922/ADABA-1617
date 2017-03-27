@@ -88,10 +88,10 @@ public class CommentService {
 	}
 
 	public Comment save(final Comment c) {
-		Actor sender = this.actorService.findByPrincipal();		
+		final Actor sender = this.actorService.findByPrincipal();
 		Assert.notNull(c);
-		
-		Assert.isTrue((c.getActor().getId()==sender.getId()));
+
+		Assert.isTrue((c.getActor().getId() == sender.getId()));
 		return this.commentRepository.save(c);
 
 	}
@@ -110,6 +110,8 @@ public class CommentService {
 
 		//		Assert.isTrue(principal.getUserAccount().getAuthorities().contains(Authority.ADMIN));
 
+		Assert.isTrue(comment.isBanned() == false);
+
 		comment.setBanned(true);
 
 		this.commentRepository.save(comment);
@@ -124,4 +126,30 @@ public class CommentService {
 	 * 
 	 * }
 	 */
+
+	public Double findAverageNumberCommentsPerActor() {
+		final Double res = this.commentRepository.findAverageNumberCommentsPerActor();
+		return res;
+	}
+
+	public Double findAverageNumberCommentsPerOffer() {
+		final Double res = this.commentRepository.findAverageNumberCommentsPerOffer();
+		return res;
+	}
+
+	public Double findAverageNumberCommentsPerRequest() {
+		final Double res = this.commentRepository.findAverageNumberCommentsPerRequest();
+		return res;
+	}
+
+	public Double averageNumberCommentsPostedByCustomer() {
+		final Double res = this.commentRepository.averageNumberCommentsPostedByCustomer();
+		return res;
+	}
+
+	public Double averageNumberCommentsPostedByAdministrator() {
+		final Double res = this.commentRepository.averageNumberCommentsPostedByAdministrator();
+		;
+		return res;
+	}
 }
