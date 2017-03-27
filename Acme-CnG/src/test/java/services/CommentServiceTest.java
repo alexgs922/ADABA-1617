@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,7 +25,7 @@ public class CommentServiceTest extends AbstractTest {
 	@Autowired
 	private CommentService	commentService;
 
-
+	
 	//USE CASE 1: 
 	protected void templateBanComment(final String username, final Comment comment, final Class<?> expected) {
 
@@ -46,6 +47,29 @@ public class CommentServiceTest extends AbstractTest {
 
 	}
 
+	//USE CASE 2: 
+		protected void templateCreateAComment(final String username, final int commentableEntity, final Class<?> expected) {
+			
+			Class<?> caught;
+
+			caught = null;
+			try {
+				this.authenticate(username);
+
+				Comment c = this.commentService.create(commentableEntity);
+				this.commentService.save(c);
+				this.unauthenticate();
+				
+			} catch (final Throwable oops) {
+				caught = oops.getClass();
+			}
+
+			this.checkExceptions(expected, caught);			
+			
+		}
+
+
+	
 	@Test
 	public void driverBanComment() {
 
@@ -69,4 +93,23 @@ public class CommentServiceTest extends AbstractTest {
 
 	}
 
+	@Test
+	public void driverCreateComment() {
+
+		final Object testingData[][] = {
+			//Crear un comentario valido
+			{"customer1", 113, null},
+			
+			//Intentar crear un comentario si no estas logeado
+			{null, 113, IllegalArgumentException.class},
+		
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateCreateAComment((String) testingData[i][0], (int) testingData[i][1],(Class<?>) testingData[i][2]);
+
+	}
+
+	
+	
 }
