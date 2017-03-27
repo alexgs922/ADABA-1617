@@ -71,12 +71,17 @@ public class AdministratorRequestOfferController extends AbstractController {
 
 		requestOffer = this.requestOfferService.findOne(requestOfferId);
 
-		this.requestOfferService.banRequestOffer(requestOffer);
+		try {
+			this.requestOfferService.banRequestOffer(requestOffer);
 
-		if (requestOffer.getRequestOrOffer() == RequestOrOffer.REQUEST)
-			result = new ModelAndView("redirect:listRequests.do");
-		else
-			result = new ModelAndView("redirect:listOffers.do");
+			if (requestOffer.getRequestOrOffer() == RequestOrOffer.REQUEST)
+				result = new ModelAndView("redirect:listRequests.do");
+			else
+				result = new ModelAndView("redirect:listOffers.do");
+
+		} catch (final Throwable th) {
+			result = new ModelAndView("forbiddenOperation");
+		}
 
 		return result;
 

@@ -90,13 +90,16 @@ public class CustomerRequestOfferController extends AbstractController {
 
 		requestOffer = this.requestOfferService.findOne(requestOfferId);
 
-		this.requestOfferService.applyRequestOffer(requestOffer);
+		try {
+			this.requestOfferService.applyRequestOffer(requestOffer);
+			applications = customer.getApplications();
 
-		applications = customer.getApplications();
-
-		result = new ModelAndView("redirect:listRequests.do");
-		result.addObject("applications", applications);
-		result.addObject("principal", customer);
+			result = new ModelAndView("redirect:listRequests.do");
+			result.addObject("applications", applications);
+			result.addObject("principal", customer);
+		} catch (final Throwable th) {
+			result = new ModelAndView("forbiddenOperation");
+		}
 
 		return result;
 	}
@@ -108,9 +111,12 @@ public class CustomerRequestOfferController extends AbstractController {
 
 		requestOffer = this.requestOfferService.findOne(requestOfferId);
 
-		this.requestOfferService.applyRequestOffer(requestOffer);
-
-		result = new ModelAndView("redirect:listOffers.do");
+		try {
+			this.requestOfferService.applyRequestOffer(requestOffer);
+			result = new ModelAndView("redirect:listOffers.do");
+		} catch (final Throwable th) {
+			result = new ModelAndView("forbiddenOperation");
+		}
 
 		return result;
 	}

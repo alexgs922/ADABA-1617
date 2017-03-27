@@ -38,9 +38,13 @@ public class AdministratorCommentController extends AbstractController {
 
 		comment = this.commentService.findOne(commentId);
 
-		this.commentService.banComment(comment);
+		try {
+			this.commentService.banComment(comment);
 
-		result = new ModelAndView("redirect:listComments.do");
+			result = new ModelAndView("redirect:listComments.do");
+		} catch (final Throwable th) {
+			result = new ModelAndView("forbiddenOperation");
+		}
 
 		return result;
 
