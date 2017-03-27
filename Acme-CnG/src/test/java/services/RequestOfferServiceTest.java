@@ -2,7 +2,9 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -17,6 +19,7 @@ import utilities.AbstractTest;
 import domain.Customer;
 import domain.RequestOffer;
 import domain.RequestOrOffer;
+import forms.RequestOfferForm;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -218,12 +221,116 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 	// CASO DE USO 3 : CREACIÓN DE REQUESTS  ---------------------------------------------------------------------------------
 
-	protected void templateCreateRequest(final String username, final Class<?> expected) {
+	protected void templateCreateRequest(final String username, final String title, final String description, final Date moment, final String originaddress, final Double originlength, final Double originlatitude, final String destinationaddress,
+		final Double destinationlength, final Double destinationlatitude, final Class<?> expected) {
 
 		Class<?> caught;
 
 		caught = null;
 		try {
+
+			this.authenticate(username);
+
+			//			int beforeSave;
+			//			beforeSave = this.requestOfferService.findAll().size();
+
+			final RequestOfferForm form = new RequestOfferForm();
+			RequestOffer res;
+
+			final RequestOrOffer requestOrOffer = RequestOrOffer.REQUEST;
+
+			form.setTitle(title);
+			form.setDescription(description);
+			form.setMoment(moment);
+			form.setRequestOrOffer(requestOrOffer);
+			form.setOriginaddress(originaddress);
+			form.setOriginlatitude(originlatitude);
+			form.setOriginlength(originlength);
+			form.setDestinationaddress(destinationaddress);
+			form.setDestinationlatitude(destinationlatitude);
+			form.setDestinationlength(destinationlength);
+
+			res = this.requestOfferService.reconstruct(form);
+			res = this.requestOfferService.save(res);
+			this.requestOfferService.flush();
+
+			//			int afterSave;
+			//			afterSave = this.requestOfferService.findAll().size();
+
+			//			Assert.isTrue(beforeSave < afterSave);
+			//			Assert.isTrue(beforeSave == afterSave - 1);
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+			System.out.println(oops);
+		}
+
+		this.checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverCreateRequest() {
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2018, 02, 14, 20, 15);
+		final Date date = cal.getTime(); // get back a Date object
+		final Date moment1 = date;
+
+		//		final Calendar cal2 = Calendar.getInstance();
+		//		cal2.setTimeInMillis(0);
+		//		cal2.set(2015, 01, 05, 15, 30);
+		//		final Date date2 = cal.getTime();
+		//		final Date moment2 = date2;
+
+		final Object testingData[][] = {
+
+			{
+				"customer1", "tituloTest1", "descripciónTest1", moment1, "originAddressTest1", 15.95, 22.14, "destinationAddressTest1", 45.89, -79.25, null
+			}, {
+				"customer1", "tituloTest1.1", "descripciónTest1.1", moment1, "originAddressTest1.1", null, null, "destinationAddressTest1.1", null, null, null
+			}
+		//			, {
+		//				"customer2", "tituloTest2", "descripcionTest2", null, "originAddressTest2", 15.95, 22.14, "destinationAddressTest2", 45.89, -79.25, ConstraintViolationException.class
+		//			}, {
+		//				"customer3", "tituloTest3", "", moment1, "originAddressTest3", 15.95, 22.14, "destinationAddressTest3", 45.89, -79.25, ConstraintViolationException.class
+		//			}, {
+		//				"customer1", "", "descripciónTest4", moment1, "originAddressTest4", 15.95, 22.14, "destinationAddressTest4", 45.89, -79.25, ConstraintViolationException.class
+		//			}
+		//, {
+		//				"customer2", "tituloTest4", "descripciónTest4", moment2, "originAddressTest4", 15.95, 22.14, "destinationAddressTest4", 45.89, -79.25, ConstraintViolationException.class
+		//			}, {
+		//				"customer3", "tituloTest5", "descripciónTest5", moment1, "", null, null, "", null, null, ConstraintViolationException.class
+		//			}, {
+		//				"customer3", "tituloTest5", "descripciónTest5", moment1, "", -459874656, 78541259635214785.0, "", 7896553, "/*-*/--/-/fg", ConstraintViolationException.class
+		//			}, {
+		//				null, "tituloTestNotLoged", "descripciónTestNotLoged", moment1, "originAddressTestNotLoged", 15.95, 22.14, "destinationAddressTestNotLoged", 45.89, -79.25, IllegalArgumentException.class
+		//			}
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateCreateRequest((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Date) testingData[i][3], (String) testingData[i][4], (Double) testingData[i][5], (Double) testingData[i][6],
+				(String) testingData[i][7], (Double) testingData[i][8], (Double) testingData[i][9], (Class<?>) testingData[i][10]);
+
+	}
+
+	// CASO DE USO 4 : SOLICITAR UNA REQUEST/OFFER  ---------------------------------------------------------------------------------
+
+	protected void templateApplyRequestOffer(final String username, final RequestOffer requestOffer, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+			this.authenticate(username);
+
+			this.requestOfferService.applyRequestOffer(requestOffer);
+
+			this.unauthenticate();
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -233,56 +340,41 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 	}
 
-	//	@Test
-	//	public void testReconstructAndCreate() {
-	//
-	//		this.authenticate("customer1");
-	//
-	//		final RequestOfferForm form = new RequestOfferForm();
-	//		RequestOffer res;
-	//
-	//		final String title = "title test1";
-	//		final String description = "description test";
-	//
-	//		final Calendar cal = Calendar.getInstance();
-	//		cal.setTimeInMillis(0);
-	//		cal.set(2018, 02, 14, 20, 15);
-	//		final Date date = cal.getTime(); // get back a Date object
-	//		final Date moment = date;
-	//
-	//		final RequestOrOffer requestOrOffer = RequestOrOffer.OFFER;
-	//		final String originaddress = "Origin address";
-	//		final Double originlength = 15.95;
-	//		final Double originlatitude = 22.14;
-	//		final String destinationaddress = "Destination address";
-	//		final Double destinationlength = 45.89;
-	//		final Double destinationlatitude = -79.25;
-	//
-	//		form.setTitle(title);
-	//		form.setDescription(description);
-	//		form.setMoment(moment);
-	//		form.setRequestOrOffer(requestOrOffer);
-	//		form.setOriginaddress(originaddress);
-	//		form.setOriginlatitude(originlatitude);
-	//		form.setOriginlength(originlength);
-	//		form.setDestinationaddress(destinationaddress);
-	//		form.setDestinationlatitude(destinationlatitude);
-	//		form.setDestinationlength(destinationlength);
-	//
-	//		final int beforeSave = this.requestOfferService.findAll().size();
-	//
-	//		res = this.requestOfferService.reconstruct(form);
-	//
-	//		res = this.requestOfferService.save(res);
-	//
-	//		this.unauthenticate();
-	//
-	//		final int afterSave = this.requestOfferService.findAll().size();
-	//
-	//		Assert.isTrue(beforeSave < afterSave);
-	//		Assert.isTrue(beforeSave == afterSave - 1);
-	//		this.requestOfferService.flush();
-	//
-	//	}
+	@Test
+	public void driverApplyRequestOffer() {
+
+		final RequestOffer request1 = this.requestOfferService.findOne(117); // Obtenemos la request con id = 117 
+		final RequestOffer request2 = this.requestOfferService.findOne(118); // Obtenemos la request con id = 118 
+		final RequestOffer offer1 = this.requestOfferService.findOne(113); //Obtenemos la offer con id = 113
+		final RequestOffer offer4 = this.requestOfferService.findOne(116); //Obtenemos la offer con id = 116
+
+		final Object testingData[][] = {
+			//TEST POSITIVO: Solicitar una request correctamente. Se solicita una request que no es del customer1.
+			{
+				"customer1", request2, null
+			},
+			//TEST POSITIVO: Solicitar una offer correctamente. Se solicita una request que no es del customer2
+			{
+				"customer2", offer1, null
+			},
+			//TEST NEGATIVO: Solicitar una request que pertenece al customer que la creó.
+			{
+				"customer2", request1, IllegalArgumentException.class
+			},
+			//TEST NEGATIVO: Solicitar una request que pertenece al customer que la creó.
+			{
+				"customer2", offer4, IllegalArgumentException.class
+			},
+			//TEST NEGATIVO: Solicitar una request que ya esta solicitada
+			{
+				"customer1", request1, IllegalArgumentException.class
+			}
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateApplyRequestOffer((String) testingData[i][0], (RequestOffer) testingData[i][1], (Class<?>) testingData[i][2]);
+
+	}
 
 }
