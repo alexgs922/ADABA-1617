@@ -41,54 +41,42 @@
 			access="permitAll" />
 
 
-		<security:intercept-url pattern="/welcome/index.do"
-			access="permitAll" />
-		<security:intercept-url pattern="/welcome/cookiesPolicy.do"
-			access="permitAll" />
-		<security:intercept-url pattern="/welcome/about.do"
-			access="permitAll" />
+		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
+		 <security:intercept-url pattern="/welcome/cookiesPolicy.do" access="permitAll" /> 
+  		<security:intercept-url pattern="/welcome/about.do" access="permitAll" /> 
+		
+
+		<security:intercept-url pattern="/requestOffer/listRequests.do" access="hasAnyRole('CUSTOMER','ADMIN')" /> 
+		<security:intercept-url pattern="/requestOffer/listOffers.do" access="hasAnyRole('CUSTOMER','ADMIN')" /> 
+		<security:intercept-url pattern="/requestOffer/listRequestOffer.do" access="hasAnyRole('CUSTOMER','ADMIN')" />
+		<security:intercept-url pattern="/requestOffer/customer/**" access="hasAnyRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/application/customer/**" access="hasAnyRole('CUSTOMER')" />
+		
+		<security:intercept-url pattern="/comment/create.do" access="hasRole('CUSTOMER')" />
 
 
-		<security:intercept-url pattern="/requestOffer/listRequests.do"
-			access="hasAnyRole('CUSTOMER','ADMIN')" />
-		<security:intercept-url pattern="/requestOffer/listOffers.do"
-			access="hasAnyRole('CUSTOMER','ADMIN')" />
-		<security:intercept-url pattern="/requestOffer/listRequestOffer.do"
-			access="hasAnyRole('CUSTOMER','ADMIN')" />
-		<security:intercept-url pattern="/requestOffer/customer/**"
-			access="hasAnyRole('CUSTOMER')" />
-		<security:intercept-url pattern="/application/customer/**"
-			access="hasAnyRole('CUSTOMER')" />
+		<security:intercept-url pattern="/comment/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/comment/listComments.do" access="hasAnyRole('CUSTOMER','ADMIN')" />
 
-		<security:intercept-url pattern="/comment/create.do"
-			access="hasRole('CUSTOMER')" />
-
-		<security:intercept-url pattern="/comment/administrator/**"
-			access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/comment/listComments.do"
-			access="hasAnyRole('CUSTOMER','ADMIN')" />
-
-		<security:intercept-url pattern="/customer/requestOffer/applyRequest.do"
-			access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/customer/requestOffer/search.do"
-			access="hasRole('CUSTOMER')" />
+		
+		<security:intercept-url pattern="/customer/requestOffer/applyRequest.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/customer/requestOffer/search.do" access="hasRole('CUSTOMER')" />
 
 
-		<security:intercept-url pattern="/profile/action-1.do"
-			access="isAuthenticated()" />
-		<security:intercept-url pattern="/profile/action-2.do"
-			access="isAuthenticated()" />
-		<security:intercept-url pattern="/profile/action-3.do"
-			access="isAuthenticated()" />
+		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
 
+	
 
+	
 		<security:intercept-url pattern="/banner/administrator/**"
 			access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/requestOffer/administrator/**"
+			<security:intercept-url pattern="/requestOffer/administrator/**"
 			access="hasRole('ADMIN')" />
 
-
-
+		
+	
 		<security:intercept-url pattern="/customer/register.do"
 			access="isAnonymous()" />
 		<security:intercept-url pattern="/customer/dataProtection.do"
@@ -106,15 +94,10 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/message/deleteReceived.do"
 			access="isAuthenticated()" />
-		<security:intercept-url pattern="/message/deleteSent.do"
+				<security:intercept-url pattern="/message/deleteSent.do"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/message/reply.do"
 			access="isAuthenticated()" />
-
-
-		<security:intercept-url pattern="/administrator/ownDashboard.do"
-			access="hasRole('ADMIN')" />
-
 
 
 		<security:intercept-url pattern="/**"
