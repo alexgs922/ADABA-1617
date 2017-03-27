@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -219,10 +220,10 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 	}
 
-	// CASO DE USO 3 : CREACIÓN DE REQUESTS  ---------------------------------------------------------------------------------
+	// CASO DE USO 3 : CREACIÓN DE REQUESTS Y OFFERS (POSITIVOS) ---------------------------------------------------------------------------------
 
 	protected void templateCreateRequest(final String username, final String title, final String description, final Date moment, final String originaddress, final Double originlength, final Double originlatitude, final String destinationaddress,
-		final Double destinationlength, final Double destinationlatitude, final Class<?> expected) {
+		final Double destinationlength, final Double destinationlatitude, final RequestOrOffer rOrO, final Class<?> expected) {
 
 		Class<?> caught;
 
@@ -231,18 +232,16 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 			this.authenticate(username);
 
-			//			int beforeSave;
-			//			beforeSave = this.requestOfferService.findAll().size();
+			int beforeSave;
+			beforeSave = this.requestOfferService.findAll().size();
 
 			final RequestOfferForm form = new RequestOfferForm();
 			RequestOffer res;
 
-			final RequestOrOffer requestOrOffer = RequestOrOffer.REQUEST;
-
 			form.setTitle(title);
 			form.setDescription(description);
 			form.setMoment(moment);
-			form.setRequestOrOffer(requestOrOffer);
+			form.setRequestOrOffer(rOrO);
 			form.setOriginaddress(originaddress);
 			form.setOriginlatitude(originlatitude);
 			form.setOriginlength(originlength);
@@ -254,17 +253,16 @@ public class RequestOfferServiceTest extends AbstractTest {
 			res = this.requestOfferService.save(res);
 			this.requestOfferService.flush();
 
-			//			int afterSave;
-			//			afterSave = this.requestOfferService.findAll().size();
+			int afterSave;
+			afterSave = this.requestOfferService.findAll().size();
 
-			//			Assert.isTrue(beforeSave < afterSave);
-			//			Assert.isTrue(beforeSave == afterSave - 1);
+			Assert.isTrue(beforeSave < afterSave);
+			Assert.isTrue(beforeSave == afterSave - 1);
 
 			this.unauthenticate();
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
-			System.out.println(oops);
 		}
 
 		this.checkExceptions(expected, caught);
@@ -289,9 +287,13 @@ public class RequestOfferServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 
 			{
-				"customer1", "tituloTest1", "descripciónTest1", moment1, "originAddressTest1", 15.95, 22.14, "destinationAddressTest1", 45.89, -79.25, null
+				"customer1", "tituloTest1", "descripciónTest1", moment1, "originAddressTest1", 15.95, 22.14, "destinationAddressTest1", 45.89, -79.25, RequestOrOffer.REQUEST, null
 			}, {
-				"customer1", "tituloTest1.1", "descripciónTest1.1", moment1, "originAddressTest1.1", null, null, "destinationAddressTest1.1", null, null, null
+				"customer1", "tituloTest1.1", "descripciónTest1.1", moment1, "originAddressTest1.1", null, null, "destinationAddressTest1.1", null, null, RequestOrOffer.REQUEST, null
+			}, {
+				"customer1", "tituloTest1", "descripciónTest1", moment1, "originAddressTest1", 15.95, 22.14, "destinationAddressTest1", 45.89, -79.25, RequestOrOffer.OFFER, null
+			}, {
+				"customer1", "tituloTest1.1", "descripciónTest1.1", moment1, "originAddressTest1.1", null, null, "destinationAddressTest1.1", null, null, RequestOrOffer.OFFER, null
 			}
 		//			, {
 		//				"customer2", "tituloTest2", "descripcionTest2", null, "originAddressTest2", 15.95, 22.14, "destinationAddressTest2", 45.89, -79.25, ConstraintViolationException.class
@@ -314,11 +316,477 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 		for (int i = 0; i < testingData.length; i++)
 			this.templateCreateRequest((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Date) testingData[i][3], (String) testingData[i][4], (Double) testingData[i][5], (Double) testingData[i][6],
-				(String) testingData[i][7], (Double) testingData[i][8], (Double) testingData[i][9], (Class<?>) testingData[i][10]);
+				(String) testingData[i][7], (Double) testingData[i][8], (Double) testingData[i][9], (RequestOrOffer) testingData[i][10], (Class<?>) testingData[i][11]);
 
 	}
 
-	// CASO DE USO 4 : SOLICITAR UNA REQUEST/OFFER  ---------------------------------------------------------------------------------
+	// CASO DE USO 4 : CREACIÓN DE REQUESTS Y OFFERS (NEGATIVOS)  ---------------------------------------------------------------------------------
+
+	// Comprobando que no se creen requests con título vacío
+	@Test(expected = ConstraintViolationException.class)
+	public void testCreateRequestWithValidationErrors1() {
+
+		this.authenticate("customer2");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "";
+		final String description = "description test";
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2018, 02, 14, 20, 15);
+		final Date date = cal.getTime();
+		final Date moment = date;
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.REQUEST;
+		final String originaddress = "Origin address";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "Destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setMoment(moment);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
+
+	}
+
+	// Comprobando que no se creen offers con título vacío
+	@Test(expected = ConstraintViolationException.class)
+	public void testCreateOfferWithValidationErrors1() {
+
+		this.authenticate("customer3");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "";
+		final String description = "description test";
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2018, 02, 14, 20, 15);
+		final Date date = cal.getTime();
+		final Date moment = date;
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.OFFER;
+		final String originaddress = "Origin address";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "Destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setMoment(moment);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
+
+	}
+
+	// Comprobando que no se creen requests con descripción vacia
+	@Test(expected = ConstraintViolationException.class)
+	public void testCreateRequestWithValidationErrors2() {
+
+		this.authenticate("customer1");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "titulo test";
+		final String description = "";
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2018, 02, 14, 20, 15);
+		final Date date = cal.getTime();
+		final Date moment = date;
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.REQUEST;
+		final String originaddress = "Origin address";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "Destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setMoment(moment);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
+
+	}
+
+	// Comprobando que no se creen  offers con descripción vacia
+	@Test(expected = ConstraintViolationException.class)
+	public void testCreateOfferWithValidationErrors2() {
+
+		this.authenticate("customer2");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "titulo test";
+		final String description = "";
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2018, 02, 14, 20, 15);
+		final Date date = cal.getTime();
+		final Date moment = date;
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.OFFER;
+		final String originaddress = "Origin address";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "Destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setMoment(moment);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
+
+	}
+
+	//Comprobando que no se creen requests sin momento
+	@Test(expected = ConstraintViolationException.class)
+	public void testCreateRequestWithValidationErrors3() {
+
+		this.authenticate("customer3");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "titulo test";
+		final String description = "description test";
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.REQUEST;
+		final String originaddress = "Origin address";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "Destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
+
+	}
+
+	//Comprobando que no se creen Offers sin momento
+	@Test(expected = ConstraintViolationException.class)
+	public void testCreateOfferWithValidationErrors3() {
+
+		this.authenticate("customer1");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "titulo test";
+		final String description = "description test";
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.OFFER;
+		final String originaddress = "Origin address";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "Destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
+
+	}
+
+	//Comprobando que no se creem requests con momento en el pasado
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateRequestWithValidationErrors4() {
+
+		this.authenticate("customer1");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "titulo test";
+		final String description = "descripción test";
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2001, 02, 14, 20, 15);
+		final Date date = cal.getTime();
+		final Date moment = date;
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.REQUEST;
+		final String originaddress = "Origin address";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "Destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setMoment(moment);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
+
+	}
+
+	//Comprobando que no se creen Offers con momento en el pasado
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateOfferWithValidationErrors4() {
+
+		this.authenticate("customer1");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "titulo test";
+		final String description = "descripción test";
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2001, 02, 14, 20, 15);
+		final Date date = cal.getTime();
+		final Date moment = date;
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.OFFER;
+		final String originaddress = "Origin address";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "Destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setMoment(moment);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
+
+	}
+
+	//NOTA:
+	//Estas líneas se añaden con objeto de poder comprobar en los test funcionales que se cumplan las restricciones del datatype Place, ya que aunque este contiene
+	// sus propias anotaciones que Spring comprueba correctamente durante el funcionamiento de la aplicación, al ejecutar los test JUnit no se validan estos atributos		
+	//			if (requestOfferForm.getMoment() != null) {
+	//				final Date actual = new Date();
+	//				Assert.isTrue(requestOfferForm.getMoment().after(actual));
+	//			}
+	//
+	//			Assert.isTrue((requestOfferForm.getOriginaddress() != "") && (requestOfferForm.getDestinationaddress() != ""));
+
+	//FIN NOTA
+
+	//Comprobando que no se creen RequestsOffers si no hay customer autenticado en el sistema
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateOfferWithValidationErrors5() {
+
+		this.unauthenticate();
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "titulo test";
+		final String description = "descripción test";
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2019, 02, 14, 20, 15);
+		final Date date = cal.getTime();
+		final Date moment = date;
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.OFFER;
+		final String originaddress = "Origin address";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "Destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setMoment(moment);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+	}
+
+	// CASO DE USO 5 : SOLICITAR UNA REQUEST/OFFER  ---------------------------------------------------------------------------------
 
 	protected void templateApplyRequestOffer(final String username, final RequestOffer requestOffer, final Class<?> expected) {
 
@@ -374,6 +842,65 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 		for (int i = 0; i < testingData.length; i++)
 			this.templateApplyRequestOffer((String) testingData[i][0], (RequestOffer) testingData[i][1], (Class<?>) testingData[i][2]);
+
+	}
+
+	// CASO DE USO 5 : BANNEAR UNA REQUEST/OFFER  ---------------------------------------------------------------------------------
+
+	protected void templateBanRequestOffer(final String username, final RequestOffer requestOffer, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+			this.authenticate(username);
+
+			this.requestOfferService.banRequestOffer(requestOffer);
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverBanRequestOffer() {
+
+		final RequestOffer request3 = this.requestOfferService.findOne(119); // Obtenemos la request con id = 119
+		final RequestOffer request2 = this.requestOfferService.findOne(118); // Obtenemos la request con id = 118 
+		final RequestOffer offer1 = this.requestOfferService.findOne(113); //Obtenemos la offer con id = 113
+		final RequestOffer offer3 = this.requestOfferService.findOne(115); //Obtenemos la offer con id = 115
+
+		final Object testingData[][] = {
+			//TEST POSITIVO: Bannear un request correctamente. Se bannea un request que no esta banneada aun.
+			{
+				"admin", request2, null
+			},
+			//TEST POSITIVO: Bannear un offer correctamente. Se bannea un offer que no esta banneada aun.
+			{
+				"admin", offer1, null
+			},
+			//TEST NEGATIVO: Bannear una request que ya esta banneada.
+			{
+				"admin", request3, IllegalArgumentException.class
+			},
+			//TEST NEGATIVO: Bannear una offer que ya esta banneada.
+			{
+				"admin", offer3, IllegalArgumentException.class
+			},
+			//TEST NEGATIVO: Bannear una offer teniendo en el sistema el rol de customer.
+			{
+				"customer1", offer3, IllegalArgumentException.class
+			}
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateBanRequestOffer((String) testingData[i][0], (RequestOffer) testingData[i][1], (Class<?>) testingData[i][2]);
 
 	}
 
