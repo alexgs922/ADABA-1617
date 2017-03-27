@@ -344,4 +344,63 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 	}
 
+	// CASO DE USO 5 : BANNEAR UNA REQUEST/OFFER  ---------------------------------------------------------------------------------
+
+	protected void templateBanRequestOffer(final String username, final RequestOffer requestOffer, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+			this.authenticate(username);
+
+			this.requestOfferService.banRequestOffer(requestOffer);
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverBanRequestOffer() {
+
+		final RequestOffer request3 = this.requestOfferService.findOne(119); // Obtenemos la request con id = 119
+		final RequestOffer request2 = this.requestOfferService.findOne(118); // Obtenemos la request con id = 118 
+		final RequestOffer offer1 = this.requestOfferService.findOne(113); //Obtenemos la offer con id = 113
+		final RequestOffer offer3 = this.requestOfferService.findOne(115); //Obtenemos la offer con id = 115
+
+		final Object testingData[][] = {
+			//TEST POSITIVO: Bannear un request correctamente. Se bannea un request que no esta banneada aun.
+			{
+				"admin", request2, null
+			},
+			//TEST POSITIVO: Bannear un offer correctamente. Se bannea un offer que no esta banneada aun.
+			{
+				"admin", offer1, null
+			},
+			//TEST NEGATIVO: Bannear una request que ya esta banneada.
+			{
+				"admin", request3, IllegalArgumentException.class
+			},
+			//TEST NEGATIVO: Bannear una offer que ya esta banneada.
+			{
+				"admin", offer3, IllegalArgumentException.class
+			},
+			//TEST NEGATIVO: Bannear una offer teniendo en el sistema el rol de customer.
+			{
+				"customer1", offer3, IllegalArgumentException.class
+			}
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateBanRequestOffer((String) testingData[i][0], (RequestOffer) testingData[i][1], (Class<?>) testingData[i][2]);
+
+	}
+
 }
