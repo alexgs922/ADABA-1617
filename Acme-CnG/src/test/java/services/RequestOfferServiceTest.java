@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.Validator;
 
 import utilities.AbstractTest;
 import domain.Customer;
@@ -37,6 +38,9 @@ public class RequestOfferServiceTest extends AbstractTest {
 	//AUXILIAR SERVICES  ---------------------------------------------------------------------------------
 	@Autowired
 	private CustomerService		customerService;
+
+	@Autowired
+	private Validator			validator;
 
 
 	// CASO DE USO 1 : LISTADO GENERAL DE REQUEST Y OFFERS ---------------------------------------------------------------------------------
@@ -659,7 +663,7 @@ public class RequestOfferServiceTest extends AbstractTest {
 		form.setDestinationlatitude(destinationlatitude);
 		form.setDestinationlength(destinationlength);
 
-		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.reconstructForTests(form);
 		res = this.requestOfferService.save(res);
 		this.requestOfferService.flush();
 
@@ -711,7 +715,7 @@ public class RequestOfferServiceTest extends AbstractTest {
 		form.setDestinationlatitude(destinationlatitude);
 		form.setDestinationlength(destinationlength);
 
-		res = this.requestOfferService.reconstruct(form);
+		res = this.requestOfferService.reconstructForTests(form);
 		res = this.requestOfferService.save(res);
 		this.requestOfferService.flush();
 
@@ -724,21 +728,9 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 	}
 
-	//NOTA:
-	//Estas líneas se añaden con objeto de poder comprobar en los test funcionales que se cumplan las restricciones del datatype Place, ya que aunque este contiene
-	// sus propias anotaciones que Spring comprueba correctamente durante el funcionamiento de la aplicación, al ejecutar los test JUnit no se validan estos atributos		
-	//			if (requestOfferForm.getMoment() != null) {
-	//				final Date actual = new Date();
-	//				Assert.isTrue(requestOfferForm.getMoment().after(actual));
-	//			}
-	//
-	//			Assert.isTrue((requestOfferForm.getOriginaddress() != "") && (requestOfferForm.getDestinationaddress() != ""));
-
-	//FIN NOTA
-
 	//Comprobando que no se creen RequestsOffers si no hay customer autenticado en el sistema
 	@Test(expected = IllegalArgumentException.class)
-	public void testCreateOfferWithValidationErrors5() {
+	public void testCreateRequestOfferWithValidationErrors5() {
 
 		this.unauthenticate();
 
@@ -783,6 +775,110 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 		Assert.isTrue(beforeSave < afterSave);
 		Assert.isTrue(beforeSave == afterSave - 1);
+
+	}
+
+	//Comprobando que no se creen requestsOffers con un origin place o destination place vacios
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateRequestOfferWithValidationErrors6() {
+
+		this.authenticate("customer1");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "titulo test";
+		final String description = "descripción test";
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2020, 02, 14, 20, 15);
+		final Date date = cal.getTime();
+		final Date moment = date;
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.REQUEST;
+		final String originaddress = "";
+		final Double originlength = 15.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -79.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setMoment(moment);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstructForTests(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
+
+	}
+
+	//Comprobando que no se creen requestsOffers con valores de latitud y longitud no válidos
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateRequestOfferWithValidationErrors7() {
+
+		this.authenticate("customer2");
+
+		final RequestOfferForm form = new RequestOfferForm();
+		RequestOffer res;
+
+		final int beforeSave = this.requestOfferService.findAll().size();
+
+		final String title = "titulo test";
+		final String description = "descripción test";
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(0);
+		cal.set(2020, 02, 14, 20, 15);
+		final Date date = cal.getTime();
+		final Date moment = date;
+
+		final RequestOrOffer requestOrOffer = RequestOrOffer.REQUEST;
+		final String originaddress = "origin address";
+		final Double originlength = 1578965215785789562.95;
+		final Double originlatitude = 22.14;
+		final String destinationaddress = "destination address";
+		final Double destinationlength = 45.89;
+		final Double destinationlatitude = -789566278959679.25;
+
+		form.setTitle(title);
+		form.setDescription(description);
+		form.setMoment(moment);
+		form.setRequestOrOffer(requestOrOffer);
+		form.setOriginaddress(originaddress);
+		form.setOriginlatitude(originlatitude);
+		form.setOriginlength(originlength);
+		form.setDestinationaddress(destinationaddress);
+		form.setDestinationlatitude(destinationlatitude);
+		form.setDestinationlength(destinationlength);
+
+		res = this.requestOfferService.reconstructForTests(form);
+		res = this.requestOfferService.save(res);
+		this.requestOfferService.flush();
+
+		final int afterSave = this.requestOfferService.findAll().size();
+
+		Assert.isTrue(beforeSave < afterSave);
+		Assert.isTrue(beforeSave == afterSave - 1);
+
+		this.unauthenticate();
 
 	}
 
@@ -845,7 +941,7 @@ public class RequestOfferServiceTest extends AbstractTest {
 
 	}
 
-	// CASO DE USO 5 : BANNEAR UNA REQUEST/OFFER  ---------------------------------------------------------------------------------
+	// CASO DE USO 6 : BANNEAR UNA REQUEST/OFFER  ---------------------------------------------------------------------------------
 
 	protected void templateBanRequestOffer(final String username, final RequestOffer requestOffer, final Class<?> expected) {
 

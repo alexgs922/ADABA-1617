@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -160,6 +161,62 @@ public class RequestOfferService {
 		Collection<Comment> commentsReceived;
 		final Customer principal = this.customerService.findByPrincipal();
 		Assert.isTrue(principal != null);
+
+		Place originPlace;
+		Place destinationPlace;
+
+		requestOffer = this.create();
+		commentsReceived = new ArrayList<Comment>();
+		originPlace = new Place();
+		destinationPlace = new Place();
+
+		originPlace.setAddress(requestOfferForm.getOriginaddress());
+		originPlace.setLatitude(requestOfferForm.getOriginlatitude());
+		originPlace.setLength(requestOfferForm.getOriginlength());
+
+		destinationPlace.setAddress(requestOfferForm.getDestinationaddress());
+		destinationPlace.setLatitude(requestOfferForm.getDestinationlatitude());
+		destinationPlace.setLength(requestOfferForm.getDestinationlength());
+
+		requestOffer.setBanned(false);
+		requestOffer.setCommentsReceived(commentsReceived);
+		requestOffer.setCustomer(principal);
+		requestOffer.setDescription(requestOfferForm.getDescription());
+		requestOffer.setMoment(requestOfferForm.getMoment());
+		requestOffer.setRequestOrOffer(requestOfferForm.getRequestOrOffer());
+		requestOffer.setTitle(requestOfferForm.getTitle());
+		requestOffer.setOriginPlace(originPlace);
+		requestOffer.setDestinationPlace(destinationPlace);
+
+		return requestOffer;
+
+	}
+
+	public RequestOffer reconstructForTests(final RequestOfferForm requestOfferForm) {
+		Assert.notNull(requestOfferForm);
+		final RequestOffer requestOffer;
+		Collection<Comment> commentsReceived;
+		final Customer principal = this.customerService.findByPrincipal();
+		Assert.isTrue(principal != null);
+
+		//NOTA:
+		//Estas líneas se añaden con objeto de poder comprobar en los test funcionales que se cumplan las restricciones del datatype Place, ya que aunque este contiene
+		// sus propias anotaciones que Spring comprueba correctamente durante el funcionamiento de la aplicación, al ejecutar los test JUnit no se validan estos atributos		
+
+		if (requestOfferForm.getMoment() != null) {
+			final Date actual = new Date();
+			Assert.isTrue(requestOfferForm.getMoment().after(actual));
+		}
+
+		Assert.isTrue(requestOfferForm.getOriginaddress() != "");
+		Assert.isTrue(requestOfferForm.getDestinationaddress() != "");
+
+		Assert.isTrue(requestOfferForm.getOriginlatitude() >= -90 && requestOfferForm.getOriginlatitude() <= 90);
+		Assert.isTrue(requestOfferForm.getDestinationlatitude() >= -90 && requestOfferForm.getDestinationlatitude() <= 90);
+		Assert.isTrue(requestOfferForm.getOriginlength() >= -180 && requestOfferForm.getOriginlength() <= 180);
+		Assert.isTrue(requestOfferForm.getDestinationlength() >= -180 && requestOfferForm.getDestinationlength() <= 180);
+
+		//FIN NOTA
 
 		Place originPlace;
 		Place destinationPlace;
