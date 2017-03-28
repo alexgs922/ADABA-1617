@@ -47,6 +47,28 @@ public class CustomerController extends AbstractController {
 
 	// Profile ---------------------------------------------------------------
 
+	@RequestMapping(value = "/myProfile", method = RequestMethod.GET)
+	public ModelAndView displayMyProfile() {
+		ModelAndView result;
+		CommentableEntity customer;
+		final Collection<Comment> comments;
+
+		customer = this.customerService.findByPrincipal();
+
+		comments = new ArrayList<Comment>();
+
+		for (final Comment co : customer.getCommentsReceived())
+			if (co.isBanned() == false)
+				comments.add(co);
+
+		result = new ModelAndView("customer/profile");
+		result.addObject("requestURI", "customer/profile.do");
+		result.addObject("customer", customer);
+		result.addObject("comments", comments);
+
+		return result;
+	}
+
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int customerId) {
 		ModelAndView result;

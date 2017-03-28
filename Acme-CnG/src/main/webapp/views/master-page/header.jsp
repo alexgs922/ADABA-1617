@@ -82,6 +82,8 @@
 								code="master.page.customer.create" /></a></li>
 					<li><a href="requestOffer/customer/myRequestsandOffers.do"><spring:message
 								code="master.page.mine" /></a></li>
+					<li><a href="customer/myProfile.do"><spring:message
+								code="master.page.profile" /></a></li>
 				</ul></li>
 
 			<li><a class="fNiv"><spring:message
